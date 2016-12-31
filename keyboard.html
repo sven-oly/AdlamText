@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<!-- saved from url=(0052)https://x20web.corp.google.com/~shuchen/vk/demo.html -->
+<html>
+  <head>
+    <title>Adlam keyboard test</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <link rel="stylesheet" href="/css/blueprint/screen.css" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="/css/blueprint/print.css" type="text/css" media="print"> 
+    <!--[if lt IE 8]>
+      <link rel="stylesheet" href="/css/blueprint/ie.css" type="text/css" media="screen, projection">
+    <![endif]-->
+
+    <script src="/js/vk-debug.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/css/keyboard.css">
+    <link rel="stylesheet" type="text/css" href="/css/fonts.css">
+
+    <script type="text/css">
+      .vk-button {font-family:Adlam,Arial;}
+      .input {font-size:18px;}
+      .textarea {font-size:24px;}
+      .t1 {font-family:Adlam,Arial;}
+    </script>
+
+  <script src="/js/text_utils.js"></script>
+  <script>
+    var diff_list = [];
+
+    var controller, visible = true;
+    function onPageLoaded() {
+      var input = document.getElementById('t1');
+      controller = new i18n.input.keyboard.Keyboard();
+      controller.loadLayout('ful');
+      controller.reposition(input, 2, 0, [1, 0, 0, 0]);
+      controller.register(input);
+      controller.addEventListener('kc', function() { visible = false; });
+      input.focus();
+      var selector = document.getElementById('selectKeyboard');
+      onLayoutSelected(selector);
+    }
+
+    function onLayoutSelected(selector) {
+    var layoutCode = selector.value;
+    controller.activateLayout(layoutCode);
+    document.getElementById('t1').focus();
+    var vkbox = document.getElementById('kbd');
+    }
+
+    function toggle() {
+      if (controller) {
+        controller.setVisible(visible = !visible);
+      }
+    }
+
+    function clearText() {
+      var field = document.getElementById('t1');
+      field.value = '';
+      field = document.getElementById('codepoints');
+      field.value = '';
+      document.getElementById('t1').focus();
+    }
+
+    function showCodePoints() {
+      var src_field = document.getElementById('t1');
+      var code_text = uplus(src_field.value);
+      var dest_field = document.getElementById('codepoints');
+      dest_field.value = code_text;
+      document.getElementById('t1').focus();
+    }
+
+   function onFontSelected(selected, area) {
+     var output_text = document.getElementById(area);
+     var fontFam = selected.value;
+     output_text.style.fontFamily = fontFam;
+   }
+  </script>
+
+<script>window["_GOOG_TRANS_EXT_VER"] = "1";</script>
+</head>
+
+<body onload="onPageLoaded()">
+  <div class="container">
+    <div class="span-1">  
+    </div>
+  <div class="span-18 last" dir="rtl">
+    <h2>Adlam keyboard testing</h2>
+
+  <select onchange="onLayoutSelected(this)" id="selectKeyboard">
+    <option value="ful">Fulani Unicode</option>
+  </select>
+  <input type="button" value="Clear text" onclick="clearText()">
+    Select font: <select onchange="onFontSelected(this, 't1');" id="selectFont">
+      {% for font in fontFamilies %}
+      <option value="{{font}}">{{font}}</option>
+      {% endfor %}
+    </select>
+    <br />
+
+  <textarea id="t1" dir="rtl" class="adlamFont" style="width:600px;height:300px;" rows="10"></textarea>
+  <br />
+  <input type="button" value="Code points" onclick="showCodePoints()">
+    </div>
+  <div class="span-18 last">
+  <textarea id="codepoints" class="default-font" style="width:600px;" rows="10"></textarea>
+  <br>
+  </div>
+  </div>
+
+</body></html>

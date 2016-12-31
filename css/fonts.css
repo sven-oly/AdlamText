@@ -1,0 +1,15 @@
+    /* Unicode fonts */
+    @font-face{
+      font-family:'Adlam';
+      src:url('/fonts/AdlamCWC.ttf');
+      font-weight:normal;
+      font-style:normal;
+    }
+    
+    .adlamFont {
+      font-family:'Adlam';
+      font-size: 32px;
+    }
+
+ 
+    
