@@ -19,6 +19,7 @@ import logging
 import os
 import urllib
 import webapp2
+import sys
 
 from google.appengine.ext.webapp import template
 
@@ -27,7 +28,19 @@ fontList = ['Adlam']
 class MainHandler(webapp2.RequestHandler):
     def get(self):
       fontList = []
+      adlamText= ''
+      ranges = range(0x1e900, 0x1e94b)
+      ranges.extend(range(0x1e950, 0x1e95a))
+      ranges.extend(range(0x1e95e, 0x1e960))
+      for index in (ranges):
+        if sys.maxunicode <= 65535:
+          # UTF-16: \uD83A\uDD1A
+          adlamText +=unichr(0xd83a) + unichr(index - 0x1e900 + 0xDD00) + ' '
+        else:
+          adlamText += unichr(index) + ' ' 
+        
       template_values = {'fontFamilies': fontList,
+        'adlamText': adlamText,
       }
       path = os.path.join(os.path.dirname(__file__), 'index.html')
       self.response.out.write(template.render(path, template_values))
@@ -53,6 +66,7 @@ class WordHandler(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
+#    ('/', KeyboardHandler),
     ('/keyboard/', KeyboardHandler),
     ('/words/', WordHandler)
 

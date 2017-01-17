@@ -18,8 +18,8 @@
 // Unicode output
 
 var FUL_UNICODE_LAYOUT = {
-  'id': 'ful',
-  'title': 'Adlam for Unicode Unicode',
+  'id': 'ful_first',
+  'title': 'Adlam for Unicode Unicode - based on QWERTY sounds',
   'direction': 'rtl',
   'mappings': {
     '': {
@@ -29,7 +29,7 @@ var FUL_UNICODE_LAYOUT = {
            '{{\uD83A\uDD59}}{{\uD83A\uDD50}}-=' +
         '{{\uD83A\uDD39}}{{\uD83A\uDD31}}{{\uD83A\uDD2B}}{{\uD83A\uDD2A}}' +
 	      '{{\uD83A\uDD3C}}{{\uD83A\uDD34}}{{\uD83A\uDD35}}{{\uD83A\uDD2D}}' +
-	      '{{\uD83A\uDD2E}}{{\uD83A\uDD28}}{{??}}{{??}}{{\u00BB}}' +
+	      '{{\uD83A\uDD2E}}{{\uD83A\uDD28}}[]\\' +
         '{{\uD83A\uDD22}}{{\uD83A\uDD27}}{{\uD83A\uDD23}}{{\uD83A\uDD2C}}' +
 	      '{{\uD83A\uDD3A}}{{\uD83A\uDD38}}{{\uD83A\uDD36}}{{\uD83A\uDD33}}' +
 	      '{{\uD83A\uDD24}}' + ';\'' +
@@ -38,37 +38,41 @@ var FUL_UNICODE_LAYOUT = {
           ',./'
     },
     's': {
-      '': '~{{\uD83A\uDD5E}}@#$%^&*()_+' +  // OK
-      '{{\uD83A\uDD19}}{{\uD83A\uDD0F}}{{\uD83A\uDD09}}{{\uD83A\uDD08}}' +
-	    '{{\uD83A\uDD1A}}{{\uD83A\uDD12}}{{\uD83A\uDD0c}}{{\uD83A\uDD0B}}' +
-	    '{{\uD83A\uDD0C}}{{\uD83A\uDD06}}{}{{\u00ab}}' +  // CHECK on W
+      '': '{{\u0640}}{{\uD83A\uDD5E}}{{\uD83A\uDD44}}{{\uD83A\uDD45}}' +
+        '{{\uD83A\uDD46}}{{\uD83A\uDD47}}{{\uD83A\uDD48}}{{\uD83A\uDD49}}' +
+        '{{\uD83A\uDD4A}}' +
+        '()_+' +
+      '{{\uD83A\uDD17}}{{\uD83A\uDD0F}}{{\uD83A\uDD09}}{{\uD83A\uDD08}}' +
+	    '{{\uD83A\uDD1A}}{{\uD83A\uDD12}}{{\uD83A\uDD13}}{{\uD83A\uDD0B}}' +
+	    '{{\uD83A\uDD0C}}{{\uD83A\uDD06}}{}|' +
       '{{\uD83A\uDD00}}{{\uD83A\uDD05}}{{\uD83A\uDD01}}{{\uD83A\uDD0A}}' +
 	    '{{\uD83A\uDD18}}{{\uD83A\uDD16}}{{\uD83A\uDD14}}{{\uD83A\uDD11}}' +
-	    '{{\uD83A\uDD02}}:"' +  // OK except for a
-      '{{\uD83A\uDD0d}}{{\uD83A\uDD0e}}{{???}}{{\uD83A\uDD07}}' +
-        '{{??}}{{??}}{{\uD83A\uDD03}}<>{{\uD83A\uDD5F}}'  // Some missing
+	    '{{\uD83A\uDD02}}:"' +
+      '{{\uD83A\uDD1F}}{{\uD83A\uDD1D}}{{}}' +
+	    '{{\uD83A\uDD1c}}{{\uD83A\uDD04}}{{\uD83A\uDD10}}{{\uD83A\uDD03}}<>' +
+	    '{{\uD83A\uDD5F}}'
     },
    'c': {  // alt-control
-      '': '{{}}1234567890{{}}{{}}' +
-        '{{}}{{}}{{}}{{}}' +
-          '{{}}{{\uD83A\uDD49}}{{\uD83A\uDD48}}{{\uD83A\uDD45}}' +
-          '{{\uD83A\uDD4a}}{{}}[]\\' +
-	  '{{\uD83A\uDD44}}{{\uD83A\uDD46}}{{\uD83A\uDD2F}}{{}}' + 
-	     '{{\uD83A\uDD40}}{{\u200d}}{{\u200c}}{{\uD83A\uDD42}}' +
-	     '{{}}{{}}{{}}' +
+      '': '`{{¡}}@#$%^&*()_+' +
+        '{{}}{{}}{{}}{{}}{{}}' +
+          '{{\uD83A\uDD30}}{{}}{{}}' +
+          '{{}}{{}}{}\\' +
+	  '{{}}{{\uD83A\uDD43}}{{\uD83A\uDD2F}}{{}}' + 
+	     '{{\uD83A\uDD40}}{{}}{{}}' +
+	     '{{\uD83A\uDD42}}{{}}{{}}{{}}' +
 	  '{{}}{{}}{{\uD83A\uDD37}}{{}}' +
 	     '{{\uD83A\uDD29}}{{\uD83A\uDD3b}}{{\uD83A\uDD3d}}{{}}{{}}{{}}'
     },
    'sc': {  // shift-alt-control
-      '': '~{{\uD83A\uDD5e}}€{{\u00be}}¼½†‡·„‚—±' +
+      '': '~/€{{\u00be}}¼½†‡·„‚—±' +
         '{{}}{{}}{{}}{{}}{{}}' +
           '{{\uD83A\uDD0E}}{{}}{{}}' +
           '{{}}{{}}{}\\' +
-	  '{{\uD83A\uDD44}}{{\uD83A\uDD46}}{{}}{{}}' + 
-	     '{{\u200d}}{{\u200c}}{{\uD83A\uDD47}}' +
-	     '{{}}{{}}{{}}{{}}' +
-	  '{{}}{{}}{{}}{{}}' +
-	     '{{}}{{}}{{}}{{}}{{}}{{}}'
+	  '{{}}{{\uD83A\uDD21}}{{\uD83A\uDD0D}}{{}}' + 
+	     '{{\uD83A\uDD1E}}{{}}{{}}' +
+	     '{{\uD83A\uDD20}}{{}}{{}}{{}}' +
+	  '{{}}{{}}{{\uD83A\uDD15}}{{}}' +
+	     '{{\uD83A\uDD07}}{{\uD83A\uDD19}}{{\uD83A\uDD1B}}{{}}{{}}{{}}'
     },
     'l': {  // caps lock. qwerty
       '': '`1234567890-=' +

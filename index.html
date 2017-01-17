@@ -1,12 +1,57 @@
 <html>
   <head>
     <title>Adlam script test</title>
+
+  <link rel="stylesheet" href="/css/blueprint/screen.css" type="text/css" media="screen">
+  <link rel="stylesheet" href="/css/blueprint/print.css" type="text/css" media="print"> 
+  <!--[if lt IE 8]>
+    <link rel="stylesheet" href="/css/blueprint/ie.css" type="text/css" media="screen, projection">
+  <![endif]-->
+
+  <link rel="stylesheet" type="text/css" href="/css/fonts.css">
     
     <script type="text/javascript" src="/testjs.js">
    </script>
 
+  <script>
+  function init() {
+    // Fill in if needed.
+  }
+
+  </script>
   </head>
   <body>
+  
+    <body onload="init()">
+  <div class="container">
+    <div class="span-1">  
+    </div>
+  <div class="span-16">
+
+   <div id="arab_adlam_area">
   <h2>Adlam script testing</h2>
+  <textarea id="admlanMain" class="adlamFont" rows="6" cols="16">{{adlamText}}</textarea>
+   </div>
+  </div>
+  <div class="span-4 last">
+    <h3>Useful links</h3>
+      <ul>
+        <li>
+          <a href="/keyboard/">Adlam keyboard</a>
+        </li>
+        <li>
+          <a href="/words/">Review Adlam phrases</a>
+       </li>
+       <li>
+         <a href="/words/getPhrases/">View database</a>       
+          <br />
+          <br />
+       </li>
+        <li>
+           <a href="http://www.unicode.org/L2/L2014/14219r-n4628-adlam.pdf">Adlam Unicode proposal</a>
+        </li>
+        <ol>
+    </div>
+  </div> <!-- container -->
   </body>
 </htm>
