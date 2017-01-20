@@ -524,7 +524,7 @@ NameList: AGL For New Fonts
 DisplaySize: -48
 AntiAlias: 1
 FitToEm: 1
-WinInfo: 65152 16 13
+WinInfo: 1488 16 13
 BeginPrivate: 0
 EndPrivate
 AnchorClass2: "Anchor-0" "'kern' Horizontal Kerning in Arabic lookup 0 subtable" "Anchor-1" "'kern' Horizontal Kerning in Arabic lookup 0 subtable" "Anchor-2" "'kern' Horizontal Kerning in Arabic lookup 1 subtable" 
@@ -19034,8 +19034,8 @@ Substitution2: "'medi' Medial Forms in Arabic lookup 2 subtable" uniFEA3
 Substitution2: "'fina' Terminal Forms in Arabic lookup 3 subtable" uniFEA2
 EndChar
 
-StartChar: Oslash
-Encoding: 1582 1582 212
+StartChar: ADLAM_CAPITAL_LETTER_SINNYIIYHE
+Encoding: 1582 125189 212
 Width: 424
 GlyphClass: 2
 Flags: W
@@ -19251,10 +19251,10 @@ SplineSet
  374 106 l 1,0,1
 EndSplineSet
 Validated: 5
-Substitution2: "'fina' Terminal Forms in Arabic lookup 3 subtable" uniFEA6
-Substitution2: "'medi' Medial Forms in Arabic lookup 2 subtable" uniFEA8
-Substitution2: "'init' Initial Forms in Arabic lookup 1 subtable" oslash
 Substitution2: "'isol' Isolated Forms in Arabic lookup 0 subtable" uniFEA5
+Substitution2: "'init' Initial Forms in Arabic lookup 1 subtable" oslash
+Substitution2: "'medi' Medial Forms in Arabic lookup 2 subtable" uniFEA8
+Substitution2: "'fina' Terminal Forms in Arabic lookup 3 subtable" uniFEA6
 EndChar
 
 StartChar: ADLAM_CAPITAL_LETTER_PE

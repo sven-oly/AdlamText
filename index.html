@@ -23,9 +23,34 @@
   function clearText(region) {
     var field = document.getElementById(region);
     field.value = '';
-    field = document.getElementById('codepoints');
-    field.value = '';
-    document.getElementById('t1').focus();
+
+  }
+
+  function fillUpper(region) {
+    var field = document.getElementById(region);
+    var text = "";
+    for (var code = 0x1e900; code < 0x1e923; code ++) {
+      text += String.fromCodePoint(code) + " ";
+    }
+    field.value = text;
+  }
+
+  function fillLower(region) {
+    var field = document.getElementById(region);
+    var text = "";
+    for (var code = 0x1e923; code < 0x1e945; code ++) {
+      text += String.fromCodePoint(code) + " ";
+    }
+    field.value = text;
+  }  
+
+  function fillDigits(region) {
+    var field = document.getElementById(region);
+    var text = "";
+    for (var code = 0x1e950; code < 0x1e95a; code ++) {
+      text += String.fromCodePoint(code) + " ";
+    }
+    field.value = text;
   }
 
   function init() {
@@ -52,7 +77,10 @@
       <option value="{{font}}">{{font}}</option>
       {% endfor %}
     </select>
-    
+   <input type="button" value="Caps" onclick="fillUpper('admlanMain');">
+   <input type="button" value="Lower" onclick="fillLower('admlanMain');">
+   <input type="button" value="Digits" onclick="fillDigits('admlanMain');">
+   
    </div>
   </div>
   <div class="span-4 last">
