@@ -11,5 +11,17 @@
       font-size: 32px;
     }
 
+    @font-face{
+      font-family:'AssataUnicode';
+      src:url('/fonts/Fulfulde-AissataUnicode.ttf');
+      font-weight:normal;
+      font-style:normal;
+    }
+    
+    .assataUnicode {
+      font-family:'AssataUnicode';
+      font-size: 32px;
+    }
+
  
     

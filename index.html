@@ -10,10 +10,24 @@
 
   <link rel="stylesheet" type="text/css" href="/css/fonts.css">
     
-    <script type="text/javascript" src="/testjs.js">
+    <script type="text/javascript" src="/js/testjs.js">
    </script>
 
   <script>
+   function onFontSelected(selected, area) {
+     var output_text = document.getElementById(area);
+     var fontFam = selected.value;
+     output_text.style.fontFamily = fontFam;
+   }
+  
+  function clearText(region) {
+    var field = document.getElementById(region);
+    field.value = '';
+    field = document.getElementById('codepoints');
+    field.value = '';
+    document.getElementById('t1').focus();
+  }
+
   function init() {
     // Fill in if needed.
   }
@@ -31,6 +45,14 @@
    <div id="arab_adlam_area">
   <h2>Adlam script testing</h2>
   <textarea id="admlanMain" class="adlamFont" rows="6" cols="16">{{adlamText}}</textarea>
+  <br />
+  <input type="button" value="Clear text" onclick="clearText('admlanMain');">
+    Select font: <select onchange="onFontSelected(this, 'admlanMain');" id="selectFont">
+      {% for font in fontFamilies %}
+      <option value="{{font}}">{{font}}</option>
+      {% endfor %}
+    </select>
+    
    </div>
   </div>
   <div class="span-4 last">

@@ -23,11 +23,10 @@ import sys
 
 from google.appengine.ext.webapp import template
 
-fontList = ['Adlam']
+fontList = ['Adlam', 'AssataUnicode']
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
-      fontList = []
       adlamText= ''
       ranges = range(0x1e900, 0x1e94b)
       ranges.extend(range(0x1e950, 0x1e95a))
@@ -47,7 +46,6 @@ class MainHandler(webapp2.RequestHandler):
 
 class KeyboardHandler(webapp2.RequestHandler):
     def get(self):
-      fontList = []
       template_values = {'fontFamilies': fontList,
       }
       path = os.path.join(os.path.dirname(__file__), 'keyboard.html')
@@ -56,7 +54,6 @@ class KeyboardHandler(webapp2.RequestHandler):
 # Show data from word list converted for human verification
 class WordHandler(webapp2.RequestHandler):
     def get(self):
-      fontList = []
       template_values = {'fontFamilies': fontList,
       }
       path = os.path.join(os.path.dirname(__file__), 'words.html')
