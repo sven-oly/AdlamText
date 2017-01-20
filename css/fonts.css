@@ -1,25 +1,25 @@
     /* Unicode fonts */
     @font-face{
-      font-family:'Adlam';
+      font-family:'Adlam CWC';
       src:url('/fonts/AdlamCWC.ttf');
       font-weight:normal;
       font-style:normal;
     }
     
     .adlamFont {
-      font-family:'Adlam';
+      font-family:'Adlam CWC';
       font-size: 32px;
     }
 
     @font-face{
-      font-family:'AssataUnicode';
+      font-family:'Aissata Unicode';
       src:url('/fonts/Fulfulde-AissataUnicode.ttf');
       font-weight:normal;
       font-style:normal;
     }
     
     .assataUnicode {
-      font-family:'AssataUnicode';
+      font-family:'Aissata Unicode';
       font-size: 32px;
     }
 

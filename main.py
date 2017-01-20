@@ -23,7 +23,7 @@ import sys
 
 from google.appengine.ext.webapp import template
 
-fontList = ['Adlam', 'AssataUnicode']
+fontList = ['Adlam CWC', 'Aissata Unicode']
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):

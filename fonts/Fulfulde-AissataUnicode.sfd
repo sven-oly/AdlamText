@@ -524,7 +524,7 @@ NameList: AGL For New Fonts
 DisplaySize: -48
 AntiAlias: 1
 FitToEm: 1
-WinInfo: 1552 16 13
+WinInfo: 65152 16 13
 BeginPrivate: 0
 EndPrivate
 AnchorClass2: "Anchor-0" "'kern' Horizontal Kerning in Arabic lookup 0 subtable" "Anchor-1" "'kern' Horizontal Kerning in Arabic lookup 0 subtable" "Anchor-2" "'kern' Horizontal Kerning in Arabic lookup 1 subtable" 
