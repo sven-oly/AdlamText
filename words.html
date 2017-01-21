@@ -81,10 +81,12 @@
   }
 
   // Convert to Unicode
-  function convertToUnicode(idIn, outId, hexId) {
+  function convertToUnicode(idIn, outId, hexId, lowerId) {
     var inObj = document.getElementById(idIn);
     var outObj = document.getElementById(outId);
-    var textOut = convertOtherToUnicode(inObj.value);
+    var hexObj = document.getElementById(hexId);
+    var lowerObj = document.getElementById(lowerId);
+    var textOut = convertOtherToUnicode(inObj.value, lowerObj.checked);
     outObj.innerHTML = outObj.value = textOut;
   }
 
@@ -133,9 +135,9 @@
 
     <input type="button" value="Convert to Unicode"
            onclick="convertToUnicode('old_font_input_text',
-                    'Unicode_font_output_text', 'old_hex');">
+                    'Unicode_font_output_text', 'old_hex', 'DoLower');">
     <input type="checkbox" name="showOldTools" id="showOldTools"
-      onchange="toggle('OldOsageTools', 'showOldTools');">Tools?<br />
+      onchange="toggle('arabAdlamTools', 'showOldTools');">Tools?<br />
 
     <div id="arabAdlamTools" style="display:none;">
 

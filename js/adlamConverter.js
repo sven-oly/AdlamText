@@ -78,9 +78,12 @@ function convertOtherToUnicode(textIn, toLower) {
     var code = textIn.charCodeAt(index);
 
     var result = adlam_convert_unicode_map[c];
-    if (toLower && result
+
     if (result === undefined) {
       result = c;
+    }
+    if (toLower && result >= minAdlamU && result <= maxAdlamU) {
+      result = String.fromCodePoint(result.codePointAt(i) + adlamCaseOffset);
     }
     textOut += result; 
   }
