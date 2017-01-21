@@ -41,7 +41,7 @@
 
   function fillUpper(region) {
     var field = document.getElementById(region);
-    var text = "";
+    var text = "\u202e";
     for (var code = 0x1e900; code < 0x1e922; code ++) {
       text += String.fromCodePoint(code) + " ";
     }
@@ -50,7 +50,7 @@
 
   function fillLower(region) {
     var field = document.getElementById(region);
-    var text = "";
+    var text = "\u202e";
     for (var code = 0x1e922; code < 0x1e944; code ++) {
       text += String.fromCodePoint(code) + " ";
     }
@@ -61,7 +61,7 @@
     var field = document.getElementById(region);
     var text = "";
     for (var code = 0x1e950; code < 0x1e95a; code ++) {
-      text += String.fromCodePoint(code) + " ";
+      text += String.fromCodePoint(code);
     }
     text += "   " + String.fromCodePoint(0x1e95e) + " ";
     text += String.fromCodePoint(0x1e95f) + " ";
