@@ -18,10 +18,44 @@
       font-style:normal;
     }
     
-    .assataUnicode {
+    .aissataUnicode {
       font-family:'Aissata Unicode';
       font-size: 32px;
     }
 
- 
+    @font-face{
+      font-family:'Aissata Arabic';
+      src:url('/fonts/Fulfulde - Aissata.ttf');
+      font-weight:normal;
+      font-style:normal;
+    }
+    
+    .aissataArabic {
+      font-family:'Aissata Arabic';
+      font-size: 32px;
+    }
+
+     @font-face{
+      font-family:'Fuuta Arabic';
+      src:url('/fonts/Fulfulde - Fuuta.ttf');
+      font-weight:normal;
+      font-style:normal;
+    }
+    
+    .fuutaArabic {
+      font-family:'Fuuta Arabic';
+      font-size: 32px;
+    }
+
+     @font-face{
+      font-family:'Pulaar Arabic';
+      src:url('/fonts/Fulfulde - Pulaar.ttf');
+      font-weight:normal;
+      font-style:normal;
+    }
+    
+    .pularArabic {
+      font-family:'Pulaar Arabic';
+      font-size: 32px;
+    }
     

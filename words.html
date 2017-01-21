@@ -59,7 +59,35 @@
     output_text.style.fontFamily = fontFam;
   }
   
-  
+  function fillWithSampleAdlam(outArea, hexArea) {
+    var outObj = document.getElementById(outArea);
+    
+    var text = "ڇبگبثتض ڇبگبثتض ڇبگبثتض ...Àتضك لع لنجسظڇبث لنجسظڇبث لنجسظڇبث ” ùبثب پضخثبث قبغبÃكëڄبث گبصلظ ض ”بثبث ”بقكëڄبث";
+    text += "” ù نخظغع ڇضكڇنغع، ڇضكڇنغع، ڇضكڇنغع، پبصبم ́ظصڇن قظكتبكڄن قظكتبكڄن قظكتبكڄن ”ب كíڄنك";
+    outObj.innerHTML = text;
+    outObj.value = text;
+
+    var hex_output = document.getElementById(hexArea);
+    if (hex_output) {
+      hex_output.innerHTML = "";
+      hex_output.value = "";    
+    }
+  }
+
+  function onFontSelected(selected, area) {
+    var output_text = document.getElementById(area);
+    var fontFam = selected.value;
+    output_text.style.fontFamily = fontFam;
+  }
+
+  // Convert to Unicode
+  function convertToUnicode(idIn, outId, hexId) {
+    var inObj = document.getElementById(idIn);
+    var outObj = document.getElementById(outId);
+    var textOut = convertOtherToUnicode(inObj.value);
+    outObj.innerHTML = outObj.value = textOut;
+  }
+
   function toggle(id, toggle) {
     var obj = document.getElementById(id);
     var checkBox = document.getElementById(toggle);
@@ -87,15 +115,22 @@
 
    <div id="arab_adlam_area">
     <h3>Adlam Arab data</h3>
-    <textarea class="arabAdlamText" id="old_font_input_text"
-              columns="60" rows="3" style="font-size: 28px;"
+    <textarea class="aissataArabic" id="old_font_input_text"
+              columns="60" rows="3" style="font-size: 28px;" dir="rtl"
               onchange="updateHex('old_font_input_text', 'old_hex');">{{osageInput}}</textarea>
     <br />
 
     <input type="button" value="Clear"
            onclick="clearArea('old_font_input_text', 'old_hex');">
-    <input type="button" value="All old chars"
-           onclick="fillWithOldOsage('old_font_input_text', 'old_hex')">
+           
+    <input type="button" value="Sample text"
+           onclick="fillWithSampleAdlam('old_font_input_text', 'old_hex')">
+    Select font: <select onchange="onFontSelected(this, 'old_font_input_text');" id="selectFont">
+      {% for font in oldFontFamilies %}
+      <option value="{{font}}">{{font}}</option>
+      {% endfor %}
+    </select>
+
     <input type="button" value="Convert to Unicode"
            onclick="convertToUnicode('old_font_input_text',
                     'Unicode_font_output_text', 'old_hex');">
@@ -104,24 +139,16 @@
 
     <div id="arabAdlamTools" style="display:none;">
 
-      <input type="button" value="Special combinations"
-           onclick="fillOsageCombos('old_font_input_text', 'old_hex');">
-      <input type="button" value="All latin chars"
-           onclick="fillWithLatinOsage('old_font_input_text', 'old_hex', '');">
-      <input type="button" value="Tests"
-           onclick="fillWithLatinTests('old_font_input_text', 'old_hex', '');">
       <input type="button" value="Show hex values"
            onclick="updateHex('old_font_input_text', 'old_hex');">
       <br />
-      <input type="checkbox" name="clearOsageDot" id="clearOsageDot" checked>Clear OldOsage dot?
-      <input type="checkbox" name="convertLatin" id="convertLatin" checked>Convert Latin?
       <input type="checkbox" name="lowerCase" id="DoLower">To lower?<br />
     <br />
     <!--
       <p> Note that two characters 0xf03b and 0xf05c are no longer used. The underlined characters now are written with a central dot.
       -->
     Hex values:
-    <textarea id="old_hex" cols="80" rows="2" style="font-family:'Courier New';font-size:20px;"></textarea>
+    <textarea id="old_hex" cols="80" rows="2"  ></textarea>
     <input type="button" style="display:none;"
            onclick="convertToText('old_hex', 'old_font_input_text');"
            value="Convert hex" />
@@ -130,7 +157,7 @@
    </div>
    <div id="unicode_area">
     <h3>Unicode Adlam</h3>
-    <textarea class="adlamFont" id="Unicode_font_output_text" 
+    <textarea class="aissataUnicode" id="Unicode_font_output_text" dir="rtl"
      onchange="updateHex('Unicode_font_output_text', 'new_hex');"
               cols="50" rows="3" style="font-size: 28px;">{{unicodeInput}}</textarea>
     <br />
@@ -140,7 +167,8 @@
            onclick="fillWithUnicodeOsage('Unicode_font_output_text',
                     'new_hex');"
            value="All new chars" />
-    Select font: <select onchange="onFontSelected(this);" id="selectKeyboard">
+    Select font: <select onchange="onFontSelected(this, 'Unicode_font_output_text');"
+       id="selectKeyboard">
       {% for font in fontFamilies %}
       <option value="{{font}}">{{font}}</option>
       {% endfor %}

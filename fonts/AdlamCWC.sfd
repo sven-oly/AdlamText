@@ -907,7 +907,7 @@ SplineSet
  659 246 659 245 659 244 c 0
  659 91 563 -19 416 -19 c 0
 EndSplineSet
-Validated: 524325
+Validated: 37
 Comment: "Adlam script letter alif."
 EndChar
 
@@ -1629,7 +1629,7 @@ SplineSet
  405 -3 396 -3 386 -3 c 0
  301 -3 194 -2 120 14 c 1x88
 EndSplineSet
-Validated: 524321
+Validated: 33
 EndChar
 
 StartChar: glyph35
@@ -7702,7 +7702,7 @@ SplineSet
  453 -25 370.083982359 52.4598180443 245 37 c 2
  222.993079258 37.8125632274 175 36 156 26 c 4
 EndSplineSet
-Validated: 524321
+Validated: 33
 EndChar
 
 StartChar: ADLAM_CAPITAL_LETTER_FA
@@ -16520,7 +16520,7 @@ SplineSet
  351 567 l 18
  346 544 728 596.007117348 728 315 c 3
 EndSplineSet
-Validated: 524321
+Validated: 33
 EndChar
 
 StartChar: ADLAM_CAPITAL_LETTER_QAAF
@@ -25021,7 +25021,7 @@ StartChar: ADLAM_SMALL_LETTER_RA
 Encoding: 42 125226 44
 Width: 748
 VWidth: 0
-Flags: HWO
+Flags: HW
 HStem: -10 80<266 565> 150 84<295 426>
 LayerCount: 2
 Back
@@ -28813,7 +28813,7 @@ SplineSet
  719 555 718 420.004424692 718 307 c 0
  718 76 581 -30 400 -29 c 0
 EndSplineSet
-Validated: 524321
+Validated: 33
 EndChar
 
 StartChar: ADLAM_SMALL_LETTER_O
@@ -37051,7 +37051,7 @@ SplineSet
  663.5 246 663.5 245 663.5 244 c 0
  663.5 91 567.5 -19 420.5 -19 c 0
 EndSplineSet
-Validated: 524325
+Validated: 37
 EndChar
 
 StartChar: uni1e900.right
@@ -37092,7 +37092,7 @@ SplineSet
  639.5 246 639.5 245 639.5 244 c 0
  639.5 91 543.5 -19 396.5 -19 c 0
 EndSplineSet
-Validated: 524325
+Validated: 37
 EndChar
 
 StartChar: uni1e900.left
@@ -37133,7 +37133,7 @@ SplineSet
  663.5 246 663.5 245 663.5 244 c 0
  663.5 91 567.5 -19 420.5 -19 c 0
 EndSplineSet
-Validated: 524325
+Validated: 37
 EndChar
 EndChars
 EndSplineFont

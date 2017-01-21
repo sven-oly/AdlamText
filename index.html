@@ -13,6 +13,19 @@
     <script type="text/javascript" src="/js/testjs.js">
    </script>
 
+<style>
+  textarea {
+    width: 600px;
+	height: 240px;
+	border: 3px solid #cccccc;
+	padding: 5px;
+	font-size: 24px;
+	}
+  {
+    font-family: "Courier New";
+  }
+  </style>
+
   <script>
    function onFontSelected(selected, area) {
      var output_text = document.getElementById(area);
@@ -29,7 +42,7 @@
   function fillUpper(region) {
     var field = document.getElementById(region);
     var text = "";
-    for (var code = 0x1e900; code < 0x1e923; code ++) {
+    for (var code = 0x1e900; code < 0x1e922; code ++) {
       text += String.fromCodePoint(code) + " ";
     }
     field.value = text;
@@ -38,7 +51,7 @@
   function fillLower(region) {
     var field = document.getElementById(region);
     var text = "";
-    for (var code = 0x1e923; code < 0x1e945; code ++) {
+    for (var code = 0x1e922; code < 0x1e944; code ++) {
       text += String.fromCodePoint(code) + " ";
     }
     field.value = text;
@@ -50,6 +63,8 @@
     for (var code = 0x1e950; code < 0x1e95a; code ++) {
       text += String.fromCodePoint(code) + " ";
     }
+    text += "   " + String.fromCodePoint(0x1e95e) + " ";
+    text += String.fromCodePoint(0x1e95f) + " ";
     field.value = text;
   }
 
@@ -69,7 +84,7 @@
 
    <div id="arab_adlam_area">
   <h2>Adlam script testing</h2>
-  <textarea id="admlanMain" class="adlamFont" rows="6" cols="16">{{adlamText}}</textarea>
+  <textarea id="admlanMain" class="aissataUnicode" rows="6" cols="16" dir="rtl">{{adlamText}}</textarea>
   <br />
   <input type="button" value="Clear text" onclick="clearText('admlanMain');">
     Select font: <select onchange="onFontSelected(this, 'admlanMain');" id="selectFont">
@@ -79,7 +94,7 @@
     </select>
    <input type="button" value="Caps" onclick="fillUpper('admlanMain');">
    <input type="button" value="Lower" onclick="fillLower('admlanMain');">
-   <input type="button" value="Digits" onclick="fillDigits('admlanMain');">
+   <input type="button" value="Digits + Punctuation" onclick="fillDigits('admlanMain');">
    
    </div>
   </div>

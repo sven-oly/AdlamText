@@ -23,7 +23,8 @@ import sys
 
 from google.appengine.ext.webapp import template
 
-fontList = ['Adlam CWC', 'Aissata Unicode']
+fontList = ['Aissata Unicode', 'Adlam CWC']
+oldFontsList = ['Aissata Arabic', 'Fuuta Arabic', 'Pulaar Arabic']
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
@@ -55,6 +56,7 @@ class KeyboardHandler(webapp2.RequestHandler):
 class WordHandler(webapp2.RequestHandler):
     def get(self):
       template_values = {'fontFamilies': fontList,
+        'oldFontFamilies': oldFontsList,
       }
       path = os.path.join(os.path.dirname(__file__), 'words.html')
       self.response.out.write(template.render(path, template_values))

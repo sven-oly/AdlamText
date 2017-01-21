@@ -19,7 +19,7 @@
 
 var FUL_UNICODE_LAYOUT = {
   'id': 'ful',
-  'title': 'Adlam for Unicode Unicode',
+  'title': 'Fulani Adlam Unicode',
   'direction': 'rtl',
   'mappings': {
     '': {
@@ -29,24 +29,24 @@ var FUL_UNICODE_LAYOUT = {
            '{{\uD83A\uDD59}}{{\uD83A\uDD50}}-=' +
         '{{\uD83A\uDD39}}{{\uD83A\uDD31}}{{\uD83A\uDD2B}}{{\uD83A\uDD2A}}' +
 	      '{{\uD83A\uDD3C}}{{\uD83A\uDD34}}{{\uD83A\uDD35}}{{\uD83A\uDD2D}}' +
-	      '{{\uD83A\uDD2E}}{{\uD83A\uDD28}}{{??}}{{??}}{{\u00BB}}' +
+	      '{{\uD83A\uDD2E}}{{\uD83A\uDD28}}{{\uD83A\uDD3D}}{{\uD83A\uDD39}}{{\u00BB}}' +
         '{{\uD83A\uDD22}}{{\uD83A\uDD27}}{{\uD83A\uDD23}}{{\uD83A\uDD2C}}' +
 	      '{{\uD83A\uDD3A}}{{\uD83A\uDD38}}{{\uD83A\uDD36}}{{\uD83A\uDD33}}' +
 	      '{{\uD83A\uDD24}}' + ';\'' +
-        '{{\uD83A\uDD41}}{{\uD83A\uDD3F}}{{}}' +
+        '{{\uD83A\uDD41}}{{\uD83A\uDD3F}}{{\uD83A\uDD37}}' +
           '{{\uD83A\uDD3E}}{{\uD83A\uDD26}}{{\uD83A\uDD32}}{{\uD83A\uDD25}}' +
-          ',./'
+          '{{\u060c}}./'
     },
     's': {
       '': '~{{\uD83A\uDD5E}}@#$%^&*()_+' +  // OK
       '{{\uD83A\uDD19}}{{\uD83A\uDD0F}}{{\uD83A\uDD09}}{{\uD83A\uDD08}}' +
 	    '{{\uD83A\uDD1A}}{{\uD83A\uDD12}}{{\uD83A\uDD0c}}{{\uD83A\uDD0B}}' +
-	    '{{\uD83A\uDD0C}}{{\uD83A\uDD06}}{}{{\u00ab}}' +  // CHECK on W
+	    '{{\uD83A\uDD0C}}{{\uD83A\uDD06}}{{\uD83A\uDD1B}}{{\uD83A\uDD17}}{{\u00ab}}' +  // CHECK on W
       '{{\uD83A\uDD00}}{{\uD83A\uDD05}}{{\uD83A\uDD01}}{{\uD83A\uDD0A}}' +
 	    '{{\uD83A\uDD18}}{{\uD83A\uDD16}}{{\uD83A\uDD14}}{{\uD83A\uDD11}}' +
 	    '{{\uD83A\uDD02}}:"' +  // OK except for a
-      '{{\uD83A\uDD0d}}{{\uD83A\uDD0e}}{{???}}{{\uD83A\uDD07}}' +
-        '{{??}}{{??}}{{\uD83A\uDD03}}<>{{\uD83A\uDD5F}}'  // Some missing
+      '{{\uD83A\uDD0d}}{{\uD83A\uDD0e}}{{\uD83A\uDD15}}{{\uD83A\uDD07}}' +
+        '{{\uD83A\uDD04}}{{\uD83A\uDD10}}{{\uD83A\uDD03}}<>{{\uD83A\uDD5F}}'  // Some missing
     },
    'c': {  // alt-control
       '': '{{}}1234567890{{}}{{}}' +

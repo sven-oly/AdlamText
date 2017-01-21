@@ -524,7 +524,7 @@ NameList: AGL For New Fonts
 DisplaySize: -48
 AntiAlias: 1
 FitToEm: 1
-WinInfo: 1488 16 13
+WinInfo: 1552 16 13
 BeginPrivate: 0
 EndPrivate
 AnchorClass2: "Anchor-0" "'kern' Horizontal Kerning in Arabic lookup 0 subtable" "Anchor-1" "'kern' Horizontal Kerning in Arabic lookup 0 subtable" "Anchor-2" "'kern' Horizontal Kerning in Arabic lookup 1 subtable" 
@@ -18806,10 +18806,10 @@ SplineSet
  320 486 l 2,46,47
 EndSplineSet
 Validated: 37
-Substitution2: "'isol' Isolated Forms in Arabic lookup 0 subtable" uniFE9D
-Substitution2: "'init' Initial Forms in Arabic lookup 1 subtable" quotedblleft
-Substitution2: "'medi' Medial Forms in Arabic lookup 2 subtable" uniFEA0
 Substitution2: "'fina' Terminal Forms in Arabic lookup 3 subtable" uniFE9E
+Substitution2: "'medi' Medial Forms in Arabic lookup 2 subtable" uniFEA0
+Substitution2: "'init' Initial Forms in Arabic lookup 1 subtable" quotedblleft
+Substitution2: "'isol' Isolated Forms in Arabic lookup 0 subtable" uniFE9D
 EndChar
 
 StartChar: product
@@ -19028,10 +19028,10 @@ SplineSet
  405 389 405 389 405 412 c 0,66,67
 EndSplineSet
 Validated: 33
-Substitution2: "'isol' Isolated Forms in Arabic lookup 0 subtable" uniFEA1
-Substitution2: "'init' Initial Forms in Arabic lookup 1 subtable" pi
-Substitution2: "'medi' Medial Forms in Arabic lookup 2 subtable" uniFEA3
 Substitution2: "'fina' Terminal Forms in Arabic lookup 3 subtable" uniFEA2
+Substitution2: "'medi' Medial Forms in Arabic lookup 2 subtable" uniFEA3
+Substitution2: "'init' Initial Forms in Arabic lookup 1 subtable" pi
+Substitution2: "'isol' Isolated Forms in Arabic lookup 0 subtable" uniFEA1
 EndChar
 
 StartChar: ADLAM_CAPITAL_LETTER_SINNYIIYHE
@@ -19251,10 +19251,10 @@ SplineSet
  374 106 l 1,0,1
 EndSplineSet
 Validated: 5
-Substitution2: "'isol' Isolated Forms in Arabic lookup 0 subtable" uniFEA5
-Substitution2: "'init' Initial Forms in Arabic lookup 1 subtable" oslash
-Substitution2: "'medi' Medial Forms in Arabic lookup 2 subtable" uniFEA8
 Substitution2: "'fina' Terminal Forms in Arabic lookup 3 subtable" uniFEA6
+Substitution2: "'medi' Medial Forms in Arabic lookup 2 subtable" uniFEA8
+Substitution2: "'init' Initial Forms in Arabic lookup 1 subtable" oslash
+Substitution2: "'isol' Isolated Forms in Arabic lookup 0 subtable" uniFEA5
 EndChar
 
 StartChar: ADLAM_CAPITAL_LETTER_PE
@@ -23694,7 +23694,7 @@ Validated: 1
 EndChar
 
 StartChar: uni067B
-Encoding: 1659 1659 247
+Encoding: 1659 125205 247
 Width: 631
 GlyphClass: 2
 Flags: W
@@ -23841,10 +23841,10 @@ SplineSet
  521 157 521 157 521 205 c 0,59,60
 EndSplineSet
 Validated: 33
-Substitution2: "'fina' Terminal Forms in Arabic lookup 3 subtable" uniFB53
-Substitution2: "'medi' Medial Forms in Arabic lookup 2 subtable" uniFB55
-Substitution2: "'init' Initial Forms in Arabic lookup 1 subtable" uniFB54
 Substitution2: "'isol' Isolated Forms in Arabic lookup 0 subtable" uniFB52
+Substitution2: "'init' Initial Forms in Arabic lookup 1 subtable" uniFB54
+Substitution2: "'medi' Medial Forms in Arabic lookup 2 subtable" uniFB55
+Substitution2: "'fina' Terminal Forms in Arabic lookup 3 subtable" uniFB53
 EndChar
 
 StartChar: ADLAM_CAPITAL_LETTER_HA
