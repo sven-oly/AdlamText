@@ -33,7 +33,7 @@ var adlam_convert_unicode_map = {
   '\u0683': String.fromCodePoint(0x1e917),
   '\u0684': String.fromCodePoint(0x1e918),
   '\u0686': String.fromCodePoint(0x1e919),
-  '\u0687': String.fromCodePoint(0x1e91d),
+  '\u0687': String.fromCodePoint(0x1e91a),
   '\u06a8': String.fromCodePoint(0x1e91b),
   '\u06af': String.fromCodePoint(0x1e904),
 
