@@ -23,7 +23,7 @@ import sys
 
 from google.appengine.ext.webapp import template
 
-fontList = ['Aissata Unicode', 'Adlam CWC']
+fontList = ['Aissata Unicode', 'Adlam CWC', 'Noto Sans Adlam', 'Noto Sans Adlam Unjoined']
 oldFontsList = ['Aissata Arabic', 'Fuuta Arabic', 'Pulaar Arabic']
 
 class MainHandler(webapp2.RequestHandler):

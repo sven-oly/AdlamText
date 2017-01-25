@@ -58,4 +58,27 @@
       font-family:'Pulaar Arabic';
       font-size: 32px;
     }
-    
+
+    @font-face {
+      font-family:'Noto Sans Adlam';
+      src:url('/fonts/NotoSansAdlam-Regular.ttf');
+      font-weight:normal;
+      font-style:normal;
+    }
+
+    .NotoSansAdlam {
+      font-family:'Noto Sans Adlam';
+      font-size: 32px;
+    }
+
+    @font-face {
+      font-family:"Noto Sans Adlam Unjoined";
+      src:url('/fonts/NotoSansAdlamUnjoined-Regular.ttf');
+      font-weight:normal;
+      font-style:normal;
+    }
+
+    .NotoSansAdlamUnjoined {
+      font-family:'Noto Sans Adlam Unjoined';
+      font-size: 32px;
+    }    

@@ -18,7 +18,7 @@
     <link rel="stylesheet" type="text/css" href="/css/fonts.css">
 
     <script type="text/css">
-      .vk-button {font-family:Adlam,Arial;}
+      .vk-button {font-family:Noto Sans Adlam, Adlam,Arial;}
       .input {font-size:18px;}
       .textarea {font-size:24px;}
       .t1 {font-family:Adlam,Arial;}
@@ -30,6 +30,7 @@
 
     var controller, visible = true;
     function onPageLoaded() {
+      clearText();
       var input = document.getElementById('t1');
       controller = new i18n.input.keyboard.Keyboard();
       controller.loadLayout('ful');
@@ -56,7 +57,7 @@
 
     function clearText() {
       var field = document.getElementById('t1');
-      field.value = '';
+      field.value = "\u202e";
       field = document.getElementById('codepoints');
       field.value = '';
       document.getElementById('t1').focus();

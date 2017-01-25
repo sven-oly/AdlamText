@@ -69,6 +69,22 @@ var adlam_convert_unicode_map = {
   '\u0601': String.fromCodePoint(0x1e95e),  // Question mark
   '\u060c': '\u060c',
   '\u060b': ';',
+  
+  // Other characters from books
+  '\u00c0': '\u2022',
+  '\u00f8': String.fromCodePoint(0x01E905),
+  '\u00f9': '\u2022',
+  '\u0153': String.fromCodePoint(0x01E909),
+  '\u0178': String.fromCodePoint(0x01E914),
+  '\u0192': String.fromCodePoint(0x01E900),
+  '\u0301': String.fromCodePoint(0x01E902),
+  '\u03c0': String.fromCodePoint(0x01E914),
+  '\u0394': String.fromCodePoint(0x01E901),
+  '\u201d': String.fromCodePoint(0x01E903),
+  '\u2126': String.fromCodePoint(0x01E90b),
+  '\u2211': String.fromCodePoint(0x01E909),
+  '\u2248': String.fromCodePoint(0x01E90a),
+  '\ufefe': String.fromCodePoint(0x01E944),
 };
 
 function convertOtherToUnicode(textIn, toLower) {
@@ -83,7 +99,7 @@ function convertOtherToUnicode(textIn, toLower) {
       result = c;
     }
     if (toLower && result >= minAdlamU && result <= maxAdlamU) {
-      result = String.fromCodePoint(result.codePointAt(i) + adlamCaseOffset);
+      result = String.fromCodePoint(result.codePointAt(0) + adlamCaseOffset);
     }
     textOut += result; 
   }
