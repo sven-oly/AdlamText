@@ -71,7 +71,9 @@ var adlam_convert_unicode_map = {
   '\u060b': ';',
   
   // Other characters from books
-  '\u00c0': '\u2022',
+  '\u00c0': '\u0027',  // Simple apostrophe
+  '\u00c3': '\u2022',
+  '\u00ed': '\u0027',
   '\u00f8': String.fromCodePoint(0x01E905),
   '\u00f9': '\u2022',
   '\u0153': String.fromCodePoint(0x01E909),
@@ -85,6 +87,7 @@ var adlam_convert_unicode_map = {
   '\u2211': String.fromCodePoint(0x01E909),
   '\u2248': String.fromCodePoint(0x01E90a),
   '\ufefe': String.fromCodePoint(0x01E944),
+  '...': String.fromCodePoint(0x01E944)
 };
 
 function convertOtherToUnicode(textIn, toLower) {
