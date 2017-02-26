@@ -27,29 +27,26 @@ var FUL_UNICODE_LAYOUT = {
           '{{\uD83A\uDD51}}{{\uD83A\uDD52}}{{\uD83A\uDD53}}{{\uD83A\uDD54}}' +
            '{{\uD83A\uDD55}}{{\uD83A\uDD56}}{{\uD83A\uDD57}}{{\uD83A\uDD58}}' +
            '{{\uD83A\uDD59}}{{\uD83A\uDD50}}-=' +
-        '{{\uD83A\udd3B}}\{{\uD83A\udd13}}{{\uD83A\udd2B}}{{\uD83A\udd08}}' +
-          '{{\uD83A\udd1A}}{{\uD83A\udd12}}{{\uD83A\udd13}}{{\uD83A\udd0B}}' + 
-          '{{\uD83A\udd0C}}{{\uD83A\udd06}}{{\uD83A\udd17}}{{\uD83A\udd1B}}' +
-          '{{}}' +
-        '{{\uD83A\udd22}}{{\uD83A\udd27}}{{\uD83A\udd23}}{{\uD83A\udd0A}}' +
-          '{{\uD83A\udd18}}{{\uD83A\udd16}}{{\uD83A\udd14}}{{\uD83A\udd11}}' + 
-          '{{\uD83A\udd02}}{{;}}{{\'}}' +
-        '{{\uD83A\udd0D}}{{\uD83A\udd0E}}{{\uD83A\udd15}}{{\uD83A\udd07}}' +
-          '{{\uD83A\udd04}}\{{\uD83A\udd32}}{{\uD83A\udd03}}{{,}}' +
-          ' {{.}}{{/}}'
+        '{{\uD83A\uDD39}}{{\uD83A\uDD31}}{{\uD83A\uDD2B}}{{\uD83A\uDD2A}}' +
+	      '{{\uD83A\uDD3C}}{{\uD83A\uDD34}}{{\uD83A\uDD35}}{{\uD83A\uDD2D}}' +
+	      '{{\uD83A\uDD2E}}{{\uD83A\uDD28}}{{\uD83A\uDD3D}}{{\uD83A\uDD39}}{{\u00BB}}' +
+        '{{\uD83A\uDD22}}{{\uD83A\uDD27}}{{\uD83A\uDD23}}{{\uD83A\uDD2C}}' +
+	      '{{\uD83A\uDD3A}}{{\uD83A\uDD38}}{{\uD83A\uDD36}}{{\uD83A\uDD33}}' +
+	      '{{\uD83A\uDD24}}' + ';\'' +
+        '{{\uD83A\uDD41}}{{\uD83A\uDD3F}}{{\uD83A\uDD37}}' +
+          '{{\uD83A\uDD3E}}{{\uD83A\uDD26}}{{\uD83A\uDD32}}{{\uD83A\uDD25}}' +
+          '{{\u060c}}./'
     },
     's': {
       '': '~{{\uD83A\uDD5E}}@#$%^&*()_+' +  // OK
-      '{{\uD83A\udd19}}{{\uD83A\udd0F}}{{\uD83A\udd09}}{{\uD83A\udd08}}' +
-        '{{\uD83A\udd1A}}{{\uD83A\udd12}}{{\uD83A\udd13}}{{\uD83A\udd0B}}' + 
-        '{{\uD83A\udd0C}}{{\uD83A\udd06}}{{\uD83A\udd17}}{{\uD83A\udd1B}}' +
-        '{{|}}' +
-      '{{\uD83A\udd00}}{{\uD83A\udd05}}{{\uD83A\udd01}}{{\uD83A\udd0A}}' + 
-        '{{\uD83A\udd18}}{{\uD83A\udd16}}{{\uD83A\udd14}}{{\uD83A\udd11}}' + 
-        '{{\uD83A\udd02}}{{:}}{{"}}' +
-      '{{\uD83A\udd0D}}{{\uD83A\udd0E}}{{\uD83A\udd15}}{{\uD83A\udd07}}' +
-        '{{\uD83A\udd04}}{{\uD83A\udd10}}{{\uD83A\udd03}}{{<}}' + 
-        '{{>}}{{?}}'
+      '{{\uD83A\uDD19}}{{\uD83A\uDD0F}}{{\uD83A\uDD09}}{{\uD83A\uDD08}}' +
+	    '{{\uD83A\uDD1A}}{{\uD83A\uDD12}}{{\uD83A\uDD0c}}{{\uD83A\uDD0B}}' +
+	    '{{\uD83A\uDD0C}}{{\uD83A\uDD06}}{{\uD83A\uDD1B}}{{\uD83A\uDD17}}{{\u00ab}}' +  // CHECK on W
+      '{{\uD83A\uDD00}}{{\uD83A\uDD05}}{{\uD83A\uDD01}}{{\uD83A\uDD0A}}' +
+	    '{{\uD83A\uDD18}}{{\uD83A\uDD16}}{{\uD83A\uDD14}}{{\uD83A\uDD11}}' +
+	    '{{\uD83A\uDD02}}:"' +  // OK except for a
+      '{{\uD83A\uDD0d}}{{\uD83A\uDD0e}}{{\uD83A\uDD15}}{{\uD83A\uDD07}}' +
+        '{{\uD83A\uDD04}}{{\uD83A\uDD10}}{{\uD83A\uDD03}}<>{{\uD83A\uDD5F}}'  // Some missing
     },
    'c': {  // alt-control
       '': '{{}}1234567890{{}}{{}}' +

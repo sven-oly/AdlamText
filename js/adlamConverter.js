@@ -87,7 +87,7 @@ var adlam_convert_unicode_map = {
   '\u2211': String.fromCodePoint(0x01E909),
   '\u2248': String.fromCodePoint(0x01E90a),
   '\ufefe': String.fromCodePoint(0x01E944),
-  '...': String.fromCodePoint(0x01E944)
+  '...': '...'  // TODO: convert
 };
 
 function convertOtherToUnicode(textIn, toLower) {
