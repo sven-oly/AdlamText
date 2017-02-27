@@ -31,6 +31,10 @@ var adlam_Latin_to_unicode_map = {
   'i': String.fromCodePoint(0x1e92d),
   'J': String.fromCodePoint(0x1e914),
   'j': String.fromCodePoint(0x1e936),
+  'K': String.fromCodePoint(0x1e911),
+  'k': String.fromCodePoint(0x1e933),
+  'L': String.fromCodePoint(0x1e902),
+  'l': String.fromCodePoint(0x1e924),
   'M': String.fromCodePoint(0x1e903),
   'm': String.fromCodePoint(0x1e925),
   'N': String.fromCodePoint(0x1e910),
@@ -182,7 +186,7 @@ function convertLatinToUnicode(textIn, toLower) {
 }
 
 function preParseAdlamLatin(instring) {
-  var regex1 = new RegExp(adlam_latin_chars, "gi");
+  var regex1 = new RegExp(adlam_latin_chars, "g");
   var outList = instring.match(regex1);
   return outList;
 }
