@@ -78,12 +78,15 @@
   function fillWithLatin(outArea, hexArea) {
     var outObj = document.getElementById(outArea);
     var hex_output = document.getElementById(hexArea);
-    text = "ADLAM BSP BH ɓ REF IO DH ɗ\u00a0" + 
-      "YH ƴ WHK YUJ TH C H QH G HY T NQ\u00a0" +
+    text = "ADLAM BSP BH ɓ REF IO DH ɗ\u000a" + 
+      "YH ƴ WHK YUJ TH C H QH G HY T NQ\u000a" +
       "V GH GB Z KPA KPa Kpa SHA SHa Sha" +
-      "adlam bsp bh ɓ ref io dh ɗ\u00a0" + 
-      "yh ƴ whk yuj ty c h qh g hy t nq\u00a0" +
-      "v gh gb z kpa sha";
+      "adlam bsp bh ɓ ref io dh ɗ\u000a" + 
+      "yh ƴ whk yuj ty c h qh g hy t nq \u000a" +
+      "v gh gb z kpa sha \u00a0" +
+      "AA aa EE ee II ii OO oo UU uu \u000a" +
+      "Ñ ñ \u000a" +
+      ",./;\'[]\<>?:\"{}|_+\u000a!";
        
     outObj.innerHTML = text;
     outObj.value = text;
@@ -200,7 +203,7 @@
     </div>
    <div id="unicode_area">
     <h3>Unicode Adlam</h3>
-    <textarea class="aissataUnicode" id="Unicode_font_output_text" dir="rtl"
+    <textarea class="NotoSansAdlam" id="Unicode_font_output_text" dir="rtl"
      onchange="updateHex('Unicode_font_output_text', 'new_hex');"
               cols="50" rows="3" style="font-size: 28px;">{{unicodeInput}}</textarea>
     <br />

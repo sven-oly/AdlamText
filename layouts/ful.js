@@ -28,7 +28,7 @@ var FUL_UNICODE_LAYOUT = {
            '{{\uD83A\uDD55}}{{\uD83A\uDD56}}{{\uD83A\uDD57}}{{\uD83A\uDD58}}' +
            '{{\uD83A\uDD59}}{{\uD83A\uDD50}}-=' +
         '{{\uD83A\udd3B}}\{{\uD83A\udd31}}{{\uD83A\udd2B}}{{\uD83A\udd2a}}' +
-          '{{\uD83A\udd3c}}{{\uD83A\udde4}}{{\uD83A\udd35}}{{\uD83A\udd33}}' + 
+          '{{\uD83A\udd3c}}{{\uD83A\udd34}}{{\uD83A\udd35}}{{\uD83A\udd2d}}' + 
           '{{\uD83A\udd2e}}{{\uD83A\udd28}}{{\uD83A\udd3d}}{{\uD83A\udd39}}' +
           '{{}}' +
         '{{\uD83A\udd22}}{{\uD83A\udd27}}{{\uD83A\udd23}}{{\uD83A\udd2c}}' +
@@ -87,7 +87,20 @@ var FUL_UNICODE_LAYOUT = {
           'ASDFGHJKL:"' +
           'ZXCVBNM<>?'
     }
-  }
+  },
+  'transform': {
+    '\uD83A\udd00\uD83A\udd00': '\uD83A\udd00\uD83A\udd44',  // Alif lengthener
+    '\uD83A\udd22\uD83A\udd22': '\uD83A\udd22\uD83A\udd44',
+    '\uD83A\udd09\uD83A\udd09': '\uD83A\udd09\uD83A\udd45',  // Vowel lengthener
+    '\uD83A\udd2b\uD83A\udd2b': '\uD83A\udd2b\uD83A\udd45',
+    '\uD83A\udd0b\uD83A\udd0b': '\uD83A\udd0b\uD83A\udd45',
+    '\uD83A\udd2d\uD83A\udd2d': '\uD83A\udd2d\uD83A\udd45',
+    '\uD83A\udd0c\uD83A\udd0c': '\uD83A\udd0c\uD83A\udd45',
+    '\uD83A\udd2e\uD83A\udd2e': '\uD83A\udd2e\uD83A\udd45',
+    '\uD83A\udd13\uD83A\udd13': '\uD83A\udd13\uD83A\udd45',
+    '\uD83A\udd35\uD83A\udd35': '\uD83A\udd35\uD83A\udd45',
+}
+  // make transforms for doubled vowels and consonants
 };
 
 // Load the layout and inform the keyboard to switch layout if necessary.
