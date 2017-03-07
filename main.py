@@ -45,6 +45,7 @@ class MainHandler(webapp2.RequestHandler):
       path = os.path.join(os.path.dirname(__file__), 'index.html')
       self.response.out.write(template.render(path, template_values))
 
+
 class KeyboardHandler(webapp2.RequestHandler):
     def get(self):
       template_values = {'fontFamilies': fontList,
@@ -62,11 +63,21 @@ class WordHandler(webapp2.RequestHandler):
       self.response.out.write(template.render(path, template_values))
 
 
+# Run tests to verify converted data
+class ConvertTestHandler(webapp2.RequestHandler):
+    def get(self):
+      template_values = {'fontFamilies': fontList,
+        'oldFontFamilies': oldFontsList,
+      }
+      path = os.path.join(os.path.dirname(__file__), 'convertTest.html')
+      self.response.out.write(template.render(path, template_values))
+
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
 #    ('/', KeyboardHandler),
     ('/keyboard/', KeyboardHandler),
-    ('/words/', WordHandler)
+    ('/words/', WordHandler),
+    ('/convertTest/', ConvertTestHandler),
 
 ], debug=True)
