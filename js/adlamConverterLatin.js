@@ -61,20 +61,27 @@ var adlam_Latin_to_unicode_map = {
   'M': String.fromCodePoint(0x1e903),
   'm': String.fromCodePoint(0x1e925),
   'MM': String.fromCodePoint(0x1e903) + String.fromCodePoint(0x1E948),
+  'Mm': String.fromCodePoint(0x1e903) + String.fromCodePoint(0x1E948),
   'mm': String.fromCodePoint(0x1e925) + String.fromCodePoint(0x1E948),
   'MB': String.fromCodePoint(0x1e910) + "\'" + String.fromCodePoint(0x1e904),
+  'Mb': String.fromCodePoint(0x1e910) + "\'" + String.fromCodePoint(0x1e904),
   'mb': String.fromCodePoint(0x1e910) + "\'" + String.fromCodePoint(0x1E926),
   'N': String.fromCodePoint(0x1e910),
   'n': String.fromCodePoint(0x1e932),
   'NN': String.fromCodePoint(0x1e910) + String.fromCodePoint(0x1E948),
+  'Nn': String.fromCodePoint(0x1e910) + String.fromCodePoint(0x1E948),
   'nn': String.fromCodePoint(0x1e932) + String.fromCodePoint(0x1E948),
   'NB': String.fromCodePoint(0x1e910) + "\'" + String.fromCodePoint(0x1e904),
+  'Nb': String.fromCodePoint(0x1e910) + "\'" + String.fromCodePoint(0x1e904),
   'nb':  String.fromCodePoint(0x1e910) + "\'" + String.fromCodePoint(0x1e926),
   'ND':  String.fromCodePoint(0x1e910) + "\'" + String.fromCodePoint(0x1e90d),
+  'Nd':  String.fromCodePoint(0x1e910) + "\'" + String.fromCodePoint(0x1e90d),
   'nd':  String.fromCodePoint(0x1e910) + "\'" + String.fromCodePoint(0x1e92f),
   'NG':  String.fromCodePoint(0x1e910) + "\'" + String.fromCodePoint(0x1e918),
+  'Ng':  String.fromCodePoint(0x1e910) + "\'" + String.fromCodePoint(0x1e918),
   'ng':  String.fromCodePoint(0x1e910) + "\'" + String.fromCodePoint(0x1e93a),
   'NJ':  String.fromCodePoint(0x1e910) + "\'" + String.fromCodePoint(0x1e914),
+  'Nj':  String.fromCodePoint(0x1e910) + "\'" + String.fromCodePoint(0x1e914),
   'nj':  String.fromCodePoint(0x1e910) + "\'" + String.fromCodePoint(0x1e936),
   'O': String.fromCodePoint(0x1e90c),
   'o': String.fromCodePoint(0x1e92e),
@@ -198,6 +205,13 @@ var adlam_Latin_to_unicode_map = {
   '7': String.fromCodePoint(0x1e957),
   '8': String.fromCodePoint(0x1e958),
   '9': String.fromCodePoint(0x1e959),
+  
+  // Punctuation
+  '!': String.fromCodePoint(0x1e95e),
+  '?': String.fromCodePoint(0x1e95f),
+  
+  // Special for return adding RTL marker
+  '\u000a' : '\u000a\u202e',
 };
 
 // To parse out combinations. Doubled letters
@@ -205,7 +219,7 @@ var adlam_latin_chars =
   "aa|bb|cc|dd|ee|ff|gg|hh|ii|jj|kk|ll|mm|nn|oo|pp|qq|rr|ss|tt|uu|vv|ww|xx|yy|zz|" +
     "ɓɓ|ɗɗ|ƴƴ|" +
     "n\u0303|" + "[ydb]\u0309|" +
-    "[bdgqy]h|g[bn]|kpa|sha|ty|mb|n[bdgjqy]|" + ".";
+    "[bdgqy]h|g[bn]|kpa|sha|ty|mb|n[bdgjqy]|\u000a|" + ".";
   
 function convertLatinToUnicode(textIn, toLower) {
   var parsedText = preParseAdlamLatin(textIn);

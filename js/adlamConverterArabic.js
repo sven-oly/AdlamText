@@ -31,7 +31,7 @@ var adlam_convert_unicode_map = {
   '\u067b': String.fromCodePoint(0x1e915),
   '\u067e': String.fromCodePoint(0x1e916),
   '\u0683': String.fromCodePoint(0x1e917),
-  '\u0684': String.fromCodePoint(0x1e918),
+  '\u0684': String.fromCodePoint(0x1e918),  // ??
   '\u0686': String.fromCodePoint(0x1e919),
   '\u0687': String.fromCodePoint(0x1e91a),
   '\u06a8': String.fromCodePoint(0x1e91b),
@@ -79,16 +79,17 @@ var adlam_convert_unicode_map = {
   '\u0153': String.fromCodePoint(0x01E909),
   '\u0178': String.fromCodePoint(0x01E914),
   '\u0192': String.fromCodePoint(0x01E900),
-  '\u0301': String.fromCodePoint(0x01E902),
+  '\u0301': '\u0027',
   '\u03c0': String.fromCodePoint(0x01E914),
   '\u0394': String.fromCodePoint(0x01E901),
-  '\u201d': String.fromCodePoint(0x01E903),
+  //'\u201d': String.fromCodePoint(0x01E903),
   '\u2126': String.fromCodePoint(0x01E90b),
   '\u2211': String.fromCodePoint(0x01E909),
   '\u2248': String.fromCodePoint(0x01E90a),
   '\ufefe': String.fromCodePoint(0x01E944),
-  '...': '...'  // TODO: convert
-};
+  // Special for return adding RTL marker
+  '\u000a' : '\u000a\u202e',
+  };
 
 function convertOtherToUnicode(textIn, toLower) {
   var textOut = "\u202e";
