@@ -110,7 +110,7 @@ var adlam_Latin_to_unicode_map = {
   'vv': String.fromCodePoint(0x1e93e) + String.fromCodePoint(0x1E948),
   'W': String.fromCodePoint(0x1e90F),
   'w': String.fromCodePoint(0x1e931),
-  'Ww': String.fromCodePoint(0x1e90F) + String.fromCodePoint(0x1E948),
+  'WW': String.fromCodePoint(0x1e90F) + String.fromCodePoint(0x1E948),
   'ww': String.fromCodePoint(0x1e931) + String.fromCodePoint(0x1E948),
   'Y': String.fromCodePoint(0x1e912),
   'y': String.fromCodePoint(0x1e934),
