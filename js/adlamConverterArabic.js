@@ -43,7 +43,7 @@ var adlam_convert_unicode_map = {
   '\u064c': String.fromCodePoint(0x1e946),
   '\u064d': String.fromCodePoint(0x1e945),
   '\u064e': String.fromCodePoint(0x1e944),
-  '\u064f': String.fromCodePoint(0x1e900),  // TBD: maybe Farsi apostrophe joiner
+  '\u064f': String.fromCodePoint(0x0027),  // TBD: maybe Farsi apostrophe joiner
   '\u0650': String.fromCodePoint(0x1e948),
   '\u0651': String.fromCodePoint(0x1e947),
   '\u0655': String.fromCodePoint(0x1e900),  // TBD
