@@ -39,7 +39,7 @@ var FUL_UNICODE_LAYOUT = {
           '{{.}}{{/}}'
     },
     's': {
-      '': '~{{\uD83A\uDD5E}}@#$%^&*()_+' +  // OK
+      '': '~{{\uD83A\uDD5E}}@#$%{{\uD83A\udd46}}&*()_+' +  // OK
       '{{\uD83A\udd19}}{{\uD83A\udd0F}}{{\uD83A\udd09}}{{\uD83A\udd08}}' +
         '{{\uD83A\udd1A}}{{\uD83A\udd12}}{{\uD83A\udd13}}{{\uD83A\udd0B}}' + 
         '{{\uD83A\udd0C}}{{\uD83A\udd06}}{{\uD83A\udd1b}}{{\uD83A\udd17}}' +
