@@ -16,24 +16,24 @@ var adlam_Latin_to_unicode_map = {
 
   'B': String.fromCodePoint(0x1e904),
   'b': String.fromCodePoint(0x1e926),
-  'BB': String.fromCodePoint(0x1e904) + String.fromCodePoint(0x1E948),
-  'Bb': String.fromCodePoint(0x1e904) + String.fromCodePoint(0x1E948),
-  'bb': String.fromCodePoint(0x1e926) + String.fromCodePoint(0x1E948),
-  'bB': String.fromCodePoint(0x1e926) + String.fromCodePoint(0x1E948),
+  'BB': String.fromCodePoint(0x1e904) + String.fromCodePoint(0x1E946),
+  'Bb': String.fromCodePoint(0x1e904) + String.fromCodePoint(0x1E946),
+  'bb': String.fromCodePoint(0x1e926) + String.fromCodePoint(0x1E946),
+  'bB': String.fromCodePoint(0x1e926) + String.fromCodePoint(0x1E946),
 
   'C': String.fromCodePoint(0x1e915),
   'c': String.fromCodePoint(0x1e937),
-  'CC': String.fromCodePoint(0x1e915) + String.fromCodePoint(0x1E948),
-  'Cc': String.fromCodePoint(0x1e915) + String.fromCodePoint(0x1E948),
-  'cc': String.fromCodePoint(0x1e937) + String.fromCodePoint(0x1E948),
-  'cC': String.fromCodePoint(0x1e937) + String.fromCodePoint(0x1E948),
+  'CC': String.fromCodePoint(0x1e915) + String.fromCodePoint(0x1E946),
+  'Cc': String.fromCodePoint(0x1e915) + String.fromCodePoint(0x1E946),
+  'cc': String.fromCodePoint(0x1e937) + String.fromCodePoint(0x1E946),
+  'cC': String.fromCodePoint(0x1e937) + String.fromCodePoint(0x1E946),
 
   'D': String.fromCodePoint(0x1e901),
   'd': String.fromCodePoint(0x1e923),
-  'DD': String.fromCodePoint(0x1e901) + String.fromCodePoint(0x1E948),
-  'Dd': String.fromCodePoint(0x1e901) + String.fromCodePoint(0x1E948),
-  'dd': String.fromCodePoint(0x1e923) + String.fromCodePoint(0x1E948),
-  'dD': String.fromCodePoint(0x1e923) + String.fromCodePoint(0x1E948),
+  'DD': String.fromCodePoint(0x1e901) + String.fromCodePoint(0x1E946),
+  'Dd': String.fromCodePoint(0x1e901) + String.fromCodePoint(0x1E946),
+  'dd': String.fromCodePoint(0x1e923) + String.fromCodePoint(0x1E946),
+  'dD': String.fromCodePoint(0x1e923) + String.fromCodePoint(0x1E946),
 
   'E': String.fromCodePoint(0x1e909),
   'e': String.fromCodePoint(0x1e92b),
@@ -44,24 +44,24 @@ var adlam_Latin_to_unicode_map = {
 
   'F': String.fromCodePoint(0x1e90a),
   'f': String.fromCodePoint(0x1e92c),
-  'FF': String.fromCodePoint(0x1e90a) + String.fromCodePoint(0x1E948),
-  'Ff': String.fromCodePoint(0x1e90a) + String.fromCodePoint(0x1E948),
-  'ff': String.fromCodePoint(0x1e92c) + String.fromCodePoint(0x1E948),
-  'fF': String.fromCodePoint(0x1e92c) + String.fromCodePoint(0x1E948),
+  'FF': String.fromCodePoint(0x1e90a) + String.fromCodePoint(0x1E946),
+  'Ff': String.fromCodePoint(0x1e90a) + String.fromCodePoint(0x1E946),
+  'ff': String.fromCodePoint(0x1e92c) + String.fromCodePoint(0x1E946),
+  'fF': String.fromCodePoint(0x1e92c) + String.fromCodePoint(0x1E946),
 
   'G': String.fromCodePoint(0x1e918),
   'g': String.fromCodePoint(0x1e93a),
-  'GG': String.fromCodePoint(0x1e918) + String.fromCodePoint(0x1E948),
-  'Gg': String.fromCodePoint(0x1e918) + String.fromCodePoint(0x1E948),
-  'gg': String.fromCodePoint(0x1e93a) + String.fromCodePoint(0x1E948),
-  'gG': String.fromCodePoint(0x1e93a) + String.fromCodePoint(0x1E948),
+  'GG': String.fromCodePoint(0x1e918) + String.fromCodePoint(0x1E946),
+  'Gg': String.fromCodePoint(0x1e918) + String.fromCodePoint(0x1E946),
+  'gg': String.fromCodePoint(0x1e93a) + String.fromCodePoint(0x1E946),
+  'gG': String.fromCodePoint(0x1e93a) + String.fromCodePoint(0x1E946),
 
   'H': String.fromCodePoint(0x1e916),
   'h': String.fromCodePoint(0x1e938),
-  'HH': String.fromCodePoint(0x1e916) + String.fromCodePoint(0x1E948),
-  'Hh': String.fromCodePoint(0x1e916) + String.fromCodePoint(0x1E948),
-  'hh': String.fromCodePoint(0x1e938) + String.fromCodePoint(0x1E948),
-  'hH': String.fromCodePoint(0x1e938) + String.fromCodePoint(0x1E948),
+  'HH': String.fromCodePoint(0x1e916) + String.fromCodePoint(0x1E946),
+  'Hh': String.fromCodePoint(0x1e916) + String.fromCodePoint(0x1E946),
+  'hh': String.fromCodePoint(0x1e938) + String.fromCodePoint(0x1E946),
+  'hH': String.fromCodePoint(0x1e938) + String.fromCodePoint(0x1E946),
 
   'I': String.fromCodePoint(0x1e90b),
   'i': String.fromCodePoint(0x1e92d),
@@ -72,31 +72,31 @@ var adlam_Latin_to_unicode_map = {
 
   'J': String.fromCodePoint(0x1e914),
   'j': String.fromCodePoint(0x1e936),
-  'JJ': String.fromCodePoint(0x1e914) + String.fromCodePoint(0x1E948),
-  'Jj': String.fromCodePoint(0x1e914) + String.fromCodePoint(0x1E948),
-  'jj': String.fromCodePoint(0x1e936) + String.fromCodePoint(0x1E948),
-  'jj': String.fromCodePoint(0x1e936) + String.fromCodePoint(0x1E948),
+  'JJ': String.fromCodePoint(0x1e914) + String.fromCodePoint(0x1E946),
+  'Jj': String.fromCodePoint(0x1e914) + String.fromCodePoint(0x1E946),
+  'jj': String.fromCodePoint(0x1e936) + String.fromCodePoint(0x1E946),
+  'jj': String.fromCodePoint(0x1e936) + String.fromCodePoint(0x1E946),
 
   'K': String.fromCodePoint(0x1e911),
   'k': String.fromCodePoint(0x1e933),
-  'KK': String.fromCodePoint(0x1e911) + String.fromCodePoint(0x1E948),
-  'Kk': String.fromCodePoint(0x1e911) + String.fromCodePoint(0x1E948),
-  'kk': String.fromCodePoint(0x1e933) + String.fromCodePoint(0x1E948),
-  'kK': String.fromCodePoint(0x1e933) + String.fromCodePoint(0x1E948),
+  'KK': String.fromCodePoint(0x1e911) + String.fromCodePoint(0x1E946),
+  'Kk': String.fromCodePoint(0x1e911) + String.fromCodePoint(0x1E946),
+  'kk': String.fromCodePoint(0x1e933) + String.fromCodePoint(0x1E946),
+  'kK': String.fromCodePoint(0x1e933) + String.fromCodePoint(0x1E946),
 
   'L': String.fromCodePoint(0x1e902),
   'l': String.fromCodePoint(0x1e924),
-  'LL': String.fromCodePoint(0x1e902) + String.fromCodePoint(0x1E948),
-  'Ll': String.fromCodePoint(0x1e902) + String.fromCodePoint(0x1E948),
-  'll': String.fromCodePoint(0x1e924) + String.fromCodePoint(0x1E948),
-  'lL': String.fromCodePoint(0x1e924) + String.fromCodePoint(0x1E948),
+  'LL': String.fromCodePoint(0x1e902) + String.fromCodePoint(0x1E946),
+  'Ll': String.fromCodePoint(0x1e902) + String.fromCodePoint(0x1E946),
+  'll': String.fromCodePoint(0x1e924) + String.fromCodePoint(0x1E946),
+  'lL': String.fromCodePoint(0x1e924) + String.fromCodePoint(0x1E946),
 
   'M': String.fromCodePoint(0x1e903),
   'm': String.fromCodePoint(0x1e925),
-  'MM': String.fromCodePoint(0x1e903) + String.fromCodePoint(0x1E948),
-  'Mm': String.fromCodePoint(0x1e903) + String.fromCodePoint(0x1E948),
-  'mm': String.fromCodePoint(0x1e925) + String.fromCodePoint(0x1E948),
-  'mM': String.fromCodePoint(0x1e925) + String.fromCodePoint(0x1E948),
+  'MM': String.fromCodePoint(0x1e903) + String.fromCodePoint(0x1E946),
+  'Mm': String.fromCodePoint(0x1e903) + String.fromCodePoint(0x1E946),
+  'mm': String.fromCodePoint(0x1e925) + String.fromCodePoint(0x1E946),
+  'mM': String.fromCodePoint(0x1e925) + String.fromCodePoint(0x1E946),
   ' MB': String.fromCodePoint(0x1e910) + "\'" + String.fromCodePoint(0x1e904),
   ' Mb': String.fromCodePoint(0x1e910) + "\'" + String.fromCodePoint(0x1e904),
   ' mb': String.fromCodePoint(0x1e910) + "\'" + String.fromCodePoint(0x1E926),
@@ -108,10 +108,10 @@ var adlam_Latin_to_unicode_map = {
 
   'N': String.fromCodePoint(0x1e910),
   'n': String.fromCodePoint(0x1e932),
-  'NN': String.fromCodePoint(0x1e910) + String.fromCodePoint(0x1E948),
-  'Nn': String.fromCodePoint(0x1e910) + String.fromCodePoint(0x1E948),
-  'nn': String.fromCodePoint(0x1e932) + String.fromCodePoint(0x1E948),
-  'nN': String.fromCodePoint(0x1e932) + String.fromCodePoint(0x1E948),
+  'NN': String.fromCodePoint(0x1e910) + String.fromCodePoint(0x1E946),
+  'Nn': String.fromCodePoint(0x1e910) + String.fromCodePoint(0x1E946),
+  'nn': String.fromCodePoint(0x1e932) + String.fromCodePoint(0x1E946),
+  'nN': String.fromCodePoint(0x1e932) + String.fromCodePoint(0x1E946),
 
   'NB': + String.fromCodePoint(0x1e910) + "\'" + String.fromCodePoint(0x1e904),
   'Nb': + String.fromCodePoint(0x1e910) + "\'" + String.fromCodePoint(0x1e904),
@@ -174,38 +174,38 @@ var adlam_Latin_to_unicode_map = {
 
   'P': String.fromCodePoint(0x1e906),
   'p': String.fromCodePoint(0x1e928),
-  'PP': String.fromCodePoint(0x1e906) + String.fromCodePoint(0x1E948),
-  'Pp': String.fromCodePoint(0x1e906) + String.fromCodePoint(0x1E948),
-  'pp': String.fromCodePoint(0x1e928) + String.fromCodePoint(0x1E948),
-  'pP': String.fromCodePoint(0x1e928) + String.fromCodePoint(0x1E948),
+  'PP': String.fromCodePoint(0x1e906) + String.fromCodePoint(0x1E946),
+  'Pp': String.fromCodePoint(0x1e906) + String.fromCodePoint(0x1E946),
+  'pp': String.fromCodePoint(0x1e928) + String.fromCodePoint(0x1E946),
+  'pP': String.fromCodePoint(0x1e928) + String.fromCodePoint(0x1E946),
 
   'Q': String.fromCodePoint(0x1e919),
   'q': String.fromCodePoint(0x1e93b),
-  'QQ': String.fromCodePoint(0x1e919) + String.fromCodePoint(0x1E948),
-  'Qq': String.fromCodePoint(0x1e919) + String.fromCodePoint(0x1E948),
-  'qq': String.fromCodePoint(0x1e93b) + String.fromCodePoint(0x1E948),
-  'qQ': String.fromCodePoint(0x1e93b) + String.fromCodePoint(0x1E948),
+  'QQ': String.fromCodePoint(0x1e919) + String.fromCodePoint(0x1E946),
+  'Qq': String.fromCodePoint(0x1e919) + String.fromCodePoint(0x1E946),
+  'qq': String.fromCodePoint(0x1e93b) + String.fromCodePoint(0x1E946),
+  'qQ': String.fromCodePoint(0x1e93b) + String.fromCodePoint(0x1E946),
 
   'R': String.fromCodePoint(0x1e908),
   'r': String.fromCodePoint(0x1e92a),
-  'RR': String.fromCodePoint(0x1e908) + String.fromCodePoint(0x1E948),
-  'Rr': String.fromCodePoint(0x1e908) + String.fromCodePoint(0x1E948),
-  'rr': String.fromCodePoint(0x1e92a) + String.fromCodePoint(0x1E948),
-  'rR': String.fromCodePoint(0x1e92a) + String.fromCodePoint(0x1E948),
+  'RR': String.fromCodePoint(0x1e908) + String.fromCodePoint(0x1E946),
+  'Rr': String.fromCodePoint(0x1e908) + String.fromCodePoint(0x1E946),
+  'rr': String.fromCodePoint(0x1e92a) + String.fromCodePoint(0x1E946),
+  'rR': String.fromCodePoint(0x1e92a) + String.fromCodePoint(0x1E946),
 
   'S': String.fromCodePoint(0x1e905),
   's': String.fromCodePoint(0x1e927),
-  'SS': String.fromCodePoint(0x1e905) + String.fromCodePoint(0x1E948),
-  'Ss': String.fromCodePoint(0x1e905) + String.fromCodePoint(0x1E948),
-  'ss': String.fromCodePoint(0x1e927) + String.fromCodePoint(0x1E948),
-  'sS': String.fromCodePoint(0x1e927) + String.fromCodePoint(0x1E948),
+  'SS': String.fromCodePoint(0x1e905) + String.fromCodePoint(0x1E946),
+  'Ss': String.fromCodePoint(0x1e905) + String.fromCodePoint(0x1E946),
+  'ss': String.fromCodePoint(0x1e927) + String.fromCodePoint(0x1E946),
+  'sS': String.fromCodePoint(0x1e927) + String.fromCodePoint(0x1E946),
 
   'T': String.fromCodePoint(0x1e91a),
   't': String.fromCodePoint(0x1e93c),
-  'TT': String.fromCodePoint(0x1e91a) + String.fromCodePoint(0x1E948),
-  'Tt': String.fromCodePoint(0x1e91a) + String.fromCodePoint(0x1E948),
-  'tt': String.fromCodePoint(0x1e93c) + String.fromCodePoint(0x1E948),
-  'tT': String.fromCodePoint(0x1e93c) + String.fromCodePoint(0x1E948),
+  'TT': String.fromCodePoint(0x1e91a) + String.fromCodePoint(0x1E946),
+  'Tt': String.fromCodePoint(0x1e91a) + String.fromCodePoint(0x1E946),
+  'tt': String.fromCodePoint(0x1e93c) + String.fromCodePoint(0x1E946),
+  'tT': String.fromCodePoint(0x1e93c) + String.fromCodePoint(0x1E946),
 
   'TY': String.fromCodePoint(0x1e915),
   'Ty': String.fromCodePoint(0x1e915),
@@ -221,39 +221,39 @@ var adlam_Latin_to_unicode_map = {
 
   'V': String.fromCodePoint(0x1e91c),
   'v': String.fromCodePoint(0x1e93e),
-  'VV': String.fromCodePoint(0x1e91c) + String.fromCodePoint(0x1E948),
-  'Vv': String.fromCodePoint(0x1e91c) + String.fromCodePoint(0x1E948),
-  'vv': String.fromCodePoint(0x1e93e) + String.fromCodePoint(0x1E948),
-  'vV': String.fromCodePoint(0x1e93e) + String.fromCodePoint(0x1E948),
+  'VV': String.fromCodePoint(0x1e91c) + String.fromCodePoint(0x1E946),
+  'Vv': String.fromCodePoint(0x1e91c) + String.fromCodePoint(0x1E946),
+  'vv': String.fromCodePoint(0x1e93e) + String.fromCodePoint(0x1E946),
+  'vV': String.fromCodePoint(0x1e93e) + String.fromCodePoint(0x1E946),
 
   'W': String.fromCodePoint(0x1e90F),
   'w': String.fromCodePoint(0x1e931),
-  'WW': String.fromCodePoint(0x1e90F) + String.fromCodePoint(0x1E948),
-  'Ww': String.fromCodePoint(0x1e90F) + String.fromCodePoint(0x1E948),
-  'ww': String.fromCodePoint(0x1e931) + String.fromCodePoint(0x1E948),
-  'wW': String.fromCodePoint(0x1e931) + String.fromCodePoint(0x1E948),
+  'WW': String.fromCodePoint(0x1e90F) + String.fromCodePoint(0x1E946),
+  'Ww': String.fromCodePoint(0x1e90F) + String.fromCodePoint(0x1E946),
+  'ww': String.fromCodePoint(0x1e931) + String.fromCodePoint(0x1E946),
+  'wW': String.fromCodePoint(0x1e931) + String.fromCodePoint(0x1E946),
 
   'Y': String.fromCodePoint(0x1e912),
   'y': String.fromCodePoint(0x1e934),
-  'YY': String.fromCodePoint(0x1e912) + String.fromCodePoint(0x1E948),
-  'Yy': String.fromCodePoint(0x1e912) + String.fromCodePoint(0x1E948),
-  'yy': String.fromCodePoint(0x1e934) + String.fromCodePoint(0x1E948),
-  'yY': String.fromCodePoint(0x1e934) + String.fromCodePoint(0x1E948),
+  'YY': String.fromCodePoint(0x1e912) + String.fromCodePoint(0x1E946),
+  'Yy': String.fromCodePoint(0x1e912) + String.fromCodePoint(0x1E946),
+  'yy': String.fromCodePoint(0x1e934) + String.fromCodePoint(0x1E946),
+  'yY': String.fromCodePoint(0x1e934) + String.fromCodePoint(0x1E946),
 
   'Z': String.fromCodePoint(0x1e91f),
   'z': String.fromCodePoint(0x1e941),
-  'ZZ': String.fromCodePoint(0x1e91f) + String.fromCodePoint(0x1E948),
-  'Zz': String.fromCodePoint(0x1e91f) + String.fromCodePoint(0x1E948),
-  'zz': String.fromCodePoint(0x1e941) + String.fromCodePoint(0x1E948),
-  'zZ': String.fromCodePoint(0x1e941) + String.fromCodePoint(0x1E948),
+  'ZZ': String.fromCodePoint(0x1e91f) + String.fromCodePoint(0x1E946),
+  'Zz': String.fromCodePoint(0x1e91f) + String.fromCodePoint(0x1E946),
+  'zz': String.fromCodePoint(0x1e941) + String.fromCodePoint(0x1E946),
+  'zZ': String.fromCodePoint(0x1e941) + String.fromCodePoint(0x1E946),
 
   'BH': String.fromCodePoint(0x1e907),
   'Bh': String.fromCodePoint(0x1e907),
   'bh': String.fromCodePoint(0x1e929),
   'Ɓ':  String.fromCodePoint(0x1e907),
-  'ƁƁ': String.fromCodePoint(0x1e907) + String.fromCodePoint(0x1E948),
+  'ƁƁ': String.fromCodePoint(0x1e907) + String.fromCodePoint(0x1E946),
   'ɓ':  String.fromCodePoint(0x1e929),
-  'ɓɓ': String.fromCodePoint(0x1e929) + String.fromCodePoint(0x1E948),
+  'ɓɓ': String.fromCodePoint(0x1e929) + String.fromCodePoint(0x1E946),
   
   'DH': String.fromCodePoint(0x1e90d),
   'Dh': String.fromCodePoint(0x1e90d),
@@ -261,12 +261,12 @@ var adlam_Latin_to_unicode_map = {
   'dH': String.fromCodePoint(0x1e92f),
   'D\u0309': String.fromCodePoint(0x1e90d),
   'Ɗ':  String.fromCodePoint(0x1e90d),
-  'ƊƊ': String.fromCodePoint(0x1e90d) + String.fromCodePoint(0x1E948),
-  'Ɗɗ': String.fromCodePoint(0x1e90d) + String.fromCodePoint(0x1E948),
+  'ƊƊ': String.fromCodePoint(0x1e90d) + String.fromCodePoint(0x1E946),
+  'Ɗɗ': String.fromCodePoint(0x1e90d) + String.fromCodePoint(0x1E946),
   'd\u0309':  String.fromCodePoint(0x1e92f),
   'ɗ':  String.fromCodePoint(0x1e92f),
-  'ɗɗ':  String.fromCodePoint(0x1e92f) + String.fromCodePoint(0x1E948),
-  'ɗƊ':  String.fromCodePoint(0x1e92f) + String.fromCodePoint(0x1E948),
+  'ɗɗ':  String.fromCodePoint(0x1e92f) + String.fromCodePoint(0x1E946),
+  'ɗƊ':  String.fromCodePoint(0x1e92f) + String.fromCodePoint(0x1E946),
 
   'YH': String.fromCodePoint(0x1e90e),
   'Yh': String.fromCodePoint(0x1e90e),
@@ -274,12 +274,12 @@ var adlam_Latin_to_unicode_map = {
   'yH': String.fromCodePoint(0x1e930),
   'Ƴ':  String.fromCodePoint(0x1e90e),
   'Y\u0309': String.fromCodePoint(0x1e90e),
-  'ƳƳ': String.fromCodePoint(0x1e90e) + String.fromCodePoint(0x1E948),
-  'Ƴy': String.fromCodePoint(0x1e90e) + String.fromCodePoint(0x1E948),
+  'ƳƳ': String.fromCodePoint(0x1e90e) + String.fromCodePoint(0x1E946),
+  'Ƴy': String.fromCodePoint(0x1e90e) + String.fromCodePoint(0x1E946),
   'ƴ':  String.fromCodePoint(0x1e930),
   'y\u0309':  String.fromCodePoint(0x1e930),
-  'ƴƴ':  String.fromCodePoint(0x1e930) + String.fromCodePoint(0x1E948),
-  'ƴƳ':  String.fromCodePoint(0x1e930) + String.fromCodePoint(0x1E948),
+  'ƴƴ':  String.fromCodePoint(0x1e930) + String.fromCodePoint(0x1E946),
+  'ƴƳ':  String.fromCodePoint(0x1e930) + String.fromCodePoint(0x1E946),
 
   'QH': String.fromCodePoint(0x1e917),
   'Qh': String.fromCodePoint(0x1e917),
@@ -416,16 +416,16 @@ function testDoubleConsonants() {
   var text = "BB bb DD dd LL ll PP pp TT tt ƁƁ ɓɓ ƊƊ ɗɗ ƳƳ ƴƴ Ɓ ɓ Ɗ ɗ Ƴ ƴ";
   var conv = convertLatinToUnicode(text, false);
   var expected = "\u202e" +
-    String.fromCodePoint(0x1e904) + String.fromCodePoint(0x1E948) + " " +
-    String.fromCodePoint(0x1e926) + String.fromCodePoint(0x1E948) + " " +
-    String.fromCodePoint(0x1e901) + String.fromCodePoint(0x1E948) + " " +
-    String.fromCodePoint(0x1e923) + String.fromCodePoint(0x1E948) + " " +
-    String.fromCodePoint(0x1e902) + String.fromCodePoint(0x1E948) + " " +
-    String.fromCodePoint(0x1e924) + String.fromCodePoint(0x1E948) + " " +
-    String.fromCodePoint(0x1e906) + String.fromCodePoint(0x1E948) + " " +
-    String.fromCodePoint(0x1e928) + String.fromCodePoint(0x1E948) + " " +
-    String.fromCodePoint(0x1e91a) + String.fromCodePoint(0x1E948) + " " +
-    String.fromCodePoint(0x1e93c) + String.fromCodePoint(0x1E948)
+    String.fromCodePoint(0x1e904) + String.fromCodePoint(0x1E946) + " " +
+    String.fromCodePoint(0x1e926) + String.fromCodePoint(0x1E946) + " " +
+    String.fromCodePoint(0x1e901) + String.fromCodePoint(0x1E946) + " " +
+    String.fromCodePoint(0x1e923) + String.fromCodePoint(0x1E946) + " " +
+    String.fromCodePoint(0x1e902) + String.fromCodePoint(0x1E946) + " " +
+    String.fromCodePoint(0x1e924) + String.fromCodePoint(0x1E946) + " " +
+    String.fromCodePoint(0x1e906) + String.fromCodePoint(0x1E946) + " " +
+    String.fromCodePoint(0x1e928) + String.fromCodePoint(0x1E946) + " " +
+    String.fromCodePoint(0x1e91a) + String.fromCodePoint(0x1E946) + " " +
+    String.fromCodePoint(0x1e93c) + String.fromCodePoint(0x1E946)
     // TODO: Finish
     ;
 ;
