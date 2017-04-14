@@ -56,6 +56,11 @@ var adlam_Latin_to_unicode_map = {
   'gg': String.fromCodePoint(0x1e93a) + String.fromCodePoint(0x1E946),
   'gG': String.fromCodePoint(0x1e93a) + String.fromCodePoint(0x1E946),
 
+  'GN': String.fromCodePoint(0x1e918),
+  'Gn': String.fromCodePoint(0x1e918),
+  'gn': String.fromCodePoint(0x1e93a),
+  'gN': String.fromCodePoint(0x1e93a),
+
   'H': String.fromCodePoint(0x1e916),
   'h': String.fromCodePoint(0x1e938),
   'HH': String.fromCodePoint(0x1e916) + String.fromCodePoint(0x1E946),

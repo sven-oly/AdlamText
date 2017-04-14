@@ -28,6 +28,9 @@
   <script src="/js/utils.js"></script>
   <script src="/js/adlamConverterArabic.js"></script>
   <script src="/js/adlamConverterLatin.js"></script>
+
+  <script src="/js/vk-debug.js"></script>
+
   <script>
 
   // When an area is changed, set the hex characters, too.
@@ -137,10 +140,48 @@
     updateHex('Unicode_font_output_text', 'new_hex');
   }
 
+    var controller, visible = true;
+    function onPageLoaded() {
+      windowId = 'Unicode_font_output_text';
+      clearText(windowId);
+      var input = document.getElementById(windowId);
+      controller = new i18n.input.keyboard.Keyboard();
+      controller.loadLayout('ful');
+      controller.reposition(input, 2, 0, [1, 0, 0, 0]);
+      controller.register(input);
+      controller.addEventListener('kc', function() { visible = false; });
+      input.focus();
+      var selector = document.getElementById('selectKeyboard');
+      onLayoutSelected(selector, windowId);
+      var selector = document.getElementById('selectFont');
+      onFontSelected(selector, 'Unicode_font_output_text');
+    }
+
+    function onLayoutSelected(selector, windowId) {
+    var layoutCode = selector.value;
+    controller.activateLayout(layoutCode);
+    document.getElementById(windowId).focus();
+    var vkbox = document.getElementById('kbd');
+    }
+
+    function toggle() {
+      if (controller) {
+        controller.setVisible(visible = !visible);
+      }
+    }
+
+    function clearText(areaId) {
+      var field = document.getElementById(areaId);
+      field.value = "\u202e";
+      // field = document.getElementById('codepoints');
+      //if fieldfield.value = '';
+      document.getElementById(areaId).focus();
+    }
+
   </script>
   </head>
 
-  <body onload="init()">
+  <body onload="init(); onPageLoaded();">
   <div class="container">
     <div class="span-1">  
     </div>
@@ -210,6 +251,12 @@
     <input type="button" value="Clear"
            onclick="clearArea('Unicode_font_output_text', 'new_hex');">
 
+    Select keyboard: <select onchange="onLayoutSelected(this, 'Unicode_font_output_text');"
+       id="selectKeyboard">
+      {% for layout in keylayouts %}
+      <option value="{{layout}}">{{layout}}</option>
+      {% endfor %}
+    </select>
     Select font: <select onchange="onFontSelected(this, 'Unicode_font_output_text');"
        id="selectKeyboard">
       {% for font in fontFamilies %}

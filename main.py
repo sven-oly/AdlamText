@@ -21,6 +21,8 @@ import urllib
 import webapp2
 import sys
 
+#from fpdf import FPDF
+
 from google.appengine.ext.webapp import template
 
 fontList = ['Noto Sans Adlam',  'Adlam CWC', 'Aissata Unicode', 'Noto Sans Adlam Unjoined']
@@ -58,6 +60,7 @@ class WordHandler(webapp2.RequestHandler):
     def get(self):
       template_values = {'fontFamilies': fontList,
         'oldFontFamilies': oldFontsList,
+        'keylayouts': ['ful'],
       }
       path = os.path.join(os.path.dirname(__file__), 'words.html')
       self.response.out.write(template.render(path, template_values))
@@ -72,6 +75,26 @@ class ConvertTestHandler(webapp2.RequestHandler):
       path = os.path.join(os.path.dirname(__file__), 'convertTest.html')
       self.response.out.write(template.render(path, template_values))
 
+# Test creating PDF file
+class tryPDFHandler(webapp2.RequestHandler):
+  def get(self):
+    logging.info('PDFFFFFFFF: tryPDFHandler')
+    #pdf = FPDF()
+    #outfilename = 'testAdlam.pdf'
+    #logging.info('  **** pdf obj = %s' % pdf)
+    #pdf.add_page()
+    #pdf.set_font('Arial', 'B', 16)
+    #pdf.cell(40, 10, 'Hello Adlam!')
+    #logging.info('  pdf = %s' % pdf)
+    #pdf.set_font('Noto Sans Adlam', 'R', 18)
+    pdfResult = 'test'
+    #pdfResult = pdf.output(outfilename, 'S')
+    #pdf.close()
+    logging.info('  pdfResult = %s' % pdfResult)
+    self.response.headers['Content-Type'] = 'application/pdf'
+    self.response.headers['Content-Disposition'] = 'attachment; filename=testAdlam.pdf'
+    self.response.out.write(pdfResult)
+
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
@@ -79,5 +102,7 @@ app = webapp2.WSGIApplication([
     ('/keyboard/', KeyboardHandler),
     ('/words/', WordHandler),
     ('/convertTest/', ConvertTestHandler),
+
+    ('/tryPDF/', tryPDFHandler),
 
 ], debug=True)
