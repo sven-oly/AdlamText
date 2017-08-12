@@ -25,6 +25,10 @@
       font-family: "Courier New";
       font-size: 20px;
     }
+
+   .capitalize {
+    text-transform: capitalize;
+  }
   </style>
   <script src="/js/utils.js"></script>
   <script src="/js/adlamConverterArabic.js"></script>
@@ -154,7 +158,7 @@
       input.focus();
       var selector = document.getElementById('selectKeyboard');
       onLayoutSelected(selector, windowId);
-      var selector = document.getElementById('selectFont');
+      var selector = document.getElementById('selectUnicodeFont');
       onFontSelected(selector, 'Unicode_font_output_text');
     }
 
@@ -260,7 +264,7 @@
       {% endfor %}
     </select>
     Select font: <select onchange="onFontSelected(this, 'Unicode_font_output_text');"
-       id="selectKeyboard">
+       id="selectUnicodeFont">
       {% for font in fontFamilies %}
       <option value="{{font}}">{{font}}</option>
       {% endfor %}
