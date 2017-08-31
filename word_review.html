@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+
+  <title>Review {{language}} Conversion</title>
+
+  <link rel="stylesheet" href="/css/blueprint/screen.css" type="text/css" media="screen">
+  <link rel="stylesheet" href="/css/blueprint/print.css" type="text/css" media="print"> 
+  <!--[if lt IE 8]>
+    <link rel="stylesheet" href="/css/blueprint/ie.css" type="text/css" media="screen, projection">
+  <![endif]-->
+
+  <link rel="stylesheet" type="text/css" href="/css/fonts.css">
+
+  <style>
+  textarea {
+    width: 500px;
+	height: 40px;
+	border: 2px solid #cccccc;
+	padding: 5px;
+	font-size: 18px;
+    font-variant-ligatures: normal;
+	}
+   .default {
+     font-family: "Courier New";
+   }
+  </style>
+
+  <script src="/js/utils.js"></script>
+  <script src="/js/osageConverter.js"></script>
+  <script src="/js/osage_utils.js"></script>
+
+  <script type="text/javascript" >
+
+  // Navigate to phrases.
+  function getPrevious() {
+    indexObj = document.getElementById('index');
+    index = parseInt(indexObj.innerText);
+    if (index > 1) {
+      dataRequest(index - 1, -1);
+    }
+  }
+
+  function getNext() {
+    indexObj = document.getElementById('index');
+    index = parseInt(indexObj.innerText);
+    if (index >= 0) {
+      dataRequest(index + 1, 1);
+    }
+  }
+
+  // Jump to specific index.
+  function goTo(inputArea) {
+    indexObj = document.getElementById(inputArea);
+    index = parseInt(indexObj.value);
+    if (index >= 0) {
+      dataRequest(index, 0);
+    }
+  }
+  
+  // Code to request {{language}} data at index with optional filter.
+  // Direction indicates previous (-1) or next (+1)
+  function dataRequest(index, direction) {
+    // Prepare for the call to the backendvar xmlhttp;
+	if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
+	  xmlhttp=new XMLHttpRequest();
+	} else { // code for IE6, IE5
+	  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	}
+
+    // Deal with the results	  
+    xmlhttp.onreadystatechange=function() {
+	  if(xmlhttp.readyState==4) {
+	      var returned_json = xmlhttp.responseText;
+		  var index = document.getElementById('index');
+		  var oldOsage = document.getElementById('OldOsage');
+		  var unicodeOsage = document.getElementById('UnicodeOsage');
+		  var english = document.getElementById('English');
+		  var newIndex = document.getElementById('newIndex');
+		  var status = document.getElementById('status');
+		  var errorMsg = document.getElementById('errorMsg');
+          var comment = document.getElementById('comment');
+          var dbName = document.getElementById('dbName');
+          var updatePhraseKey1 = document.getElementById('updatePhraseKeyStatus');
+          var updatePhraseKey2 = document.getElementById('updatePhraseKeyUpload');
+
+          var json_obj = JSON.parse(returned_json);
+          if (json_obj.error) {
+            // Warn, and don't change values.
+            alert(json_obj.error);
+            return;
+          }
+          index.value = index.innerHTML = json_obj.index;
+          newIndex.value = newIndex.innerHTML = json_obj.index;
+          oldOsage.value = oldOsage.innerHTML = json_obj.oldtext;
+          english.value = english.innerHTML = json_obj.english;
+          comment.value = comment.innerHTML = json_obj.comment;
+          unicodeOsage.value = unicodeOsage.innerHTML = json_obj.utext;
+          dbName.value = json_obj.dbName
+
+          updatePhraseKeyStatus.value = json_obj.phraseKey;
+          updatePhraseKeyUpload.value = json_obj.phraseKey;
+
+          var warnStatus = setWarningBox(json_obj.utext, json_obj.oldtext);
+          if (json_obj.oldtext && !warnStatus) {
+            // uText is either empty or same as converted.
+            convertToUnicode('OldOsage', 'UnicodeOsage', 'old_hex');
+          }
+          warning_box = document.getElementById('warning');     
+
+          var newStatus = json_obj.status;
+          if (newStatus == "" || newStatus == "unknown") {
+            newStatus = "Unknown";
+          }
+          
+          status.value = status.innerHTML = newStatus;
+          // Reset the status radio button
+          setStatusRadioButton("updateStatus", newStatus);
+
+          // Handle voice icons
+          var isMaleVoice = json_obj.soundMaleLink;
+          if (isMaleVoice) {
+            setDisplayState('maleVoice', 'block');
+          } else {
+             setDisplayState('maleVoice', 'none');
+         }
+          var isFemaleVoice = json_obj.soundFemaleLink;
+          // TODO: Set icons and links for sound output.
+          if (isFemaleVoice) {
+            setDisplayState('femaleVoice', 'block');
+          } else {
+            setDisplayState('femaleVoice', 'none');
+          }
+        }
+      }
+	
+	// Set up the call, with filtering.
+	var filterStatus = getStatusRadioButton("filterStatus");
+    if (direction == 0) {
+      // Should not filter if a direct "go to".
+      filterStatus = "All";
+    }
+  dbName = document.getElementById('dbName').value;
+  var databases = getDatabases();
+  var target = "/words/getWords/?index=" + index + "&filterStatus=" +
+	  filterStatus +
+	  "&direction=" + direction +
+	  "&dbName=" + dbName
+	for (var i = 0; i < databases.length; i++) {
+    target = target + "&databases=" + databases[i];
+	}
+	//xmlhttp.open("POST", target, true);
+	xmlhttp.open("GET", target, true);
+	var size = target.length;
+	xmlhttp.send(null);	  
+  }
+
+  function updatePhraseStatus(indexArea, statusSetter) {
+    // Get id and new status value.
+    // Prepare for the call to the backendvar xmlhttp;
+    var indexObj = document.getElementById(indexArea);
+    var index = parseInt(indexObj.innerText);
+    var unicodeData = document.getElementById("UnicodeOsage").value;
+    var oldOsageData = document.getElementById("OldOsage").value;
+	if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
+	  xmlhttp=new XMLHttpRequest();
+	} else { // code for IE6, IE5
+	  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	}
+
+    // Deal with the results	  
+    xmlhttp.onreadystatechange=function()
+	{
+	  if(xmlhttp.readyState==4) {
+	      var returned_json = xmlhttp.responseText;
+		  var json_obj = JSON.parse(returned_json);
+		  if (json_obj.status) {
+		    var statusObj = document.getElementById("status"); 
+		    statusObj.value = statusObj.innerHTML = json_obj.status;     
+          }
+        }
+	}
+	
+  	// Set up the call with new status.
+  	var newStatus = getStatusRadioButton(statusSetter); 
+    var comment = document.getElementById("comment").value;
+    var dbName = document.getElementById("dbName").value;
+    var phraseKey =
+        document.getElementById("updatePhraseKeyStatus").value;
+
+	var target = "/words/updateStatus/?index=" + index + "&newStatus=" + newStatus +
+	  "&unicodePhrase=" + unicodeData + "&comment=" + comment +
+	  "&oldOsageData=" + oldOsageData +
+	  "&dbName=" + dbName +
+	  "&phraseKey=" + phraseKey;
+	
+	xmlhttp.open("GET", target, true);
+	var size = target.length;
+	xmlhttp.send(null);
+ }
+
+  // Which radio button option is checked?
+  function getStatusRadioButton(statusSetter) {
+  	var statusButtons = document.getElementsByName(statusSetter);
+    for (var i = 0; i < statusButtons.length; i++) {       
+      if (statusButtons[i].checked) {
+        return statusButtons[i].value;
+      }
+    }
+    return "";
+  }
+
+  // Set which radio button is checked.
+  function setStatusRadioButton(statusSetter, status) {
+  	// Set up the call with new status.
+  	var statusButtons = document.getElementsByName(statusSetter);
+    for (var i = 0; i < statusButtons.length; i++) {       
+      statusButtons[i].checked = (statusButtons[i].value == status);
+    }
+  }
+
+  function addPhraseToDatastore(oldOsageText, UnicodeOsageText, englishText) {
+    
+	if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
+	  xmlhttp=new XMLHttpRequest();
+	} else { // code for IE6, IE5
+	  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+	}
+
+    // Deal with the results	  
+    xmlhttp.onreadystatechange=function()
+	{
+	  if (xmlhttp.readyState==4) {
+	    var returned_json = xmlhttp.responseText;
+		var json_obj = JSON.parse(returned_json);
+        if (json_obj.new_index) {
+          // Update index value.
+          var indexObj = document.getElementById("index");
+          indexObj.innerHTML = indexObj.value = json_obj.new_index;
+          var numEntries = document.getElementById("numEntries");
+          numEntries.innerHTML = numEntries.value = json_obj.new_index;
+        }
+        // Set up alert for results.
+        alert(json_obj.message);       
+      }
+	}
+	
+  	// Set up the call to store new phrase information.
+    var oldTextObj = document.getElementById(oldOsageText);
+    var uTextObj = document.getElementById(UnicodeOsageText);
+    var englishTextObj = document.getElementById(englishText);
+    var comment = document.getElementById('comment');
+    var oldText = oldTextObj.value;
+    var unicodeText = uTextObj.innerHTML;
+    var englishText = englishTextObj.value; 
+    var dbName = document.getElementById("dbName").value;
+    
+	var target = "/words/addPhrase/?oldtext=" + oldText + "&utext=" + unicodeText +
+	  "&engtext=" + englishText + "&comment=" + comment + "&dbName=" + dbName;
+	xmlhttp.open("GET", target, true);
+	var size = target.length;
+	xmlhttp.send(null);
+  }
+  
+  function switchDatabase() {
+    var dbList = getDatabases();
+    // TODO: change the database criteria
+  }
+
+  function getDatabases() {
+    var chk_array =  document.getElementsByName("databases");
+    var dbList = [];
+    for (var i = 0; i < chk_array.length; i++) {
+      if (chk_array[i].checked) {
+        dbList.push(chk_array[i].value);
+      }
+    }
+    return dbList;
+  }
+
+  function onFontSelected(selected) {
+    var output_text = document.getElementById('UnicodeOsage');
+    var fontFam = selected.value;
+    output_text.style.fontFamily = fontFam + ', Arial';
+  }
+  
+  function setWarningBox(oldUText, oldOsageText) {
+    var warning_box = document.getElementById('warning');
+    if (!oldUText) {
+      warning_box.style.display = 'none';
+      return false;
+    }
+
+    var oldTextArea = document.getElementById('oldOsageText');
+    if (oldOsageText == "") {
+      warning_box.style.display = 'none';
+      return false;
+    }
+    var convertedUText = oldOsageToUnicode(oldOsageText,
+         false, true, false);
+    if (convertedUText !== oldUText) {
+      warning_box.style.display = 'block';
+      return true;
+    }
+    else {
+      warning_box.style.display = 'none';
+      return false;
+    }
+  }
+
+  function onSoundLoaded(audio_id, target) {
+    var audio_out = document.getElementById(audio_id);
+    audio_out.src = target;
+    audio_out.controls = "true";
+    // document.getElementById('audio_out').play();
+  }
+
+  // Update to toggle region on/off.
+  function setDisplayState(id, newstate) {  // block or none
+    var obj = document.getElementById(id);
+    if(obj) {
+      obj.style.display = newstate;
+    }
+   }
+
+
+  // Initialize the page.
+  function init() {
+    // Set warning if store is not same as new conversion.
+    var oldOsageText = document.getElementById('OldOsage').value;
+    var uText = document.getElementById('UnicodeOsage').value;
+    var warnStatus = setWarningBox(uText, oldOsageText);
+  
+    if (oldOsageText && !warnStatus) {
+      // uText is either empty or same as converted.
+      convertToUnicode('OldOsage', 'UnicodeOsage', 'old_hex');
+    }
+    // Set initial status.
+    var status = document.getElementById("status").innerHTML;
+    setStatusRadioButton("updateStatus", status);
+
+  }
+
+  </script>
+  
+  </head>
+
+  <body onload="init()">
+  <div class="container">
+    <h2>Data from {{language}} word list: {{dbName}}</h2>
+    <div class="span-1">  
+    </div>
+    <div class="span-16">
+      <h3>Index <span id="index">{{index}}</span> of <span id="numEntries">{{numEntries}}</span></h3>
+      <textarea id="OldOsage" class="oldOsageText" >{{oldtext}}</textarea>
+      <br />
+      <input type="button" value="Convert to Unicode"
+           onclick="convertToUnicode('OldOsage',
+                    'UnicodeOsage', 'old_hex');">
+      <input type="checkbox" name="clearOsageDot" id="clearOsageDot" checked>Clear OldOsage dot?
+      <input type="checkbox" name="convertLatin" id="convertLatin" checked>Convert Latin?
+      <input type="checkbox" name="lowerCase" id="DoLower">To lower?
+      Select font: <select onchange="onFontSelected(this);" id="selectKeyboard">
+        {% for font in fontFamilies %}
+        <option value="{{font}}">{{font}}</option>
+        {% endfor %}
+      </select>
+      <br />
+	  <textarea id="UnicodeOsage" class="unicodeOsageText">{{utext}}</textarea>
+
+      <br />
+      <textarea id="English" class="default">{{english}}</textarea>
+      <br />
+
+      In database:
+      <input type="input" id="dbName" class="default" value="{{dbName}}"/>
+     
+      <input type="button" onclick="toOsageFonts('UnicodeOsage', 'English');"
+        value="Show Unicode in all fonts">
+      <br />
+      
+      <div id="warning" style="font-size:18px; background-color: orange; display:none;">
+      Warning: The conversion of this data has changed!
+      <br />
+      Please select "Convert to Unicode", check the result, and update status!
+      </div>
+      <br>
+      <h4>Status: <span id="status">{{status}}
+      {% if editOrAdmin %}. Change status of this phrase:{% endif %}</h4>
+      <form action="" id="set_status">
+        <input type="radio" name="updateStatus" value="Unknown"> Unknown 
+        <input type="radio" name="updateStatus" value="Verified"> Verified 
+        <input type="radio" name="updateStatus" value="Incorrect"> Incorrect
+        <input type="radio" name="updateStatus" value="Font"> Font
+        <input type="radio" name="updateStatus" value="Other"> Other
+        {% if editOrAdmin %}
+        <input type="button" value="Update status"
+           onclick="updatePhraseStatus('index', 'updateStatus');"/>
+        <input type="hidden" id="updatePhraseKeyStatus" name="phraseKey" value="{{phraseKey}}">
+        {% endif %}
+      </form>
+      <br />
+      <h4>Comment:</h4>
+      <textarea id="comment" class="default">{{comment}}</textarea>
+      <br />
+      <div id='errorMsg'>{{error}}</div>
+
+      {% if showSounds %}
+      {% if soundMaleLink %}
+      <span id="maleVoice">
+        Male:
+       <audio id="audio_out_male" controls="controls">
+         <source  src="{{soundMaleLink}}" type="audio/wav">
+          Your browser does not support the audio element.
+        </audio>
+      </span>
+      {% endif %}
+      {% if soundFemaleLink %}
+      <span  id="femaleVoice">
+       Female: <img src="/images/Speaker_Icon.svg" style="width:40px;height:35px;"></a>
+         <audio id="audio_out_female" controls="controls">
+           <source  src="{{soundFemaleLink}}" type="audio/wav">
+            Your browser does not support the audio element.
+          </audio>
+        </span>
+      {% endif %}
+
+      {% if editOrAdmin %}
+      <hr>
+      <h4>Upload sound file for this phrase:</h4>
+      <form action="/sound/start/" method="GET" enctype="multipart/form-data">
+        <input type="submit" name="submit" value="Upload sound file">
+        <input type="hidden" id="updatePhraseKeyUpload" name="phraseKey" value="{{phraseKey}}">
+      </form>
+
+       {% endif %}
+
+        {% endif %}
+    </div>
+
+    <div class="span-4 last">
+    {% if user_nickname %}
+    <h4>Welcome {{user_nickname}}
+    {% if user_logout %}
+    <a href={{user_logout}}>Logout</a>
+    {% endif %}
+    {% else %}
+    <a href='{{user_login_url}}'>Log in</a>
+    {% endif %}
+    <h4>Osage links</h4>
+    <ul>
+        <li>
+          <a href="/">Osage Main</a>
+        </li>
+        <li>
+          <a href="/keyboard/">Osage keyboard</a>
+        </li>
+       <li>
+         <a href="/words/getPhrases/">View database</a>       
+          <br />
+          <br />
+       </li>
+      </ul>
+      {% if isAdmin %}
+      <hr>
+      <h4>Admin Functions</h4>
+      <ul>
+        <li><a href="/db/manageDB/">Manage database</a></li>
+        <li><a href="/users/">Manage users</a></li>
+      </ul>
+      {% endif %}
+      <hr>
+      
+      <h4>Explore phrases:</h4>
+      <form action="javascript:goTo('newIndex');">
+      <input type="button" value="Previous"
+           onclick="getPrevious();"/>
+      <input type="button" value="Next"
+           onclick="getNext();"/>
+       <br />
+       <input type="submit" value="Go to: "/>
+      <input id='newIndex' type=text value='{{index}}' size='3'/>
+      </form>
+
+      <form action="" id="set_status">
+        <input type="radio" name="filterStatus" value="All" checked> All phrases (no filter)
+        <br />
+        <input type="radio" name="filterStatus" value="Unknown"> Unknown 
+        <input type="radio" name="filterStatus" value="Verified"> Verified 
+        <input type="radio" name="filterStatus" value="Incorrect"> Incorrect
+        <input type="radio" name="filterStatus" value="Font"> Font
+        <br />
+        <input type="radio" name="filterStatus" value="Other"> Other
+        <input type="hidden" name="phraseKey" value="{{phraseKey}}">
+        <br />
+      </form>
+
+      <form action="javascript:switchDatabase();" id="set_status">
+        <hr>Databases:<br />
+        {% for dbName in dbNames %}
+          <input type="checkbox" name="databases" value="{{dbName}}">{{dbName}}<br />
+        {% endfor %}
+        <input type="checkbox" name="databases" value="*All*">All<br />
+        <input type="submit" value="Change DB"/>
+      </select>
+      <br />
+     </form>  
+     <br />    
+     <hr />
+     <!-- Add a new value to the data store -->
+     {% if editOrAdmin %}
+     <input type="button" onclick="addPhraseToDatastore('OldOsage', 'UnicodeOsage', 'English');"
+       value="Add new phrase to database">
+     {% endif %}
+      
+     </div> <!-- end span last -->
+  </div> <!-- end container --> 
+</body>
+</html>
