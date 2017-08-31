@@ -92,11 +92,7 @@ function sentenceCaseWord(word) {
   var doCap = true;
   var i = 0;
 
-  // Split into sentences with punctuation, keeping the punctuation.
-  var sentences = word.split(/\!\?𞥟𞥞؟/);
-  var sentences1 = word.split(/𞥞/);
-
-  // Skip initial white space.
+   // Skip initial white space.
   var newChar = fixedCharAt(word, i);
   while (newChar && newChar == " ") {
     i += 1;
