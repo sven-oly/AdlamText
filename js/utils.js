@@ -5,7 +5,7 @@ function convertToText(inId, outId) {
   var textinput = document.getElementById(inId);
   var textoutput = document.getElementById(outId);
   var inChars = textinput.value;
-  var outCharacters = uhexToChars(inChars)
+  var outCharacters = uhexToChars(inChars);
   textoutput.innerHTML = outCharacters;
 }
 

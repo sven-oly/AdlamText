@@ -20,7 +20,7 @@
     <script type="text/css">
       .vk-button {font-family:Noto Sans Adlam, Adlam, Arial;}
       .input {font-size:18px;}
-      .textarea {font-size:24px;}
+      .textarea {font-size:16px; font-family:"Courier New";}
       .t1 {font-family:Noto Sans Adlam, Arial;}
     </script>
 
@@ -67,7 +67,7 @@
 
     function showCodePoints() {
       var src_field = document.getElementById('t1');
-      var code_text = uplus(src_field.value);
+      var code_text = uplus(src_field.value, "");
       var dest_field = document.getElementById('codepoints');
       dest_field.value = code_text;
       document.getElementById('t1').focus();
