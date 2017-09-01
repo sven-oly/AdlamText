@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="utf-8"/>
+
+  <title>Sound file upload</title>
+
+  <link rel="stylesheet" href="/css/blueprint/screen.css" type="text/css" media="screen">
+  <link rel="stylesheet" href="/css/blueprint/print.css" type="text/css" media="print">
+  <!--[if lt IE 8]>
+    <link rel="stylesheet" href="/css/blueprint/ie.css" type="text/css" media="screen, projection">
+  <![endif]-->
+
+  <link rel="stylesheet" type="text/css" href="/css/fonts.css">
+
+  <style>
+  textarea {
+    width: 500px;
+	height: 40px;
+	border: 2px solid #cccccc;
+	padding: 5px;
+	font-size: 18px;
+    font-variant-ligatures: normal;
+	}
+   .default {
+     font-family: "Courier New";
+   }
+  </style>
+
+  <script type="text/javascript" >
+  // Gets path of upload file.
+  function playSelectedSound() {
+    var path = document.getElementById("uploadFile").value;
+    var audio_out = document.getElementById("audio_out");
+    //audio_out.src = path;
+    audio_out.play();
+    return path;
+  }
+
+  function loadFileObject(fileObj, loadedCallback)
+  {
+    var reader = new FileReader();
+    reader.onload = loadedCallback;
+    reader.readAsDataURL( fileObj );
+  }
+
+  function onSoundLoaded(evt)
+  {
+    var audio_out = document.getElementById("audio_out");
+    audio_out.src = evt.target.result;
+    audio_out.controls = "true";
+    // document.getElementById('audio_out').play();
+  }
+
+  function onChosenFileChange(evt) {
+    var fileType = this.files[0].type;
+
+    if (fileType.indexOf('audio') != -1)
+        loadFileObject(this.files[0], onSoundLoaded);
+
+  }
+
+ // Initialize the page.
+  function init() {
+    // For loading sound files.
+    document.getElementById('uploadFile').addEventListener('change', onChosenFileChange, false);
+  }
+    </script>
+</head>
+
+<body onload="init()">
+<h2>Ready to upload {{language}} sound file {{filename}}</h2>
+
+<h3>
+    Phrase # {{phrase_record.index}}</h3>
+    <p>Osage: <textarea readonly>{{phrase_record.osagePhraseUnicode}}</textarea>
+    </p>
+<p>English: <textarea readonly>{{phrase_record.englishPhrase}}</textarea><p>
+    </p>
+
+<p>app_id = {{app_id}}
+
+<h4>Upload sound file for this phrase:</h4>
+<form action="{{upload_url}}" method="POST" enctype="multipart/form-data">
+    <input type="file" id="uploadFile" name="file">
+    <p>
+      <audio id="audio_out">
+      <source  src="" type="audio/wav">
+        Your browser does not support the audio element.
+      </audio>
+
+    <input type="hidden" id="updatePhraseKey" name="phraseKey" value="{{phraseKey}}"><br />
+    <input type="radio" name="selectVoice" value="male_voice" required> Male voice
+    <input type="radio" name="selectVoice" value="female_voice" required> Female voice
+    <input type="submit" name="submit" value="Upload sound file">
+</form>
+
+<br />
+
+</body>
+</html>

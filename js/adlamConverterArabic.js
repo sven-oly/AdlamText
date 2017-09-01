@@ -74,7 +74,6 @@ var adlam_convert_unicode_map = {
   // Other characters from books
   '\u00c0': '\u0027',  // Simple apostrophe
   '\u00c3': '\u2022',
-  '\u00eb': String.fromCodePoint(0x1e905),
   '\u00ed': '\u0027',
   '\u00f8': String.fromCodePoint(0x01E905),
   '\u00f9': '\u2022',
@@ -93,7 +92,7 @@ var adlam_convert_unicode_map = {
   '\u000a' : '\u000a\u202e',
   };
 
-function convertOtherToUnicode(textIn, toLower) {
+function convertOtherToUnicode(textIn, toLower, sentenceCaseFlag) {
   var textOut = "\u202e";
   for (index = 0; index < textIn.length; index ++) {
     var c = textIn[index];
@@ -104,10 +103,14 @@ function convertOtherToUnicode(textIn, toLower) {
     if (result === undefined) {
       result = c;
     }
+
     if (toLower && result >= minAdlamU && result <= maxAdlamU) {
       result = String.fromCodePoint(result.codePointAt(0) + adlamCaseOffset);
     }
-    textOut += result; 
+    textOut += result;
+  }
+  if (sentenceCaseFlag) {
+    textOut = sentenceCaseWord(textOut);
   }
   return textOut;
 }

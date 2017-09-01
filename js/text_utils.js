@@ -79,9 +79,10 @@ function utf16common(text, prefix, suffix, asciitoo, highlight_list)
   return res;
 }
 
-  function uplus(text)
-  {
-    return utf16common(text, "u+", " ", true, diff_list)
+  function uplus(text, prefix) {
+    // prefix could be "u+", if desired.
+    // diff_list is a global. Set to [] by default.
+    return utf16common(text, prefix, " ", true, diff_list)
   }
 
 
@@ -90,7 +91,8 @@ function utf16common(text, prefix, suffix, asciitoo, highlight_list)
     var textinput = document.getElementById('textInput');
     var textoutput = document.getElementById('textOutput');
     var inChars = textinput.value;
-    var outCharacters = uhexToChars(inChars)
+    //var outCharacters = uhexToChars(inChars)
+    var outCharacters = uplus(inChars, "")
     textoutput.innerHTML = outCharacters;
     textoutput.value = outCharacters;
     return outCharacters;

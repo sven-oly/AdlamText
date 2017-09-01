@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Osage File Upload
+   </title>
+
+  <link rel="stylesheet" type="text/css" href="/css/fonts.css">
+
+
+  <link rel="stylesheet" href="/css/blueprint/screen.css" type="text/css" media="screen, projection">
+  <link rel="stylesheet" href="/css/blueprint/print.css" type="text/css" media="print"> 
+  <!--[if lt IE 8]>
+    <link rel="stylesheet" href="/css/blueprint/ie.css" type="text/css" media="screen, projection">
+  <![endif]-->
+
+
+   <script type="text/javascript" src="/js/osage_utils.js"></script>
+
+
+   <script type="text/javascript" src="/js/osageConverter.js"></script>
+
+
+   <script type="text/javascript" src="/js/utils.js"></script>
+
+  
+   <script>
+   function fillAllWithUnicodeOsage() {
+     area_List = [{% for fontFam in fontFamilies %}"{{fontFam|lower}}_area",{% endfor %} "None"];
+     for (var i = 0; i < area_List.length - 1; i ++) {
+       var name = area_List[i];
+       fillWithUnicodeOsage(name, null);
+     }
+   }
+
+   function copyToAll(input_id) {
+     var input_id = document.getElementById(input_id);
+     var input_text = input_id.value;
+     area_List = [{% for fontFam in fontFamilies %}"{{fontFam|lower}}_area",{% endfor %} "None"];
+     for (var i = 0; i < area_List.length - 1; i ++) {
+       var name = area_List[i];
+       var output_id = document.getElementById(name);
+       output_id.innerHTML = input_text;
+       output_id.value = input_text;
+     }
+   }
+
+   function onload() {
+     copyToAll("input_area");
+   }
+   </script>
+   
+   </head>
+  
+  <body onload="onload()">
+
+  <div class="container">
+  <div class="span-1">  
+  </div>
+  <div class="span-18 last">
+  <h2>Testing file conversion.
+  </h2>
+  <br />
+  infile = {{infile}}
+  <br />
+  outfile = {{outfile}}
+    </div>
+    <a href="/">Osage converter</a>    
+  </div>
+  </body>
+</html>

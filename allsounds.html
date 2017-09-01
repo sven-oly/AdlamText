@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="utf-8"/>
+
+  <title>Sound file upload</title>
+
+  <link rel="stylesheet" href="/css/blueprint/screen.css" type="text/css" media="screen">
+  <link rel="stylesheet" href="/css/blueprint/print.css" type="text/css" media="print">
+  <!--[if lt IE 8]>
+    <link rel="stylesheet" href="/css/blueprint/ie.css" type="text/css" media="screen, projection">
+  <![endif]-->
+
+  <link rel="stylesheet" type="text/css" href="/css/fonts.css">
+
+  <style>
+  textarea {
+    width: 500px;
+	height: 40px;
+	border: 2px solid #cccccc;
+	padding: 5px;
+	font-size: 18px;
+    font-variant-ligatures: normal;
+	}
+   .default {
+     font-family: "Courier New";
+   }
+  </style>
+
+  <script type="text/javascript" >
+
+  function init() {
+    // Fill in as needed.
+  }
+    </script>
+</head>
+
+<body onload="init()">
+<h2>All loaded sound files</h2>
+
+<h3>{{count}} sound files uploaded</h3>
+
+{% for sound in sounds %}
+When: {{sound.lastUpdate}}
+Who: {{sound.uploadingUser}}<br />
+File name: {{sound.filename}}<br />
+Voice: {{sound.selectVoice}}<br />
+<a href="/words/?phraseKey={{phraseKey}}">Show phrase</a>
+Uploading user: {{sound.uploadingUser}}<br />
+Sound key: {{sound.soundKey}}<br />
+URL: <a href="{{sound.public_url}}">Link to public URL</a>
+ <hr>
+{% endfor%}
+
+</body>
+</html>
