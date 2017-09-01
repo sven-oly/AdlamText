@@ -65,12 +65,22 @@
       document.getElementById('t1').focus();
     }
 
-    function showCodePoints() {
-      var src_field = document.getElementById('t1');
-      var code_text = uplus(src_field.value, "");
-      var dest_field = document.getElementById('codepoints');
+    function showCodePoints(src_id, dest_id) {
+      var src_field = document.getElementById(src_id);
+      var start = src_field.selectionStart;
+      var finish = src_field.selectionEnd;
+      // obtain the selected text, if any
+      var sel = src_field.value.substring(start, finish);
+      var code_text;
+      if (sel) {
+        code_text = uplus(sel, "u+");
+      } else {
+        code_text = uplus(src_field.value, "");
+      }
+
+      var dest_field = document.getElementById(dest_id);
       dest_field.value = code_text;
-      document.getElementById('t1').focus();
+      document.getElementById(src_id).focus();
     }
 
    function onFontSelected(selected, area) {
@@ -103,7 +113,7 @@
 
   <textarea id="t1" dir="rtl" class="aissataUnicode" style="width:600px;height:300px;" rows="10"></textarea>
   <br />
-  <input type="button" value="Code points" onclick="showCodePoints()">
+  <input type="button" value="Code points" onclick="showCodePoints('t1', 'codepoints');">
     </div>
     <div class="span-1">
     </div>

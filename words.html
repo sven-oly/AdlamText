@@ -38,13 +38,30 @@ g11<head>
 
   // When an area is changed, set the hex characters, too.
   function updateHex(inArea, outArea) {
-    var inText = document.getElementById(inArea).value;
+    // Hex on the selected text, if any.
+    // obtain the object reference for the <textarea>
+    var txtarea = document.getElementById(inArea);
+    var start = txtarea.selectionStart;
+    var finish = txtarea.selectionEnd;
+    // obtain the selected text
+    var sel = txtarea.value.substring(start, finish);
+
+    var inText;
+    if (sel) {
+      inText = sel;
+    } else {
+      inText = txtarea.value;
+    }
+
     var hex_output = document.getElementById(outArea);
 
     var hexString = uplus(inText, "");
     if (hex_output != null) {
       hex_output.value = hexString;
       hex_output.innerHTML = hexString;
+    }
+    if (sel) {
+      txtarea.setSelectionRange(start, finish);
     }
   }
 
@@ -150,9 +167,7 @@ g11<head>
   function getSel(areaId, change) {
     // obtain the object reference for the <textarea>
     var txtarea = document.getElementById(areaId);
-    // obtain the index of the first selected character
     var start = txtarea.selectionStart;
-    // obtain the index of the last selected character
     var finish = txtarea.selectionEnd;
     // obtain the selected text
     var sel = txtarea.value.substring(start, finish);
