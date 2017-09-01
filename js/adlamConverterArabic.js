@@ -21,6 +21,7 @@ var adlam_convert_unicode_map = {
   '\u0638': String.fromCodePoint(0x1e90b),
   '\u0639': String.fromCodePoint(0x1e90c),
   '\u063a': String.fromCodePoint(0x1e90d),
+  '\u0640': "?",  // FIX THIS - looks like underscores String.fromCodePoint(0x1e90e),
   '\u0641': String.fromCodePoint(0x1e90e),
   '\u0642': String.fromCodePoint(0x1e90f),
   '\u0643': String.fromCodePoint(0x1e910),
@@ -48,7 +49,7 @@ var adlam_convert_unicode_map = {
   '\u0651': String.fromCodePoint(0x1e947),
   '\u0655': String.fromCodePoint(0x1e900),  // TBD
   '\u0658': String.fromCodePoint(0x1e900),  // TBD
-  '\u0659': String.fromCodePoint(0x1e900),  // TBD
+  '\u0659': String.fromCodePoint(0x1e944),  // TBD
   '\u065d': String.fromCodePoint(0x1e944),
   '\u065e': String.fromCodePoint(0x1e944),
   '\u06b3': String.fromCodePoint(0x1e945),
