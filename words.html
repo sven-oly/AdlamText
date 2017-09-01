@@ -61,7 +61,9 @@ g11<head>
       hex_output.innerHTML = hexString;
     }
     if (sel) {
-      txtarea.setSelectionRange(start, finish);
+      // Try to show the selection again.
+      txtarea.selectionStart = start;
+      txtarea.selectionEnd = finish;
     }
   }
 
