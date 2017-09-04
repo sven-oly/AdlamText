@@ -28,6 +28,10 @@ from google.appengine.ext.webapp import template
 fontList = ['Noto Sans Adlam',  'Adlam CWC', 'Aissata Unicode', 'Noto Sans Adlam Unjoined']
 oldFontsList = ['Aissata Arabic', 'Fuuta Arabic', 'Pulaar Arabic']
 
+Language = "Fulfulde"
+Script = "Adlam"
+
+
 class MainHandler(webapp2.RequestHandler):
     def get(self):
       adlamText= ''

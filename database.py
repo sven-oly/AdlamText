@@ -26,7 +26,7 @@ class ResetDBEntries(webapp2.RequestHandler):
     # TODO: Get from request
     oldDbName = ''
     newDbName = 'Approved Words'   
-    q = words.OsagePhraseDB.all()
+    q = words.PhraseDB.all()
     numEntries = 0
     numReset = 0
     # TODO: repeat until all are reset.
@@ -52,7 +52,7 @@ class ManageDbName(webapp2.RequestHandler):
     confirmDelete = self.request.get('confirmDelete', None)
     confirmAdd = self.request.get('confirmAdd', None)
     
-    q = words.OsageDbName.all()
+    q = words.DbName.all()
     if submitType == "deleteDB" and dbName:
       if not confirmDelete:
         self.response.out.write('Deleting db Name = %s is not confirmed.\n' % dbName)
@@ -61,7 +61,7 @@ class ManageDbName(webapp2.RequestHandler):
       for p in q.run():
         pName = p.dbName
         if dbName == "*ALL*" or dbName == pName:
-          words.OsageDbName.delete(p)
+          words.DbName.delete(p)
           self.response.out.write('Deleted db Name = %s.\n' % dbName)
       return
       
@@ -83,7 +83,7 @@ class ManageDbName(webapp2.RequestHandler):
     if result:
       self.response.out.write('db Name = %s is already defined.\n' % dbName)
     else:
-      entry = words.OsageDbName(dbName=dbName);
+      entry = words.DbName(dbName=dbName);
       entry.put()
       self.response.out.write('db Name = %s has been added.\n' % dbName)
 
