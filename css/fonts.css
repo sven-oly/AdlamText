@@ -66,8 +66,20 @@
       font-style:normal;
     }
 
+    @font-face {
+      font-family:'extendedNoto Sans Adlam';
+      src:url('/fonts/extendedNotoSansAdlam-Regular.ttf');
+      font-weight:normal;
+      font-style:normal;
+    }
+
     .NotoSansAdlam {
       font-family:'Noto Sans Adlam';
+      font-size: 32px;
+    }
+
+    .extendedNotoSansAdlam {
+      font-family:'extended Noto Sans Adlam';
       font-size: 32px;
     }
 
