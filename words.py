@@ -2,7 +2,7 @@
 #!/usr/bin/env python
 
 import main
-# from userDB import getUserInfo
+from userDB import getUserInfo
 
 import csv
 import json
@@ -31,6 +31,7 @@ class PhraseDB(db.Model):
   lastUpdate = db.DateTimeProperty(auto_now=True, auto_now_add=True)
   englishPhrase = db.StringProperty(multiline=True)
   phraseLatin = db.StringProperty(u'')
+  phraseArabic = db.StringProperty(u'')
   phraseUnicode = db.StringProperty(u'')
   status = db.StringProperty('')
   comment = db.StringProperty('')
@@ -57,6 +58,18 @@ class UserSound(db.Model):
   blob_key = db.StringProperty('')
 
 
+# Show data from word list converted for human verification
+class WordConvert(webapp2.RequestHandler):
+    def get(self):
+      user_info = getUserInfo(self.request.url)
+      template_values = {'fontFamilies': main.fontList,
+        'oldFontFamilies': main.oldFontsList,
+        'keylayouts': ['ful'],
+        'editOrAdmin': user_info[4],
+      }
+      path = os.path.join(os.path.dirname(__file__), 'words.html')
+      self.response.out.write(template.render(path, template_values))
+
 # Retrieves data at a given index and dbName via AJAX.
 class GetWordsHandler(webapp2.RequestHandler):
   def post(self):
@@ -66,6 +79,8 @@ class GetWordsHandler(webapp2.RequestHandler):
     self.response.out.write('GetWordsHandler received.\n')
 
   def get(self):
+
+    logging.info('GetWordsHandler called')
     user_info = getUserInfo(self.request.url)
     index = int(self.request.get('index', '1'))
     filterStatus = self.request.get('filterStatus', 'All')
@@ -143,8 +158,11 @@ class GetWordsHandler(webapp2.RequestHandler):
       comment = ''
 
     # logging.info('PHRASE KEY = %s ' % phraseKey)
-    logging.info('soundMaleLink: %s' % result.soundMaleLink)
-    logging.info('soundFemaleLink: %s' % result.soundFemaleLink)
+    try:
+      logging.info('soundMaleLink: %s' % result.soundMaleLink)
+      logging.info('soundFemaleLink: %s' % result.soundFemaleLink)
+    except:
+      logging.info('Sound link missing')
 
     obj = {
         'language': main.Language,
@@ -161,14 +179,14 @@ class GetWordsHandler(webapp2.RequestHandler):
         'user_nickname': user_info[1],
         'user_logout': user_info[2],
         'user_login_url': user_info[3],
-        'soundMaleLink': result.soundMaleLink,
-        'soundFemaleLink': result.soundFemaleLink,
+        # 'soundMaleLink': result.soundMaleLink,
+        #'soundFemaleLink': result.soundFemaleLink,
     }
     # logging.info('^^^^^^^ obj = %s' % obj)
     self.response.out.write(json.dumps(obj))
 
 # Show data from word list converted for human verification
-class WordHandler(webapp2.RequestHandler):
+class WordReviewHandler(webapp2.RequestHandler):
     def get(self):
       user_info = getUserInfo(self.request.url)
       fontList = []
@@ -246,9 +264,10 @@ class WordHandler(webapp2.RequestHandler):
         'soundFemaleLink': soundFemaleLink,
         'soundMaleLink': soundMaleLink,
         'showSounds': True,
+        'editOrAdmin': user_info[4],
       }
       # logging.info('WORDS = %s' % template_values)
-      path = os.path.join(os.path.dirname(__file__), 'words.html')
+      path = os.path.join(os.path.dirname(__file__), 'word_review.html')
       self.response.out.write(template.render(path, template_values))
 
 
@@ -269,6 +288,7 @@ class SolicitUpload(webapp2.RequestHandler):
       'language': main.Language,
       'upload_url':upload_url,
       'dbNames': dbNameList,
+      'editOrAdmin': user_info[4],
     }
     path = os.path.join(os.path.dirname(__file__), 'wordsUpload.html')
     self.response.out.write(template.render(path, template_values))
@@ -378,7 +398,7 @@ class UpdateStatus(webapp2.RequestHandler):
     dbName = self.request.get('dbName', '')
     newStatus = self.request.get('newStatus', 'Unknown')
     unicodePhrase = self.request.get('unicodePhrase', '')
-    old phrase = self.request.get('oldData', '')
+    old_phrase = self.request.get('oldData', '')
     comment = self.request.get('comment', '')
     dbName = self.request.get('dbName', '')
     phraseKey = self.request.get('phraseKey', '')
@@ -390,7 +410,7 @@ class UpdateStatus(webapp2.RequestHandler):
     else:
       keyForPhrase = None
 
-    logging.info('_+_+_+_+_+_+_+ Update index = %d, old data = %s' % (index, old phrase))
+    logging.info('_+_+_+_+_+_+_+ Update index = %d, old data = %s' % (index, old_phrase))
 
     if keyForPhrase:
       result = db.get(keyForPhrase)
@@ -406,8 +426,8 @@ class UpdateStatus(webapp2.RequestHandler):
     if dbName:
       result.dbName = dbName
 
-    if old phrase:
-      result.phraseLatin = old phrase
+    if old_phrase:
+      result.phraseLatin = old_phrase
 
     if unicodePhrase:
       result.phraseUnicode = unicodePhrase
@@ -418,7 +438,7 @@ class UpdateStatus(webapp2.RequestHandler):
       'language': main.Language,
       'index': index,
       'status' : result.status,
-      ' phraseLatin' :  old phrase,
+      ' phraseLatin' :  old_phrase,
     }
     self.response.out.write(json.dumps(obj))
 
@@ -592,8 +612,9 @@ def processRow(index, row):
 class ProcessCSVUpload(webapp2.RequestHandler):
 # http://stackoverflow.com/questions/2970599/upload-and-parse-csv-file-with-google-app-engine
   def post(self):
+    user = users.get_current_user()
+    user_info = getUserInfo(self.request.url)
 
-    #self.response.headers['Content-Type'] = 'text/plain'
     csv_file = self.request.POST.get('file')
     logging.info('ProcessCSVUpload csv_file = %s' % csv_file)
     dbName = self.request.POST.get('dbName', '')
@@ -713,6 +734,17 @@ class ProcessCSVUpload(webapp2.RequestHandler):
       'numberLoaded': numProcessed,
       'entries': entries,
       'emptyLines': emptyLines,
+      'editOrAdmin': user_info[4],
     }
     path = os.path.join(os.path.dirname(__file__), 'DBUploadResults.html')
     self.response.out.write(template.render(path, template_values))
+
+app = webapp2.WSGIApplication([
+    ('/words/convert/', WordConvert),
+    ('/words/review/', WordReviewHandler),
+    ('/words/getwords/', GetWordsHandler),
+    # ('/convertTest/', ConvertTestHandler),
+    ('/words/phraselist/', GetPhrases),
+
+], debug=True)
+

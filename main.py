@@ -14,6 +14,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+from userDB import getUserInfo
+
 import json
 import logging
 import os
@@ -22,6 +24,8 @@ import webapp2
 import sys
 
 #from fpdf import FPDF
+
+from google.appengine.api import users
 
 from google.appengine.ext.webapp import template
 
@@ -34,6 +38,9 @@ Script = "Adlam"
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
+      user_info = getUserInfo(self.request.url)
+      user = users.get_current_user()
+
       adlamText= ''
       ranges = range(0x1e900, 0x1e94b)
       ranges.extend(range(0x1e950, 0x1e95a))
@@ -45,8 +52,10 @@ class MainHandler(webapp2.RequestHandler):
         else:
           adlamText += unichr(index) + ' ' 
         
-      template_values = {'fontFamilies': fontList,
+      template_values = {
+        'fontFamilies': fontList,
         'adlamText': adlamText,
+        'editOrAdmin': user_info[4],
       }
       path = os.path.join(os.path.dirname(__file__), 'index.html')
       self.response.out.write(template.render(path, template_values))
@@ -54,7 +63,12 @@ class MainHandler(webapp2.RequestHandler):
 
 class KeyboardHandler(webapp2.RequestHandler):
     def get(self):
-      template_values = {'fontFamilies': fontList,
+      user = users.get_current_user()
+      user_info = getUserInfo(self.request.url)
+
+      template_values = {
+        'fontFamilies': fontList,
+        'editOrAdmin': user_info[4],
       }
       path = os.path.join(os.path.dirname(__file__), 'keyboard.html')
       self.response.out.write(template.render(path, template_values))
@@ -62,6 +76,8 @@ class KeyboardHandler(webapp2.RequestHandler):
 # Show data from word list converted for human verification
 class WordHandler(webapp2.RequestHandler):
     def get(self):
+      user = users.get_current_user()
+      user_info = getUserInfo(self.request.url)
       template_values = {'fontFamilies': fontList,
         'oldFontFamilies': oldFontsList,
         'keylayouts': ['ful'],
@@ -72,16 +88,23 @@ class WordHandler(webapp2.RequestHandler):
 
 # Run tests to verify converted data
 class ConvertTestHandler(webapp2.RequestHandler):
-    def get(self):
-      template_values = {'fontFamilies': fontList,
-        'oldFontFamilies': oldFontsList,
-      }
-      path = os.path.join(os.path.dirname(__file__), 'convertTest.html')
-      self.response.out.write(template.render(path, template_values))
+
+  def get(self):
+    user = users.get_current_user()
+    user_info = getUserInfo(self.request.url)
+    template_values = {'fontFamilies': fontList,
+      'editOrAdmin': user_info[4],
+      'oldFontFamilies': oldFontsList,
+    }
+    path = os.path.join(os.path.dirname(__file__), 'convertTest.html')
+    self.response.out.write(template.render(path, template_values))
 
 # Test creating PDF file
 class tryPDFHandler(webapp2.RequestHandler):
   def get(self):
+    user = users.get_current_user()
+    user_info = getUserInfo(self.request.url)
+
     logging.info('PDFFFFFFFF: tryPDFHandler')
     #pdf = FPDF()
     #outfilename = 'testAdlam.pdf'
@@ -104,7 +127,7 @@ app = webapp2.WSGIApplication([
     ('/', MainHandler),
 #    ('/', KeyboardHandler),
     ('/keyboard/', KeyboardHandler),
-    ('/words/', WordHandler),
+    #('/words/', WordHandler),
     ('/convertTest/', ConvertTestHandler),
 
     ('/tryPDF/', tryPDFHandler),

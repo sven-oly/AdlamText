@@ -19,6 +19,12 @@ handlers:
 - url: /layouts
   static_dir: layouts
 
+- url: /words/.*
+  script: words.app
+
+- url: /db/.*
+  script: database.app
+
 - url: .*
   script: main.app
 

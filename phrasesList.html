@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
 
-  <title>Osage Phrase Database</title>
+  <title>{{language}} Phrase Database</title>
 
   <link rel="stylesheet" href="/css/blueprint/screen.css" type="text/css" media="screen">
   <link rel="stylesheet" href="/css/blueprint/print.css" type="text/css" media="print"> 
@@ -126,10 +126,6 @@
     modalIndex.innerHTML = index;
   }
 
-
-
-
-
   function init(hilight) {
     if (hilight) {
       hilightUnconverted();
@@ -140,7 +136,7 @@
 
   <body onload="init(false)">
   <div class="container">
-    <h2>Data from database</h2>
+    <h2>{{language}} data from database</h2>
     <div class="span-6 default">
     {{entries|length}} entries returned 
     {% if filter %}
@@ -150,7 +146,7 @@
     </div>
 
     <div class="span-14 default ">
-    <form action="/words/getPhrases/" id="set_status">
+    <form action="/words/phraselist/" id="set_status">
 
       <input type="radio" name="filterStatus" value="" checked> All phrases
       <input type="radio" name="filterStatus" value="Unknown"> Unknown 
@@ -202,23 +198,23 @@
         <th>Index</th>
         <th>Voice</th>
         <th>Unicode</th>
+        <th>Arabic</th>
         <th>English</th>
-        <th>Old Osage</th>
         <th>Comment</th>
         <th>Status</th>
         <th>DB</th>
 	  </tr>
       {% for entry in entries %}
       <tr class="default">
-        <td><a href="/words/?index={{entry.index}}&dbName={{entry.dbName}}" target=_blank>{{entry.index}}</a></td>
+        <td><a href="/words/review/?index={{entry.index}}&dbName={{entry.dbName}}" target=_blank>{{entry.index}}</a></td>
         <td>{%if entry.soundMaleLink or entry.soundFemaleLink%}
           <button onclick="openSoundModal('{{entry.soundMaleLink}}', '{{entry.soundFemaleLink}}', {{entry.index}}, '{{entry.osagePhraseUnicode}}');">Play</button>
           {% endif %}
           {%if entry.soundMaleLink%}M{%endif%}
           {% if entry.soundFemaleLink%}F{%endif%}</td>
-        <td class="unicodeOsageText size18">{{entry.osagePhraseUnicode}}</td>
+        <td class="NotoSansAdlam size18">{{entry.phraseUnicode}}</td>
+        <td class="aissataArabic size18">{{entry.phraseArabic}}</td>
         <td>{{entry.englishPhrase}}</td>
-        <td class="oldOsageText size18">{{entry.osagePhraseLatin}}</td>
         <td>{{entry.comment}}</td>
         <td>{{entry.status}}</td>
         <td>{{entry.dbName}}</td>

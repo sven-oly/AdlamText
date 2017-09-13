@@ -108,15 +108,28 @@
           <a href="/keyboard/">Adlam keyboard</a>
         </li>
         <li>
-          <a href="/words/">Test Arab -> Adlam conversion</a>
+          <a href="/words/convert/">Font conversion</a>
         </li>
-  <!--
+        <li>
+          <a href="/words/phraselist/">Phrases database</a>
+        </li>
+        <li>
+          <a href="/words/review/">Phrase review</a>
+        </li>
         <li>
           <a href="/words/getPhrases/">View database</a>
                     <br />
           <br />
         </li>
-   -->
+      </ul>
+
+      {% if isAdmin %}
+      <ul>
+        <li><a href='/db/manage/'>Manage data</a></li>
+      </ul>
+      {% endif %}
+
+      <ul>
         <li>
           <a href="http://www.unicode.org/charts/PDF/U1E900.pdf">Adlam Unicode page</a>
         </li>

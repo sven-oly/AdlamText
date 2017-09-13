@@ -118,21 +118,31 @@
     <div class="span-1">
     </div>
     <div class="span-4 last">
+    {% if user_nickname %}
+    <h4>Welcome {{user_nickname}}
+    {% if user_logout %}
+    <a href={{user_logout}}>Logout</a>
+    {% endif %}
+    {% else %}
+    <a href='{{user_login_url}}'>Log in</a>
+    {% endif %}
     <h3>Useful links</h3>
       <ul>
         <li>
           <a href="/">Adlam main</a>
         </li>
         <li>
-          <a href="/words/">Test Arab -> Adlam conversion</a>
-       </li>
-  <!--
-       <li>
-         <a href="/words/getPhrases/">View database</a>
-                    <br />
-          <br />
-       </li>
-   -->
+          <a href="/words/convert/">Font conversion</a>
+        </li>
+        <li>
+          <a href="/words/phraselist/">Phrases database</a>
+        </li>
+        <li>
+          <a href="/words/review/">Phrase review</a>
+        </li>
+      </ul>
+
+      <ul>
         <li>
           <a href="http://www.unicode.org/charts/PDF/U1E900.pdf">Adlam Unicode page</a>
         </li>

@@ -27,9 +27,10 @@
    }
   </style>
 
+  <script src="/js/adlamConverterArabic.js"></script>
+  <script src="/js/adlamConverterLatin.js"></script>
+  <script src="/js/text_utils.js"></script>
   <script src="/js/utils.js"></script>
-  <script src="/js/osageConverter.js"></script>
-  <script src="/js/osage_utils.js"></script>
 
   <script type="text/javascript" >
 
@@ -74,8 +75,8 @@
 	  if(xmlhttp.readyState==4) {
 	      var returned_json = xmlhttp.responseText;
 		  var index = document.getElementById('index');
-		  var oldOsage = document.getElementById('OldOsage');
-		  var unicodeOsage = document.getElementById('UnicodeOsage');
+		  var oldText = document.getElementById('OldText');
+		  var utext = document.getElementById('UnicodeText');
 		  var english = document.getElementById('English');
 		  var newIndex = document.getElementById('newIndex');
 		  var status = document.getElementById('status');
@@ -93,10 +94,10 @@
           }
           index.value = index.innerHTML = json_obj.index;
           newIndex.value = newIndex.innerHTML = json_obj.index;
-          oldOsage.value = oldOsage.innerHTML = json_obj.oldtext;
+          oldtext.value = oldText.innerHTML = json_obj.oldtext;
           english.value = english.innerHTML = json_obj.english;
           comment.value = comment.innerHTML = json_obj.comment;
-          unicodeOsage.value = unicodeOsage.innerHTML = json_obj.utext;
+          unicodeText.value = unicodeText.innerHTML = json_obj.utext;
           dbName.value = json_obj.dbName
 
           updatePhraseKeyStatus.value = json_obj.phraseKey;
@@ -105,7 +106,7 @@
           var warnStatus = setWarningBox(json_obj.utext, json_obj.oldtext);
           if (json_obj.oldtext && !warnStatus) {
             // uText is either empty or same as converted.
-            convertToUnicode('OldOsage', 'UnicodeOsage', 'old_hex');
+            convertToUnicode('oldText', 'UnicodeText', 'old_hex');
           }
           warning_box = document.getElementById('warning');     
 
@@ -161,8 +162,8 @@
     // Prepare for the call to the backendvar xmlhttp;
     var indexObj = document.getElementById(indexArea);
     var index = parseInt(indexObj.innerText);
-    var unicodeData = document.getElementById("UnicodeOsage").value;
-    var oldOsageData = document.getElementById("OldOsage").value;
+    var unicodeData = document.getElementById("UnicodeText").value;
+    var oldTextData = document.getElementById("OldText").value;
 	if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
 	  xmlhttp=new XMLHttpRequest();
 	} else { // code for IE6, IE5
@@ -191,7 +192,7 @@
 
 	var target = "/words/updateStatus/?index=" + index + "&newStatus=" + newStatus +
 	  "&unicodePhrase=" + unicodeData + "&comment=" + comment +
-	  "&oldOsageData=" + oldOsageData +
+	  "&oldTextData=" + oldTextData +
 	  "&dbName=" + dbName +
 	  "&phraseKey=" + phraseKey;
 	
@@ -220,7 +221,7 @@
     }
   }
 
-  function addPhraseToDatastore(oldOsageText, UnicodeOsageText, englishText) {
+  function addPhraseToDatastore(oldText, unicodeText, englishText) {
     
 	if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
 	  xmlhttp=new XMLHttpRequest();
@@ -247,8 +248,8 @@
 	}
 	
   	// Set up the call to store new phrase information.
-    var oldTextObj = document.getElementById(oldOsageText);
-    var uTextObj = document.getElementById(UnicodeOsageText);
+    var oldTextObj = document.getElementById(oldText);
+    var uTextObj = document.getElementById(unicodeText);
     var englishTextObj = document.getElementById(englishText);
     var comment = document.getElementById('comment');
     var oldText = oldTextObj.value;
@@ -280,24 +281,24 @@
   }
 
   function onFontSelected(selected) {
-    var output_text = document.getElementById('UnicodeOsage');
+    var output_text = document.getElementById('UnicodeText';
     var fontFam = selected.value;
     output_text.style.fontFamily = fontFam + ', Arial';
   }
   
-  function setWarningBox(oldUText, oldOsageText) {
+  function setWarningBox(oldUText, oldText) {
     var warning_box = document.getElementById('warning');
     if (!oldUText) {
       warning_box.style.display = 'none';
       return false;
     }
 
-    var oldTextArea = document.getElementById('oldOsageText');
-    if (oldOsageText == "") {
+    var oldTextArea = document.getElementById('oldText');
+    if (oldText == "") {
       warning_box.style.display = 'none';
       return false;
     }
-    var convertedUText = oldOsageToUnicode(oldOsageText,
+    var convertedUText = oldOsageToUnicode(oldText,
          false, true, false);
     if (convertedUText !== oldUText) {
       warning_box.style.display = 'block';
@@ -328,13 +329,13 @@
   // Initialize the page.
   function init() {
     // Set warning if store is not same as new conversion.
-    var oldOsageText = document.getElementById('OldOsage').value;
-    var uText = document.getElementById('UnicodeOsage').value;
-    var warnStatus = setWarningBox(uText, oldOsageText);
+    var oldText = document.getElementById('OldText').value;
+    var uText = document.getElementById('UnicodeText').value;
+    var warnStatus = setWarningBox(uText, oldText);
   
-    if (oldOsageText && !warnStatus) {
+    if (oldText && !warnStatus) {
       // uText is either empty or same as converted.
-      convertToUnicode('OldOsage', 'UnicodeOsage', 'old_hex');
+      convertToUnicode('OldText', 'UnicodeText', 'old_hex');
     }
     // Set initial status.
     var status = document.getElementById("status").innerHTML;
@@ -353,13 +354,11 @@
     </div>
     <div class="span-16">
       <h3>Index <span id="index">{{index}}</span> of <span id="numEntries">{{numEntries}}</span></h3>
-      <textarea id="OldOsage" class="oldOsageText" >{{oldtext}}</textarea>
+      <textarea id="OldText" class="aissataArabic" >{{oldtext}}</textarea>
       <br />
       <input type="button" value="Convert to Unicode"
-           onclick="convertToUnicode('OldOsage',
-                    'UnicodeOsage', 'old_hex');">
-      <input type="checkbox" name="clearOsageDot" id="clearOsageDot" checked>Clear OldOsage dot?
-      <input type="checkbox" name="convertLatin" id="convertLatin" checked>Convert Latin?
+           onclick="convertToUnicode('OldText',
+                    'UnicodeText', 'old_hex');">
       <input type="checkbox" name="lowerCase" id="DoLower">To lower?
       Select font: <select onchange="onFontSelected(this);" id="selectKeyboard">
         {% for font in fontFamilies %}
@@ -367,7 +366,7 @@
         {% endfor %}
       </select>
       <br />
-	  <textarea id="UnicodeOsage" class="unicodeOsageText">{{utext}}</textarea>
+	  <textarea id="UnicodeText" class="NotoSansAdlam">{{utext}}</textarea>
 
       <br />
       <textarea id="English" class="default">{{english}}</textarea>
@@ -376,7 +375,7 @@
       In database:
       <input type="input" id="dbName" class="default" value="{{dbName}}"/>
      
-      <input type="button" onclick="toOsageFonts('UnicodeOsage', 'English');"
+      <input type="button" onclick="togFonts('UnicodeText', 'English');"
         value="Show Unicode in all fonts">
       <br />
       
@@ -448,13 +447,13 @@
     {% else %}
     <a href='{{user_login_url}}'>Log in</a>
     {% endif %}
-    <h4>Osage links</h4>
+    <h4>{{language}} links</h4>
     <ul>
         <li>
-          <a href="/">Osage Main</a>
+          <a href="/">{{language}} Main</a>
         </li>
         <li>
-          <a href="/keyboard/">Osage keyboard</a>
+          <a href="/keyboard/">{{language}} keyboard</a>
         </li>
        <li>
          <a href="/words/getPhrases/">View database</a>       
@@ -510,7 +509,7 @@
      <hr />
      <!-- Add a new value to the data store -->
      {% if editOrAdmin %}
-     <input type="button" onclick="addPhraseToDatastore('OldOsage', 'UnicodeOsage', 'English');"
+     <input type="button" onclick="addPhraseToDatastore('OldText', 'UnicodeText', 'English');"
        value="Add new phrase to database">
      {% endif %}
       
