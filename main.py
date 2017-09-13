@@ -32,7 +32,25 @@ from google.appengine.ext.webapp import template
 fontList = ['Noto Sans Adlam',  'Adlam CWC', 'Aissata Unicode', 'Noto Sans Adlam Unjoined']
 oldFontsList = ['Aissata Arabic', 'Fuuta Arabic', 'Pulaar Arabic']
 
+unicode_font_list = [
+  { 'family': 'Noto Sans Adlam',
+    'longName': 'Noto Sans Adlam',
+    'source': '/fonts/NotoSansAdlam-Regular.ttf',
+  },
+  { 'family': 'Noto Sans Adlam',
+    'longName': 'extended Noto Sans Adlam',
+    'source': '/fonts/extendedNotoSansAdlam-Regular.ttf',
+  },
+  { 'family': 'Aissata Unicode',
+    'longName': 'Aissata Unicode',
+    'source': '/fonts/Fulfulde - Aissata.ttf'
+  }
+]
+
 Language = "Fulfulde"
+# TODO: Fill this in with RTL
+Language_native = ''
+
 Script = "Adlam"
 
 
@@ -99,6 +117,17 @@ class ConvertTestHandler(webapp2.RequestHandler):
     path = os.path.join(os.path.dirname(__file__), 'convertTest.html')
     self.response.out.write(template.render(path, template_values))
 
+# Show data from word list converted for human verification
+class DownloadHandler(webapp2.RequestHandler):
+    def get(self):
+      template_values = {
+          'language': Language,
+          'language_native': Language_native,
+          'unicode_font_list': unicode_font_list,
+      }
+      path = os.path.join(os.path.dirname(__file__), 'downloads.html')
+      self.response.out.write(template.render(path, template_values))
+
 # Test creating PDF file
 class tryPDFHandler(webapp2.RequestHandler):
   def get(self):
@@ -125,9 +154,9 @@ class tryPDFHandler(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
-#    ('/', KeyboardHandler),
     ('/keyboard/', KeyboardHandler),
-    #('/words/', WordHandler),
+    ('/downloads/', DownloadHandler),
+    ('/words/', WordHandler),
     ('/convertTest/', ConvertTestHandler),
 
     ('/tryPDF/', tryPDFHandler),
