@@ -264,7 +264,7 @@ class ProcessCSVUpload(webapp2.RequestHandler):
 
 
 app = webapp2.WSGIApplication([
-    ('/db/manage/', ManageHandler),
+    ('/db/manageDB/', ManageHandler),
     ('/db/handleDB/', ManageDbName),
     ('/db/renameDB/', RenameDB),
     ('/db/clear/', ManageDbName),

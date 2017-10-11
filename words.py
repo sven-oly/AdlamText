@@ -30,6 +30,7 @@ class PhraseDB(db.Model):
   dbName = db.StringProperty(u'')
   lastUpdate = db.DateTimeProperty(auto_now=True, auto_now_add=True)
   englishPhrase = db.StringProperty(multiline=True)
+  frenchPhrase = db.StringProperty(multiline=True)
   phraseLatin = db.StringProperty(u'')
   phraseArabic = db.StringProperty(u'')
   phraseUnicode = db.StringProperty(u'')
@@ -195,6 +196,7 @@ class WordReviewHandler(webapp2.RequestHandler):
       dbName = self.request.get('dbName', '')
       utext = self.request.get('utext', '')
       english = self.request.get('english', '')
+      french = self.request.get('french', '')
       index = int(self.request.get('index', '1'))
       comment = self.request.get('comment', '')
       dbName = self.request.get('dbName', '')
@@ -233,6 +235,7 @@ class WordReviewHandler(webapp2.RequestHandler):
         dbName = result.dbName
         utext = result.phraseUnicode
         english = result.englishPhrase
+        french = result.frenchPhrase
         status = result.status
         comment = result.comment
         soundFemaleLink = result.soundFemaleLink
@@ -254,6 +257,7 @@ class WordReviewHandler(webapp2.RequestHandler):
         'oldtext': oldtext,
         'utext': utext,
         'english': english,
+        'french': english,
         'comment': comment,
         'status': status,
         'fontFamilies': main.fontList,
@@ -449,6 +453,7 @@ class AddPhrase(webapp2.RequestHandler):
     dbName = self.request.get('dbName', '')
     utext = self.request.get('utext', '')
     engtext = self.request.get('engtext', '')
+    frenchtext = self.request.get('frenchtext', '')
     comment = self.request.get('comment', '')
     dbName = self.request.get('dbName', '')
 
@@ -470,8 +475,9 @@ class AddPhrase(webapp2.RequestHandler):
       entry = PhraseDB(index=maxIndex + 1,
                        dbName=dbName,
                        englishPhrase=engtext,
-                        phraseLatin=oldtext,
-                        phraseUnicode=utext,
+                       frenchPhrase=frenchtext,
+                       phraseLatin=oldtext,
+                       phraseUnicode=utext,
                        comment=comment,
                        soundFemaleLink='',
                        soundMaleLink='',
@@ -744,7 +750,9 @@ app = webapp2.WSGIApplication([
     ('/words/review/', WordReviewHandler),
     ('/words/getwords/', GetWordsHandler),
     # ('/convertTest/', ConvertTestHandler),
+    ('/words/getPhrases/', GetPhrases),
     ('/words/phraselist/', GetPhrases),
-
+    ('/words/updateStatus/', UpdateStatus),
+    ('/words/addPhrase/', AddPhrase),
 ], debug=True)
 

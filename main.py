@@ -29,7 +29,7 @@ from google.appengine.api import users
 
 from google.appengine.ext.webapp import template
 
-fontList = ['Noto Sans Adlam',  'Adlam CWC', 'Aissata Unicode', 'Noto Sans Adlam Unjoined']
+fontList = ['Noto Sans Adlam',  'Adlam CWC', 'Aissata Unicode', 'Noto Sans Adlam Unjoined', 'Pulaar Unicode']
 oldFontsList = ['Aissata Arabic', 'Fuuta Arabic', 'Pulaar Arabic']
 
 unicode_font_list = [
@@ -44,7 +44,11 @@ unicode_font_list = [
   { 'family': 'Aissata Unicode',
     'longName': 'Aissata Unicode',
     'source': '/fonts/Fulfulde - Aissata.ttf'
-  }
+  },
+  {'family': 'Pulaar Unicode',
+   'longName': 'Pulaar Unicode',
+   'source': '/fonts/Fulfulde-PulaarUnicode.ttf'
+   }
 ]
 
 Language = "Fulfulde"

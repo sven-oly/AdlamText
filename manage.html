@@ -7,7 +7,7 @@
   <h2>Upload CV file to {{language}} database from CSV file.</h2>
     <form action="{{upload_url}}" method="POST" enctype="multipart/form-data">
         Upload CSV File:
-        <input type="file" name="file" required> <br>
+        <input type="file" name="file"> <br>
         {% if dbNameList|length > 0 %}
         Database Name:
         <select id="selectDatabase" name="dbName">
@@ -18,10 +18,11 @@
         {% endif %}
 		<hr>
        <ul>
-          <li>Adlam Unicode column: <input type="text" size=3 name="unicodeColumn"></li>
-          <li>Arabic Adlam column: <input type="text" size=3 name="arabicColumn"></li>
-          <li>English column: <input type="text" size=3 name="englishColumn"></li>
           <li>Index column: <input type="text" size=3 name="indexColumn"></li>
+          <li>Unicode {{language}} column: <input type="text" size=3 name="unicodeColumn"></li>
+          <li>English column: <input type="text" size=3 name="englishColumn"></li>
+          <li>French column: <input type="text" size=3 name="frenchColumn"></li>
+          <li>Arabic {{language}} column: <input type="text" size=3 name="osageColumn"></li>
           <li>Comment column: <input type="text" size=3 name="commentColumn"></li>
           <li>Reference column: <input type="text" size=3 name="referenceColumn"></li>
           <li>Lines to skip at start:
@@ -35,7 +36,7 @@
         <input type="submit" name="submit" value="Submit">
     </form>
   <hr>
-  <form action="/db/clear/" method="GET">
+  <form action="/words/clear/" method="GET">
       Delete all contents of database:
       <select id="selectDatabase" name="dbName">
           {% for dbName in dbNames %}
@@ -46,7 +47,7 @@
       <input type="checkbox" name="confirmClear" id="confirmClear">Really clear entries?
   </form>   
   <hr>
-  <form action="/db/renameDB/" method="GET">
+  <form action="/words/renameDB/" method="GET">
       Rename all contents of old database:
       <select id="selectDatabase" name="oldDbName">
           {% for dbName in dbNames %}

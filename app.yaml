@@ -25,6 +25,9 @@ handlers:
 - url: /db/.*
   script: database.app
 
+- url: /sound/.*
+  script: sounds.app
+
 - url: .*
   script: main.app
 

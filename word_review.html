@@ -221,7 +221,7 @@
     }
   }
 
-  function addPhraseToDatastore(oldText, unicodeText, englishText) {
+  function addPhraseToDatastore(oldText, unicodeText, englishText, frenchText) {
     
 	if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
 	  xmlhttp=new XMLHttpRequest();
@@ -251,10 +251,12 @@
     var oldTextObj = document.getElementById(oldText);
     var uTextObj = document.getElementById(unicodeText);
     var englishTextObj = document.getElementById(englishText);
+    var frenchTextObj = document.getElementById(frenchText);
     var comment = document.getElementById('comment');
     var oldText = oldTextObj.value;
     var unicodeText = uTextObj.innerHTML;
-    var englishText = englishTextObj.value; 
+    var englishText = englishTextObj.value;
+    var frenchText = frenchTextObj.value;
     var dbName = document.getElementById("dbName").value;
     
 	var target = "/words/addPhrase/?oldtext=" + oldText + "&utext=" + unicodeText +
@@ -281,7 +283,7 @@
   }
 
   function onFontSelected(selected) {
-    var output_text = document.getElementById('UnicodeText';
+    var output_text = document.getElementById('UnicodeText');
     var fontFam = selected.value;
     output_text.style.fontFamily = fontFam + ', Arial';
   }
@@ -298,7 +300,7 @@
       warning_box.style.display = 'none';
       return false;
     }
-    var convertedUText = oldOsageToUnicode(oldText,
+    var convertedUText = convertOtherToUnicode(oldText,
          false, true, false);
     if (convertedUText !== oldUText) {
       warning_box.style.display = 'block';
@@ -366,12 +368,16 @@
         {% endfor %}
       </select>
       <br />
+      Adlam:<br />
 	  <textarea id="UnicodeText" class="NotoSansAdlam">{{utext}}</textarea>
 
       <br />
+      English:<br />
       <textarea id="English" class="default">{{english}}</textarea>
       <br />
-
+      French:<br />
+      <textarea id="French" class="default">{{french}}</textarea>
+      <br />
       In database:
       <input type="input" id="dbName" class="default" value="{{dbName}}"/>
      
@@ -509,7 +515,7 @@
      <hr />
      <!-- Add a new value to the data store -->
      {% if editOrAdmin %}
-     <input type="button" onclick="addPhraseToDatastore('OldText', 'UnicodeText', 'English');"
+     <input type="button" onclick="addPhraseToDatastore('OldText', 'UnicodeText', 'English', 'French');"
        value="Add new phrase to database">
      {% endif %}
       

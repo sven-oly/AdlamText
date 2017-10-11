@@ -99,4 +99,17 @@
       font-family:'Arial';
       font-size: 32px;
     }
-    
+
+
+   @font-face{
+      font-family:'Pulaar Unicode';
+      src:url('/fonts/Fulfulde-PulaarUnicode.ttf');
+      font-weight:normal;
+      font-style:normal;
+    }
+
+    .pulaarUnicode {
+      font-family:'Pulaar Unicode';
+      font-size: 32px;
+    }
+
