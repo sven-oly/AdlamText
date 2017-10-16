@@ -145,9 +145,11 @@ class GetWordsHandler(webapp2.RequestHandler):
     if result:
       index = result.index
       dbName = result.dbName
-      oldtext = result.phraseLatin
+      arabicText = result.phraseArabic
+      latinText = result.phraseLatin
       utext = result.phraseUnicode
       english = result.englishPhrase
+      french = result.frenchPhrase
       status = result.status
       comment = result.comment
       errorMsg = ''
@@ -155,7 +157,7 @@ class GetWordsHandler(webapp2.RequestHandler):
     else:
       errorMsg = 'No phrase found'
       phraseKey = ''
-      oldtext = utext = english = status = ''
+      oldtext = utext = english = french = latinText = arabicText = status = ''
       comment = ''
 
     # logging.info('PHRASE KEY = %s ' % phraseKey)
@@ -171,9 +173,11 @@ class GetWordsHandler(webapp2.RequestHandler):
         'index': index,
         'dbName': dbName,
         'phraseKey': phraseKey,
-        'oldtext': oldtext,
-        'utext': utext,
+        'arabicText': arabicText,
+        'latinText': latinText,
+        'unicodeText': utext,
         'english': english,
+        'french': french,
         'status': status,
         'error': errorMsg,
         'comment': comment,
@@ -193,6 +197,7 @@ class WordReviewHandler(webapp2.RequestHandler):
       fontList = []
       index = 1
       oldtext = self.request.get('oldtext', '')
+      arabicText = self.request.get('arabicText', '')
       dbName = self.request.get('dbName', '')
       utext = self.request.get('utext', '')
       english = self.request.get('english', '')
@@ -403,6 +408,12 @@ class UpdateStatus(webapp2.RequestHandler):
     newStatus = self.request.get('newStatus', 'Unknown')
     unicodePhrase = self.request.get('unicodePhrase', '')
     old_phrase = self.request.get('oldData', '')
+    arabicText = self.request.get('arabicText', '')
+    dbName = self.request.get('dbName', '')
+    utext = self.request.get('utext', '')
+    english = self.request.get('english', '')
+    french = self.request.get('french', '')
+
     comment = self.request.get('comment', '')
     dbName = self.request.get('dbName', '')
     phraseKey = self.request.get('phraseKey', '')
@@ -421,8 +432,9 @@ class UpdateStatus(webapp2.RequestHandler):
       logging.info('+++ Got object from key')
     else:
       q = PhraseDB.all()
-      q.filter("index =", index)
+      q.filter("index=", index)
       result = q.get()
+      logging.info('+++ Object from INDEX = %s' % index)
 
     # TODO: Check for null result
     result.status = newStatus;
@@ -432,9 +444,17 @@ class UpdateStatus(webapp2.RequestHandler):
 
     if old_phrase:
       result.phraseLatin = old_phrase
-
     if unicodePhrase:
       result.phraseUnicode = unicodePhrase
+    if arabicText:
+        result.phraseArabic = arabicText
+    if english:
+      result.englishPhrase = english
+    if french:
+      result.frenchPhrase = french
+    if comment:
+      result.comment = comment
+
     result.put()
 
     # Send update back to client
@@ -449,22 +469,29 @@ class UpdateStatus(webapp2.RequestHandler):
 
 class AddPhrase(webapp2.RequestHandler):
   def get(self):
-    oldtext = self.request.get('oldtext', '')
+    arabicText = self.request.get('arabicText', '')
+    latinText = self.request.get('latinText', '')
     dbName = self.request.get('dbName', '')
-    utext = self.request.get('utext', '')
-    engtext = self.request.get('engtext', '')
-    frenchtext = self.request.get('frenchtext', '')
+    utext = self.request.get('uText', '')
+    engText = self.request.get('engText', '')
+    frenchText = self.request.get('frenchText', '')
     comment = self.request.get('comment', '')
-    dbName = self.request.get('dbName', '')
 
     # Check if this already exists.
     q = PhraseDB.all()
-    q.filter(' phraseLatin =', oldtext)
+    q.filter('phraseUnicode=', utext)
     result = q.get()
 
     if result:
+      logging.info('Lookup result = %s, %s, %s' % (result.index,
+                                                 result.phraseUnicode,
+                                                 result.englishPhrase))
+
+    logging.info('AddPhrase: %s, eng = %s' % (arabicText, engText) )
+    if result:
       # It's a duplicate. Return warning.
       message = 'This message already exists at index %s' % result.index
+      entry = result
     else:
       # It's not there so get new index and store.
       q = PhraseDB.all()
@@ -474,10 +501,11 @@ class AddPhrase(webapp2.RequestHandler):
           maxIndex = p.index
       entry = PhraseDB(index=maxIndex + 1,
                        dbName=dbName,
-                       englishPhrase=engtext,
-                       frenchPhrase=frenchtext,
-                       phraseLatin=oldtext,
+                       englishPhrase=engText,
+                       frenchPhrase=frenchText,
+                       phraseLatin=latinText,
                        phraseUnicode=utext,
+                       phraseArabic=arabicText,
                        comment=comment,
                        soundFemaleLink='',
                        soundMaleLink='',
@@ -506,7 +534,7 @@ class GetPhrases(webapp2.RequestHandler):
     else:
       selectAllDB = False
 
-    logging.info('  **** Databases = %s, selectAllDB = %s' % (databases, selectAllDB))
+    # logging.info('  **** Databases = %s, selectAllDB = %s' % (databases, selectAllDB))
 
     q = PhraseDB.all()
     if filterStatus:
@@ -527,9 +555,9 @@ class GetPhrases(webapp2.RequestHandler):
       dbNameListChecked.append({'dbName':db, 'checked':setcheck})
     # dbNameListChecked.append({'db':'All', 'checked':selectAllDB})
 
-    logging.info('dbNames = %s' % dbNames)
-    logging.info('dbNameListChecked = %s' % dbNameListChecked)
-    logging.info('dbNameList = %s' % dbNames)
+    # logging.info('dbNames = %s' % dbNames)
+    # logging.info('dbNameListChecked = %s' % dbNameListChecked)
+    # logging.info('dbNameList = %s' % dbNames)
 
     # TODO: Make this user-specific.
     try:
@@ -543,6 +571,7 @@ class GetPhrases(webapp2.RequestHandler):
     for p in q.run():
       numEntries += 1
 
+      # logging.info('  ** entry = %s, %s' % (p.index, p.phraseUnicode))
       if not p.index:
         nullIndexCount += 1
         entry = (p.index, p.englishPhrase, p.phraseLatin, p.phraseUnicode,
@@ -748,7 +777,7 @@ class ProcessCSVUpload(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([
     ('/words/convert/', WordConvert),
     ('/words/review/', WordReviewHandler),
-    ('/words/getwords/', GetWordsHandler),
+    ('/words/getWords/', GetWordsHandler),
     # ('/convertTest/', ConvertTestHandler),
     ('/words/getPhrases/', GetPhrases),
     ('/words/phraselist/', GetPhrases),

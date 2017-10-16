@@ -75,9 +75,11 @@
 	  if(xmlhttp.readyState==4) {
 	      var returned_json = xmlhttp.responseText;
 		  var index = document.getElementById('index');
-		  var oldText = document.getElementById('OldText');
+		  var arabicText = document.getElementById('ArabicText');
+		  var latinText = document.getElementById('latinText');
 		  var utext = document.getElementById('UnicodeText');
 		  var english = document.getElementById('English');
+		  var french = document.getElementById('French');
 		  var newIndex = document.getElementById('newIndex');
 		  var status = document.getElementById('status');
 		  var errorMsg = document.getElementById('errorMsg');
@@ -93,11 +95,15 @@
             return;
           }
           index.value = index.innerHTML = json_obj.index;
+          arabicText.value = arabicText.innerHTML = json_obj.arabicText;
+          utext.value = utext.innerHTML = json_obj.unicodeText;
           newIndex.value = newIndex.innerHTML = json_obj.index;
-          oldtext.value = oldText.innerHTML = json_obj.oldtext;
+          if (latinText) {
+            latinText.value = oldText.innerHTML = json_obj.latinText;
+          }
           english.value = english.innerHTML = json_obj.english;
+          french.value = french.innerHTML = json_obj.french;
           comment.value = comment.innerHTML = json_obj.comment;
-          unicodeText.value = unicodeText.innerHTML = json_obj.utext;
           dbName.value = json_obj.dbName
 
           updatePhraseKeyStatus.value = json_obj.phraseKey;
@@ -163,8 +169,12 @@
     var indexObj = document.getElementById(indexArea);
     var index = parseInt(indexObj.innerText);
     var unicodeData = document.getElementById("UnicodeText").value;
-    var oldTextData = document.getElementById("OldText").value;
-	if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
+    var arabicTextData = document.getElementById("ArabicText").value;
+	var english = document.getElementById('English').value;
+	var french = document.getElementById('French').value;
+    var comment = document.getElementById('comment').value;
+
+    if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
 	  xmlhttp=new XMLHttpRequest();
 	} else { // code for IE6, IE5
 	  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
@@ -192,8 +202,11 @@
 
 	var target = "/words/updateStatus/?index=" + index + "&newStatus=" + newStatus +
 	  "&unicodePhrase=" + unicodeData + "&comment=" + comment +
-	  "&oldTextData=" + oldTextData +
+	  "&arabicText=" + arabicTextData +
 	  "&dbName=" + dbName +
+	  "&french=" + french +
+	  "&english=" + english +
+	  "&comment=" + comment +
 	  "&phraseKey=" + phraseKey;
 	
 	xmlhttp.open("GET", target, true);
@@ -248,19 +261,21 @@
 	}
 	
   	// Set up the call to store new phrase information.
-    var oldTextObj = document.getElementById(oldText);
+    var arabicText = document.getElementById(oldText);
     var uTextObj = document.getElementById(unicodeText);
     var englishTextObj = document.getElementById(englishText);
     var frenchTextObj = document.getElementById(frenchText);
-    var comment = document.getElementById('comment');
-    var oldText = oldTextObj.value;
+    var comment = document.getElementById('comment').value;
+    var arabicText = arabicText.value;
     var unicodeText = uTextObj.innerHTML;
     var englishText = englishTextObj.value;
     var frenchText = frenchTextObj.value;
     var dbName = document.getElementById("dbName").value;
     
-	var target = "/words/addPhrase/?oldtext=" + oldText + "&utext=" + unicodeText +
-	  "&engtext=" + englishText + "&comment=" + comment + "&dbName=" + dbName;
+	var target = "/words/addPhrase/?arabicText=" + arabicText + "&uText=" + unicodeText +
+	  "&engText=" + englishText +
+	  "&frenchText=" + frenchText +
+	  "&comment=" + comment + "&dbName=" + dbName;
 	xmlhttp.open("GET", target, true);
 	var size = target.length;
 	xmlhttp.send(null);
@@ -312,6 +327,25 @@
     }
   }
 
+  // Convert to Unicode
+  function convertArabicToUnicode(idIn, outId, hexId, lowerId,
+      sentenceCaseId) {
+    var inObj = document.getElementById(idIn);
+    var outObj = document.getElementById(outId);
+    var hexObj = document.getElementById(hexId);
+    var lowerObj = document.getElementById(lowerId);
+    var sentenceCaseObj = document.getElementById(sentenceCaseId);
+    if (sentenceCaseObj) {
+      sentenceCaseChecked = sentenceCaseObj.checked;
+    } else {
+      sentenceCaseChecked = false;
+    }
+    var textOut = convertOtherToUnicode(inObj.value, lowerObj.checked,
+      sentenceCaseChecked);
+
+    outObj.innerHTML = outObj.value = textOut;
+  }
+
   function onSoundLoaded(audio_id, target) {
     var audio_out = document.getElementById(audio_id);
     audio_out.src = target;
@@ -331,13 +365,13 @@
   // Initialize the page.
   function init() {
     // Set warning if store is not same as new conversion.
-    var oldText = document.getElementById('OldText').value;
+    var oldText = document.getElementById('ArabicText').value;
     var uText = document.getElementById('UnicodeText').value;
     var warnStatus = setWarningBox(uText, oldText);
   
     if (oldText && !warnStatus) {
       // uText is either empty or same as converted.
-      convertToUnicode('OldText', 'UnicodeText', 'old_hex');
+      convertToUnicode('ArabicText', 'UnicodeText', 'old_hex');
     }
     // Set initial status.
     var status = document.getElementById("status").innerHTML;
@@ -356,21 +390,23 @@
     </div>
     <div class="span-16">
       <h3>Index <span id="index">{{index}}</span> of <span id="numEntries">{{numEntries}}</span></h3>
-      <textarea id="OldText" class="aissataArabic" >{{oldtext}}</textarea>
-      <br />
-      <input type="button" value="Convert to Unicode"
-           onclick="convertToUnicode('OldText',
-                    'UnicodeText', 'old_hex');">
-      <input type="checkbox" name="lowerCase" id="DoLower">To lower?
+
+      Adlam text.
       Select font: <select onchange="onFontSelected(this);" id="selectKeyboard">
         {% for font in fontFamilies %}
         <option value="{{font}}">{{font}}</option>
         {% endfor %}
       </select>
       <br />
-      Adlam:<br />
-	  <textarea id="UnicodeText" class="NotoSansAdlam">{{utext}}</textarea>
-
+	  <textarea id="UnicodeText" class="NotoSansAdlam" dir="rtl">{{utext}}</textarea>
+      <br />
+      Arabic encoding:<br />
+      <textarea id="ArabicText" class="aissataArabic" dir="rtl">{{oldtext}}</textarea>
+      <br />
+      <input type="button" value="Convert to Unicode"
+           onclick="convertArabicToUnicode('ArabicText',
+                    'UnicodeText', 'old_hex', 'DoLower');">
+      <input type="checkbox" name="lowerCase" id="DoLower">To lower?
       <br />
       English:<br />
       <textarea id="English" class="default">{{english}}</textarea>
@@ -380,11 +416,7 @@
       <br />
       In database:
       <input type="input" id="dbName" class="default" value="{{dbName}}"/>
-     
-      <input type="button" onclick="togFonts('UnicodeText', 'English');"
-        value="Show Unicode in all fonts">
-      <br />
-      
+
       <div id="warning" style="font-size:18px; background-color: orange; display:none;">
       Warning: The conversion of this data has changed!
       <br />
@@ -400,7 +432,8 @@
         <input type="radio" name="updateStatus" value="Font"> Font
         <input type="radio" name="updateStatus" value="Other"> Other
         {% if editOrAdmin %}
-        <input type="button" value="Update status"
+        <br /><br />
+        <input type="button" value="Update record"
            onclick="updatePhraseStatus('index', 'updateStatus');"/>
         <input type="hidden" id="updatePhraseKeyStatus" name="phraseKey" value="{{phraseKey}}">
         {% endif %}
@@ -432,16 +465,17 @@
       {% endif %}
 
       {% if editOrAdmin %}
+         {% if SOUND_READY %}
       <hr>
       <h4>Upload sound file for this phrase:</h4>
       <form action="/sound/start/" method="GET" enctype="multipart/form-data">
         <input type="submit" name="submit" value="Upload sound file">
         <input type="hidden" id="updatePhraseKeyUpload" name="phraseKey" value="{{phraseKey}}">
       </form>
-
+         {% endif %}
        {% endif %}
 
-        {% endif %}
+    {% endif %}
     </div>
 
     <div class="span-4 last">
@@ -515,7 +549,7 @@
      <hr />
      <!-- Add a new value to the data store -->
      {% if editOrAdmin %}
-     <input type="button" onclick="addPhraseToDatastore('OldText', 'UnicodeText', 'English', 'French');"
+     <input type="button" onclick="addPhraseToDatastore('ArabicText', 'UnicodeText', 'English', 'French');"
        value="Add new phrase to database">
      {% endif %}
       

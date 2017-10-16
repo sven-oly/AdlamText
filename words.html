@@ -397,6 +397,15 @@ g11<head>
            <a href="http://windenjangen.org/yahoo_site_admin/assets/docs/TABALDE_2.18914205.pdf">Sample Arabic encoded text</a>
         </li>
       </ul>
+     {% if isAdmin %}
+        <hr>
+        <h4>Admin Functions</h4>
+        <ul>
+          <li><a href="/db/manageDB/">Manage Databases</a></li>
+          <li><a href="/users/">Manage users</a></li>
+          <!-- <li><a href="/db/resetDbEntries/">Reset Database Entries</a> -->
+        </ul>
+        {% endif %}
     </div>  <!-- span-4 -->
   </div> <!-- container -->
 
