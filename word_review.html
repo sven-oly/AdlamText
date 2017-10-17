@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"/>
 
-  <title>Review {{language}} Conversion</title>
+  <title>{{language}} Phrase Review</title>
 
   <link rel="stylesheet" href="/css/blueprint/screen.css" type="text/css" media="screen">
   <link rel="stylesheet" href="/css/blueprint/print.css" type="text/css" media="print"> 
@@ -78,6 +78,7 @@
 		  var arabicText = document.getElementById('ArabicText');
 		  var latinText = document.getElementById('latinText');
 		  var utext = document.getElementById('UnicodeText');
+		  var definitionUnicode = document.getElementById('UnicodeDefinition');
 		  var english = document.getElementById('English');
 		  var french = document.getElementById('French');
 		  var newIndex = document.getElementById('newIndex');
@@ -108,6 +109,8 @@
 
           updatePhraseKeyStatus.value = json_obj.phraseKey;
           updatePhraseKeyUpload.value = json_obj.phraseKey;
+
+          definitionUnicode.value = definitionUnicode.innerHTML = json_obj.definitionUnicode;
 
           var warnStatus = setWarningBox(json_obj.utext, json_obj.oldtext);
           if (json_obj.oldtext && !warnStatus) {
@@ -266,13 +269,15 @@
     var englishTextObj = document.getElementById(englishText);
     var frenchTextObj = document.getElementById(frenchText);
     var comment = document.getElementById('comment').value;
+    var definitionUnicode = document.getElementById('UnicodeDefinition').value;
     var arabicText = arabicText.value;
-    var unicodeText = uTextObj.innerHTML;
+    var unicodeText = uTextObj.value;
     var englishText = englishTextObj.value;
     var frenchText = frenchTextObj.value;
     var dbName = document.getElementById("dbName").value;
     
 	var target = "/words/addPhrase/?arabicText=" + arabicText + "&uText=" + unicodeText +
+	  "&definitionUnicode=" + definitionUnicode +
 	  "&engText=" + englishText +
 	  "&frenchText=" + frenchText +
 	  "&comment=" + comment + "&dbName=" + dbName;
@@ -400,6 +405,9 @@
       <br />
 	  <textarea id="UnicodeText" class="NotoSansAdlam" dir="rtl">{{utext}}</textarea>
       <br />
+      Adlam definition:<br />
+	  <textarea id="UnicodeDefinition" class="NotoSansAdlam" dir="rtl">{{definitionUnicode}}</textarea>
+      <br />
       Arabic encoding:<br />
       <textarea id="ArabicText" class="aissataArabic" dir="rtl">{{oldtext}}</textarea>
       <br />
@@ -490,16 +498,20 @@
     <h4>{{language}} links</h4>
     <ul>
         <li>
-          <a href="/">{{language}} Main</a>
+          <a href="/">Adlam main</a>
+       </li>        <li>
+          <a href="/keyboard/">Adlam keyboard</a>
+        </li>
+
+       <li>
+           <a href="/words/convert/">Font conversion</a>
         </li>
         <li>
-          <a href="/keyboard/">{{language}} keyboard</a>
+          <a href="/words/phraselist/">Phrases database</a>
         </li>
-       <li>
-         <a href="/words/getPhrases/">View database</a>       
-          <br />
-          <br />
-       </li>
+        <li>
+          <a href="/words/review/">Phrase review</a>
+        </li>
       </ul>
       {% if isAdmin %}
       <hr>

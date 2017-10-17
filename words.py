@@ -34,6 +34,7 @@ class PhraseDB(db.Model):
   phraseLatin = db.StringProperty(u'')
   phraseArabic = db.StringProperty(u'')
   phraseUnicode = db.StringProperty(u'')
+  definitionUnicode = db.StringProperty(u'')
   status = db.StringProperty('')
   comment = db.StringProperty('')
   reference = db.StringProperty('')  # Reference number or other identifier
@@ -148,6 +149,7 @@ class GetWordsHandler(webapp2.RequestHandler):
       arabicText = result.phraseArabic
       latinText = result.phraseLatin
       utext = result.phraseUnicode
+      definitionUnicode = result.definitionUnicode
       english = result.englishPhrase
       french = result.frenchPhrase
       status = result.status
@@ -158,6 +160,7 @@ class GetWordsHandler(webapp2.RequestHandler):
       errorMsg = 'No phrase found'
       phraseKey = ''
       oldtext = utext = english = french = latinText = arabicText = status = ''
+      definitionUnicode = ''
       comment = ''
 
     # logging.info('PHRASE KEY = %s ' % phraseKey)
@@ -178,6 +181,7 @@ class GetWordsHandler(webapp2.RequestHandler):
         'unicodeText': utext,
         'english': english,
         'french': french,
+        'definitionUnicode': definitionUnicode,
         'status': status,
         'error': errorMsg,
         'comment': comment,
@@ -240,6 +244,7 @@ class WordReviewHandler(webapp2.RequestHandler):
         dbName = result.dbName
         utext = result.phraseUnicode
         english = result.englishPhrase
+        definitionUnicode = result.definitionUnicode
         french = result.frenchPhrase
         status = result.status
         comment = result.comment
@@ -407,6 +412,7 @@ class UpdateStatus(webapp2.RequestHandler):
     dbName = self.request.get('dbName', '')
     newStatus = self.request.get('newStatus', 'Unknown')
     unicodePhrase = self.request.get('unicodePhrase', '')
+    definitionUnicode = self.request.get('definitionUnicode', '')
     old_phrase = self.request.get('oldData', '')
     arabicText = self.request.get('arabicText', '')
     dbName = self.request.get('dbName', '')
@@ -452,6 +458,9 @@ class UpdateStatus(webapp2.RequestHandler):
       result.englishPhrase = english
     if french:
       result.frenchPhrase = french
+    if definitionUnicode:
+      result.definitionUnicode = definitionUnicode
+
     if comment:
       result.comment = comment
 
@@ -476,6 +485,7 @@ class AddPhrase(webapp2.RequestHandler):
     engText = self.request.get('engText', '')
     frenchText = self.request.get('frenchText', '')
     comment = self.request.get('comment', '')
+    definitionUnicode = self.request.get('definitionUnicode', '')
 
     # Check if this already exists.
     q = PhraseDB.all()
@@ -505,6 +515,7 @@ class AddPhrase(webapp2.RequestHandler):
                        frenchPhrase=frenchText,
                        phraseLatin=latinText,
                        phraseUnicode=utext,
+                       definitionUnicode=definitionUnicode,
                        phraseArabic=arabicText,
                        comment=comment,
                        soundFemaleLink='',
@@ -519,6 +530,19 @@ class AddPhrase(webapp2.RequestHandler):
     }
     self.response.out.write(json.dumps(response))
 
+class DeletePhrase(webapp2.RequestHandler):
+  def get(self):
+    phraseKey = self.request.get('phraseKey', '')
+
+    logging.info("_+_+_+ Delete phraseKey = %s" % phraseKey)
+    # To get the database object more easily
+    result = None
+    if phraseKey:
+      keyForPhrase = db.Key(encoded=phraseKey)
+      p = db.get(keyForPhrase)
+
+      result = PhraseDB.delete(p)
+    # TODO: Return result
 
 # Resets items from database.
 class GetPhrases(webapp2.RequestHandler):
@@ -722,6 +746,9 @@ class ProcessCSVUpload(webapp2.RequestHandler):
         except:
           reference = ''
 
+        # TODO: get from spreadsheeet
+        definitionUnicode = ''
+
         #self.response.out.write('    E>%s<E \n' % (englishPhrase))
         #self.response.out.write('    O>%sO< \n' % ( phraseLatin))
         #self.response.out.write('    C>%s<C \n' % (comment))
@@ -737,8 +764,9 @@ class ProcessCSVUpload(webapp2.RequestHandler):
             index=indexValue,
             dbName=dbName,
             englishPhrase=englishPhrase.decode('utf-8'),
-             phraseLatin= phraseLatin,
-             phraseUnicode=utext.decode('utf-8'),
+            phraseLatin= phraseLatin,
+            phraseUnicode=utext.decode('utf-8'),
+            definitionUnicode= definitionUnicode,
             comment=comment,
             reference=reference,
             soundFemaleLink='',
@@ -783,5 +811,6 @@ app = webapp2.WSGIApplication([
     ('/words/phraselist/', GetPhrases),
     ('/words/updateStatus/', UpdateStatus),
     ('/words/addPhrase/', AddPhrase),
+    ('/words/deletePhrase/', DeletePhrase),
 ], debug=True)
 
