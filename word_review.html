@@ -432,7 +432,7 @@
       </div>
       <br>
       <h4>Status: <span id="status">{{status}}
-      {% if editOrAdmin %}. Change status of this phrase:{% endif %}</h4>
+          {% if editOrAdmin %}. Change status of this phrase:{% endif %}</span></h4>
       <form action="" id="set_status">
         <input type="radio" name="updateStatus" value="Unknown"> Unknown 
         <input type="radio" name="updateStatus" value="Verified"> Verified 
@@ -535,7 +535,7 @@
       <input id='newIndex' type=text value='{{index}}' size='3'/>
       </form>
 
-      <form action="" id="set_status">
+      <form action="" id="get_status">
         <input type="radio" name="filterStatus" value="All" checked> All phrases (no filter)
         <br />
         <input type="radio" name="filterStatus" value="Unknown"> Unknown 
@@ -548,7 +548,7 @@
         <br />
       </form>
 
-      <form action="javascript:switchDatabase();" id="set_status">
+      <form action="javascript:switchDatabase();" id="set_db">
         <hr>Databases:<br />
         {% for dbName in dbNames %}
           <input type="checkbox" name="databases" value="{{dbName}}">{{dbName}}<br />
