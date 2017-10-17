@@ -64,7 +64,10 @@
     text-decoration: none;
     cursor: pointer;
 }
+td {
+ border-top: 1px solid #000;
 }
+
   </style>
 
   <script src="/js/utils.js"></script>
@@ -220,7 +223,6 @@
         </td>
         <td valign="top">{{entry.status}}</td>
         <td valign="top">{{entry.dbName}}</td>
-
       </tr>
       {% endfor %}
     </table>
