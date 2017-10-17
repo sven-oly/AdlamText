@@ -107,8 +107,8 @@
           comment.value = comment.innerHTML = json_obj.comment;
           dbName.value = json_obj.dbName
 
-          updatePhraseKeyStatus.value = json_obj.phraseKey;
-          updatePhraseKeyUpload.value = json_obj.phraseKey;
+          updatePhraseKey1.value = json_obj.phraseKey;
+          updatePhraseKey2.value = json_obj.phraseKey;
 
           definitionUnicode.value = definitionUnicode.innerHTML = json_obj.definitionUnicode;
 
@@ -443,8 +443,8 @@
         <br /><br />
         <input type="button" value="Update record"
            onclick="updatePhraseStatus('index', 'updateStatus');"/>
-        <input type="hidden" id="updatePhraseKeyStatus" name="phraseKey" value="{{phraseKey}}">
         {% endif %}
+        <input type="hidden" id="updatePhraseKeyStatus" name="phraseKey" value="{{phraseKey}}">
       </form>
       <br />
       <h4>Comment:</h4>
@@ -478,12 +478,13 @@
       <h4>Upload sound file for this phrase:</h4>
       <form action="/sound/start/" method="GET" enctype="multipart/form-data">
         <input type="submit" name="submit" value="Upload sound file">
-        <input type="hidden" id="updatePhraseKeyUpload" name="phraseKey" value="{{phraseKey}}">
       </form>
          {% endif %}
        {% endif %}
 
     {% endif %}
+      <input type="hidden" id="updatePhraseKeyUpload" name="phraseKey" value="{{phraseKey}}">
+
     </div>
 
     <div class="span-4 last">

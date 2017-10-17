@@ -82,7 +82,7 @@ class GetWordsHandler(webapp2.RequestHandler):
 
   def get(self):
 
-    logging.info('GetWordsHandler called')
+    #logging.info('GetWordsHandler called')
     user_info = getUserInfo(self.request.url)
     index = int(self.request.get('index', '1'))
     filterStatus = self.request.get('filterStatus', 'All')
@@ -91,7 +91,7 @@ class GetWordsHandler(webapp2.RequestHandler):
     databases = self.request.GET.getall('databases')
 
     phraseKey = self.request.get('phraseKey', None)
-    logging.info('phraseKey = %s' % phraseKey)
+    #logging.info('phraseKey = %s' % phraseKey)
     if phraseKey:
       keyForPhrase = db.Key(encoded=phraseKey)
     else:
@@ -162,13 +162,6 @@ class GetWordsHandler(webapp2.RequestHandler):
       oldtext = utext = english = french = latinText = arabicText = status = ''
       definitionUnicode = ''
       comment = ''
-
-    # logging.info('PHRASE KEY = %s ' % phraseKey)
-    try:
-      logging.info('soundMaleLink: %s' % result.soundMaleLink)
-      logging.info('soundFemaleLink: %s' % result.soundFemaleLink)
-    except:
-      logging.info('Sound link missing')
 
     obj = {
         'language': main.Language,

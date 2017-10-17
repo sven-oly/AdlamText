@@ -197,29 +197,29 @@
       <tr class="default">
         <th>Index</th>
         <th>Voice</th>
-        <th>Unicode</th>
-        <th>Arabic</th>
-        <th>English</th>
-        <th>French</th>
-        <th>Comment</th>
+        <th>Entry</th>
         <th>Status</th>
         <th>DB</th>
 	  </tr>
       {% for entry in entries %}
       <tr class="default">
-        <td><a href="/words/review/?index={{entry.index}}&dbName={{entry.dbName}}" target=_blank>{{entry.index}}</a></td>
+        <td valign="top"><a href="/words/review/?index={{entry.index}}&dbName={{entry.dbName}}" target=_blank>{{entry.index}}</a></td>
         <td>{%if entry.soundMaleLink or entry.soundFemaleLink%}
           <button onclick="openSoundModal('{{entry.soundMaleLink}}', '{{entry.soundFemaleLink}}', {{entry.index}}, '{{entry.osagePhraseUnicode}}');">Play</button>
           {% endif %}
           {%if entry.soundMaleLink%}M{%endif%}
           {% if entry.soundFemaleLink%}F{%endif%}</td>
-        <td class="NotoSansAdlam size18">{{entry.phraseUnicode}}</td>
-        <td class="aissataArabic size18">{{entry.phraseArabic}}</td>
-        <td>{{entry.englishPhrase}}</td>
-        <td>{{entry.frenchPhrase}}</td>
-        <td>{{entry.comment}}</td>
-        <td>{{entry.status}}</td>
-        <td>{{entry.dbName}}</td>
+        <td valign="top">
+          <span class="NotoSansAdlam size18">{{entry.phraseUnicode}}</span>
+         {% if entry.definitionUnicode %}<br />def: <span>{{entry.definitionUnicode}}</span>{% endif %}
+         {% if entry.phraseArabic %}<br />
+          <span class="aissataArabic size18">{{entry.phraseArabic}}</span>{% endif %}
+          {% if entry.englishPhrase %}<br />{{entry.englishPhrase}}{% endif %}
+         {% if entry.frenchPhrase %}<br /><div>{{entry.frenchPhrase}}</div>{% endif %}
+         {% if entry.comment %}<br />{{entry.comment}}{% endif %}
+        </td>
+        <td valign="top">{{entry.status}}</td>
+        <td valign="top">{{entry.dbName}}</td>
 
       </tr>
       {% endfor %}
