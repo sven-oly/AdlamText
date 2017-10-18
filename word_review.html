@@ -12,6 +12,7 @@
   <![endif]-->
 
   <link rel="stylesheet" type="text/css" href="/css/fonts.css">
+  <link rel="stylesheet" type="text/css" href="/css/keyboard.css">
 
   <style>
   textarea {
@@ -31,6 +32,9 @@
   <script src="/js/adlamConverterLatin.js"></script>
   <script src="/js/text_utils.js"></script>
   <script src="/js/utils.js"></script>
+
+  <script src="/js/vk-debug.js"></script>
+
 
   <script type="text/javascript" >
 
@@ -367,6 +371,39 @@
    }
 
 
+  // KEYBOARD
+
+  function clearText(inputId) {
+      var field = document.getElementById(inputId);
+      field.value = "\u202e";
+      // field = document.getElementById('codepoints');
+      field.value = '';
+      field.focus();
+  }
+
+    var controller, visible = true;
+
+    function initKeyboard(inputId) {
+      clearText(inputId);
+      var input = document.getElementById(inputId);
+      controller = new i18n.input.keyboard.Keyboard();
+      controller.loadLayout('ful');
+      controller.reposition(input, 2, 0, [1, 0, 0, 0]);
+      controller.register(input);
+      controller.addEventListener('kc', function() { visible = false; });
+      input.focus();
+      //var selector = document.getElementById('selectKeyboard');
+      onLayoutSelected('ful', inputId);
+      //var selector = document.getElementById('selectFont');
+      onFontSelected('ful', inputId);
+  }
+
+    function onLayoutSelected(value, inputId) {
+    controller.activateLayout(value);
+    document.getElementById(inputId).focus();
+    var vkbox = document.getElementById('kbd');
+    }
+
   // Initialize the page.
   function init() {
     // Set warning if store is not same as new conversion.
@@ -382,6 +419,7 @@
     var status = document.getElementById("status").innerHTML;
     setStatusRadioButton("updateStatus", status);
 
+    initKeyboard("UnicodeText");
   }
 
   </script>
