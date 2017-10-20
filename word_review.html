@@ -394,8 +394,6 @@
       input.focus();
       //var selector = document.getElementById('selectKeyboard');
       onLayoutSelected('ful', inputId);
-      //var selector = document.getElementById('selectFont');
-      onFontSelected('ful', inputId);
   }
 
     function onLayoutSelected(value, inputId) {
@@ -403,6 +401,11 @@
     document.getElementById(inputId).focus();
     var vkbox = document.getElementById('kbd');
     }
+
+  function onKeyboardFocus(inputId) {
+    var input = document.getElementById(inputId);
+    controller.register(input);
+  }
 
   // Initialize the page.
   function init() {
@@ -418,6 +421,8 @@
     // Set initial status.
     var status = document.getElementById("status").innerHTML;
     setStatusRadioButton("updateStatus", status);
+
+    onFontSelected(document.getElementById("selectFont"));
 
     initKeyboard("UnicodeText");
   }
@@ -435,16 +440,18 @@
       <h3>Index <span id="index">{{index}}</span> of <span id="numEntries">{{numEntries}}</span></h3>
 
       Adlam text.
-      Select font: <select onchange="onFontSelected(this);" id="selectKeyboard">
+      Select font: <select onchange="onFontSelected(this);" id="selectFont">
         {% for font in fontFamilies %}
         <option value="{{font}}">{{font}}</option>
         {% endfor %}
       </select>
       <br />
-	  <textarea id="UnicodeText" class="NotoSansAdlam" dir="rtl">{{utext}}</textarea>
+	  <textarea id="UnicodeText" class="NotoSansAdlam" dir="rtl"
+                onfocus="onKeyboardFocus('UnicodeText');">{{utext}}</textarea>
       <br />
       Adlam definition:<br />
-	  <textarea id="UnicodeDefinition" class="NotoSansAdlam" dir="rtl">{{definitionUnicode}}</textarea>
+	  <textarea id="UnicodeDefinition" class="NotoSansAdlam" dir="rtl"
+                onfocus="onKeyboardFocus('UnicodeDefinition')">{{definitionUnicode}}</textarea>
       <br />
       Arabic encoding:<br />
       <textarea id="ArabicText" class="aissataArabic" dir="rtl">{{oldtext}}</textarea>
