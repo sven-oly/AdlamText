@@ -613,24 +613,6 @@ class GetPhrases(webapp2.RequestHandler):
     path = os.path.join(os.path.dirname(__file__), 'phrasesList.html')
     self.response.out.write(template.render(path, template_values))
 
-# Uses blob. TODO: make this work.
-class OldProcessUpload(webapp2.RequestHandler):
-   def post(self):
-     upload_files = self.get_uploads('file')
-     #logging.info('$$$$$$$$$ upload_files %s' % upload_files[1])
-
-     blob_info = upload_files[0]
-     #logging.info('$$$$$$$$$ blob_info %s' % blob_info)
-
-     entries = process_csv(blob_info)
-     blobstore.delete(blob_info.key())  # optional: delete file after import
-
-     self.response.headers['Content-Type'] = 'application/json'
-     self.response.out.write(self.request.get('csv'))
-     # filename = 'data/Approved_Words.Language.xlsx - Sheet1.csv'
-     #file = open(os.path.join(os.path.dirname(__file__), filename))
-
-     self.response.out.write(entries)
 
 # To handle UTF-8 input.
 def unicode_csv_reader(unicode_csv_data, dialect=csv.excel, **kwargs):

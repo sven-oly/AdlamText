@@ -93,6 +93,9 @@ class KeyboardHandler(webapp2.RequestHandler):
 
       template_values = {
         'fontFamilies': fontList,
+        'user_nickname': user_info[1],
+        'user_logout': user_info[2],
+        'user_login_url': user_info[3],
         'editOrAdmin': user_info[4],
       }
       path = os.path.join(os.path.dirname(__file__), 'keyboard.html')

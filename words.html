@@ -198,7 +198,8 @@
     updateHex('old_font_input_text', 'old_hex');
     updateHex('Unicode_font_output_text', 'new_hex');
 
-    onFontSelected();
+      onFontSelected(document.getElementById('selectUnicodeFont'), 'Unicode_font_output_text');
+      onFontSelected(document.getElementById('selectArabicFont'), 'old_font_input_text');
   }
 
     var controller, visible = true;
@@ -214,7 +215,7 @@
       input.focus();
       var selector = document.getElementById('selectKeyboard');
       onLayoutSelected(selector, windowId);
-      var selector = document.getElementById('selectFont');
+      var selector = document.getElementById(selectUnicodeFont);
       onFontSelected(selector, 'Unicode_font_output_text');
     }
 
@@ -262,7 +263,7 @@
     <input type="button" value="Sample text"
            onclick="fillWithSampleAdlam('old_font_input_text', 'old_hex')">
 
-    Font: <select onchange="onFontSelected(this, 'old_font_input_text');" id="selectFont">
+    Font: <select onchange="onFontSelected(this, 'old_font_input_text');" id="selectArabicFont">
 
       <option value="Aissata Arabic">Aissata Arabic</option>
 
@@ -319,7 +320,7 @@
            onclick="clearArea('Unicode_font_output_text', 'new_hex');">
 
     Select font: <select onchange="onFontSelected(this, 'Unicode_font_output_text');"
-       id="selectKeyboard">
+       id="selectUnicodeFont">
 
       <option value="Noto Sans Adlam">Noto Sans Adlam</option>
 
@@ -388,7 +389,7 @@
         <li><a href='/db/manage/'>Manage data</a></li>
       </ul>
       {% endif %}
-
+      <ul>
         <li>
            <a href="http://www.unicode.org/L2/L2014/14219r-n4628-adlam.pdf">Adlam Unicode proposal</a>
         </li>

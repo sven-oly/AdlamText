@@ -479,7 +479,7 @@
       <h4>Status: <span id="status">{{status}}
           {% if editOrAdmin %}. Change status of this phrase:{% endif %}</span></h4>
       <form action="" id="set_status">
-        <input type="radio" name="updateStatus" value="Unknown"> Unknown 
+        <input type="radio" name="updateStatus" value="Unknown" checked> Unknown
         <input type="radio" name="updateStatus" value="Verified"> Verified 
         <input type="radio" name="updateStatus" value="Incorrect"> Incorrect
         <input type="radio" name="updateStatus" value="Font"> Font
@@ -534,7 +534,7 @@
 
     <div class="span-4 last">
     {% if user_nickname %}
-    <h4>Welcome {{user_nickname}}
+        <h4>Welcome {{user_nickname}}</h4>
     {% if user_logout %}
     <a href={{user_logout}}>Logout</a>
     {% endif %}
