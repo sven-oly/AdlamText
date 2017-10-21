@@ -13,131 +13,63 @@
 
   <link rel="stylesheet" type="text/css" href="/css/fonts.css">
 
-  <style>
-   .default {
-     font-family: "Courier New";
-	 font-size: 18px;
-   }
-   .size18 {
-	 font-size: 18px;
-   }
+  <link rel="stylesheet" href="/css/modal.css" type="text/css" media="screen">
 
-   .modal {
-    display: none; /* Hidden by default */
-    position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
-    left: 30px;
-    top: 40%;
-    width: 35%; /* Full width */
-    height: 250px; /* Full height */
-    overflow: auto; /* Enable scroll if needed */
-    background-color: rgb(128,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.1); /* Black w/ opacity */
-}
-/* Modal Content */
-.modal-content {
-    background-color: #fefefe;
-    margin: auto;
-    padding: 10px;
-    border: 1px solid #888;
-    width: 100%;
-    height: 100%;
-}
-
-   /* Model fixed-width text */
-.modalFixedWidth {
-   font-family: "Courier New";
-   font-size: medium;
-   }
-
-/* The Close Button */
-.closeModal {
-    color: #aaaaaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.closeModal:hover,
-.closeModal:focus {
-    color: #000;
-    text-decoration: none;
-    cursor: pointer;
-}
-td {
- border-top: 1px solid #000;
-}
-
-  </style>
 
   <script src="/js/utils.js"></script>
-  <script src="/js/osageConverter.js"></script>
-  <script src="/js/osage_utils.js"></script>
+
+  <script src="/js/modal.js"></script>
 
   <script type="text/javascript" >
-  function hilightUnconverted() {
-    var table=document.getElementById("dbTable");
-    var r=1;
-    while(row=table.rows[r++]) {
-      var c=0;
-      var oldOsageText = row.cells[2].innerText;
-      var oldUnicodeText = row.cells[3].innerText;
-      var uText = oldOsageToUnicode(oldOsageText,
-              false, true, false);
-      if (oldOsageText !="" && oldUnicodeText != uText) {
-        // Only if there is old text to be converted.
-        row.cells[3].style.backgroundColor = "Orange";
+
+  function getDatabases() {
+    var chk_array =  document.getElementsByName("databases");
+    var dbList = [];
+    for (var i = 0; i < chk_array.length; i++) {
+      if (chk_array[i].checked) {
+        dbList.push(chk_array[i].value);
       }
     }
+    return dbList;
   }
 
-  function openSoundModal(maleLink, femaleLink, index, unicodePhrase) {
-    var modal = document.getElementById('soundModal');
-    modal.style.display = "block";
-    var span = document.getElementsByClassName("closeModal")[0];
-
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
-      modal.style.display = "none";
-      }
-    // Close by clicking outside the window.
-    window.onclick = function(event) {
-      if (event.target == modal) {
-        modal.style.display = "none";
+  // Which radio button option is checked?
+  function getStatusRadioButton(statusSetter) {
+        var statusButtons = document.getElementsByName(statusSetter);
+    for (var i = 0; i < statusButtons.length; i++) {
+      if (statusButtons[i].checked) {
+        return statusButtons[i].value;
       }
     }
-    // Fill the sound file, index, unicode fields.
-    var sound = document.getElementById("male_sound");
-    region = document.getElementById("male_audio");
-    if (sound && maleLink) {
-      sound.src = maleLink;
-      region.style.display = "block";
-    } else {
-      region.style.display = "none";
-    }
-    sound = document.getElementById("female_sound");
-    region = document.getElementById("female_audio");
-    if (sound && femaleLink) {
-      sound.src = femaleLink;
-      region.style.display = "block";
-    } else {
-      region.style.display = "none";
-    }
-    var phrase = document.getElementById("modalUnicode");
-    phrase.innerHTML = unicodePhrase;
-    var modalIndex = document.getElementById("modalIndex");
-    modalIndex.innerHTML = index;
+    return "";
   }
 
-  function init(hilight) {
-    if (hilight) {
-      hilightUnconverted();
+  // Code to request CSV downloads of data given the filters.
+  function downloadCSV() {
+    var databases = getDatabases();
+    var filterStatus = getStatusRadioButton("filterStatus");
+    var sortCriteria = getStatusRadioButton("sortCriteria");
+
+    var outputFile = window.prompt("File name for downloaded CSV","database.csv");
+    var target = "/words/downloadCSV/?filterStatus=" + filterStatus +
+      "&sortCriteria=" + sortCriteria +
+      "&outfileName=" + outputFile;
+    for (var i = 0; i < databases.length; i++) {
+      target = target + "&databases=" + databases[i];
     }
+
+    window.location.replace(target);
   }
+
+  function init() {
+    // Set up defaults.
+  }
+
   </script>
   </head>
 
-  <body onload="init(false)">
+  <body onload="init();">
+
   <div class="container">
     <h2>{{language}} data from database</h2>
     <div class="span-6 default">
@@ -171,8 +103,13 @@ td {
           {% if selectAllDB %}
            checked
           {% endif %}
-          >All<br />
+          >All
+        <br />
+       Sort by:
+       <input type="radio" name="sortCriteria" value="index">index
+       <input type="radio" name="sortCriteria" value="alpha" checked>alpha
        <input type="submit" value="Select">
+        <br />
    </form>
            
     </div>
@@ -193,6 +130,10 @@ td {
   <div class="container">
     
     <div class="span-20 last">
+    <form action="/words/phraselist/" id="downloadDSV">
+      <input type="button" value="Download CSV" onclick="downloadCSV();">
+    </form>
+
     <table id="dbTable">
       <br />
 
@@ -208,7 +149,7 @@ td {
       <tr class="default">
         <td valign="top"><a href="/words/review/?index={{entry.index}}&dbName={{entry.dbName}}" target=_blank>{{entry.index}}</a></td>
         <td>{%if entry.soundMaleLink or entry.soundFemaleLink%}
-          <button onclick="openSoundModal('{{entry.soundMaleLink}}', '{{entry.soundFemaleLink}}', {{entry.index}}, '{{entry.osagePhraseUnicode}}');">Play</button>
+          <button onclick="openSoundModal('{{entry.soundMaleLink}}', '{{entry.soundFemaleLink}}', {{entry.index}}, '{{entry.phraseUnicode}}');">Play</button>
           {% endif %}
           {%if entry.soundMaleLink%}M{%endif%}
           {% if entry.soundFemaleLink%}F{%endif%}</td>
@@ -238,7 +179,7 @@ td {
     <span class="closeModal">&times;</span>
     <h3 id="phrase">Play sound files</h3>
     <p  class="modalFixedWidth">Index = <span id="modalIndex"></span>
-      Phrase: <span id="modalUnicode" class="unicodeOsageText size18"></span>
+      Phrase: <span id="modalUnicode" class="NotoSansAdlam size18"></span>
     </p>
     <div id="male_audio">
       <span class="modalFixedWidth">M: </span>

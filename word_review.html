@@ -35,401 +35,408 @@
 
   <script src="/js/vk-debug.js"></script>
 
+    <script type="text/javascript">
 
-  <script type="text/javascript" >
-
-  // Navigate to phrases.
-  function getPrevious() {
-    indexObj = document.getElementById('index');
-    index = parseInt(indexObj.innerText);
-    if (index > 1) {
-      dataRequest(index - 1, -1);
-    }
-  }
-
-  function getNext() {
-    indexObj = document.getElementById('index');
-    index = parseInt(indexObj.innerText);
-    if (index >= 0) {
-      dataRequest(index + 1, 1);
-    }
-  }
-
-  // Jump to specific index.
-  function goTo(inputArea) {
-    indexObj = document.getElementById(inputArea);
-    index = parseInt(indexObj.value);
-    if (index >= 0) {
-      dataRequest(index, 0);
-    }
-  }
-  
-  // Code to request {{language}} data at index with optional filter.
-  // Direction indicates previous (-1) or next (+1)
-  function dataRequest(index, direction) {
-    // Prepare for the call to the backendvar xmlhttp;
-	if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
-	  xmlhttp=new XMLHttpRequest();
-	} else { // code for IE6, IE5
-	  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-	}
-
-    // Deal with the results	  
-    xmlhttp.onreadystatechange=function() {
-	  if(xmlhttp.readyState==4) {
-	      var returned_json = xmlhttp.responseText;
-		  var index = document.getElementById('index');
-		  var arabicText = document.getElementById('ArabicText');
-		  var latinText = document.getElementById('latinText');
-		  var utext = document.getElementById('UnicodeText');
-		  var definitionUnicode = document.getElementById('UnicodeDefinition');
-		  var english = document.getElementById('English');
-		  var french = document.getElementById('French');
-		  var newIndex = document.getElementById('newIndex');
-		  var status = document.getElementById('status');
-		  var errorMsg = document.getElementById('errorMsg');
-          var comment = document.getElementById('comment');
-          var dbName = document.getElementById('dbName');
-          var updatePhraseKey1 = document.getElementById('updatePhraseKeyStatus');
-          var updatePhraseKey2 = document.getElementById('updatePhraseKeyUpload');
-
-          var json_obj = JSON.parse(returned_json);
-          if (json_obj.error) {
-            // Warn, and don't change values.
-            alert(json_obj.error);
-            return;
-          }
-          index.value = index.innerHTML = json_obj.index;
-          arabicText.value = arabicText.innerHTML = json_obj.arabicText;
-          utext.value = utext.innerHTML = json_obj.unicodeText;
-          newIndex.value = newIndex.innerHTML = json_obj.index;
-          if (latinText) {
-            latinText.value = oldText.innerHTML = json_obj.latinText;
-          }
-          english.value = english.innerHTML = json_obj.english;
-          french.value = french.innerHTML = json_obj.french;
-          comment.value = comment.innerHTML = json_obj.comment;
-          dbName.value = json_obj.dbName
-
-          updatePhraseKey1.value = json_obj.phraseKey;
-          updatePhraseKey2.value = json_obj.phraseKey;
-
-          definitionUnicode.value = definitionUnicode.innerHTML = json_obj.definitionUnicode;
-
-          var warnStatus = setWarningBox(json_obj.utext, json_obj.oldtext);
-          if (json_obj.oldtext && !warnStatus) {
-            // uText is either empty or same as converted.
-            convertToUnicode('oldText', 'UnicodeText', 'old_hex');
-          }
-          warning_box = document.getElementById('warning');     
-
-          var newStatus = json_obj.status;
-          if (newStatus == "" || newStatus == "unknown") {
-            newStatus = "Unknown";
-          }
-          
-          status.value = status.innerHTML = newStatus;
-          // Reset the status radio button
-          setStatusRadioButton("updateStatus", newStatus);
-
-          // Handle voice icons
-          var isMaleVoice = json_obj.soundMaleLink;
-          if (isMaleVoice) {
-            setDisplayState('maleVoice', 'block');
-          } else {
-             setDisplayState('maleVoice', 'none');
-         }
-          var isFemaleVoice = json_obj.soundFemaleLink;
-          // TODO: Set icons and links for sound output.
-          if (isFemaleVoice) {
-            setDisplayState('femaleVoice', 'block');
-          } else {
-            setDisplayState('femaleVoice', 'none');
-          }
+        // Navigate to phrases.
+        function getPrevious() {
+        indexObj = document.getElementById('index');
+        index = parseInt(indexObj.innerText);
+        if (index > 1) {
+        dataRequest(index - 1, -1);
         }
-      }
-	
-	// Set up the call, with filtering.
-	var filterStatus = getStatusRadioButton("filterStatus");
-    if (direction == 0) {
-      // Should not filter if a direct "go to".
-      filterStatus = "All";
-    }
-  dbName = document.getElementById('dbName').value;
-  var databases = getDatabases();
-  var target = "/words/getWords/?index=" + index + "&filterStatus=" +
-	  filterStatus +
-	  "&direction=" + direction +
-	  "&dbName=" + dbName
-	for (var i = 0; i < databases.length; i++) {
-    target = target + "&databases=" + databases[i];
-	}
-	//xmlhttp.open("POST", target, true);
-	xmlhttp.open("GET", target, true);
-	var size = target.length;
-	xmlhttp.send(null);	  
-  }
-
-  function updatePhraseStatus(indexArea, statusSetter) {
-    // Get id and new status value.
-    // Prepare for the call to the backendvar xmlhttp;
-    var indexObj = document.getElementById(indexArea);
-    var index = parseInt(indexObj.innerText);
-    var unicodeData = document.getElementById("UnicodeText").value;
-    var arabicTextData = document.getElementById("ArabicText").value;
-	var english = document.getElementById('English').value;
-	var french = document.getElementById('French').value;
-    var comment = document.getElementById('comment').value;
-
-    if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
-	  xmlhttp=new XMLHttpRequest();
-	} else { // code for IE6, IE5
-	  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-	}
-
-    // Deal with the results	  
-    xmlhttp.onreadystatechange=function()
-	{
-	  if(xmlhttp.readyState==4) {
-	      var returned_json = xmlhttp.responseText;
-		  var json_obj = JSON.parse(returned_json);
-		  if (json_obj.status) {
-		    var statusObj = document.getElementById("status"); 
-		    statusObj.value = statusObj.innerHTML = json_obj.status;     
-          }
         }
-	}
-	
-  	// Set up the call with new status.
-  	var newStatus = getStatusRadioButton(statusSetter); 
-    var comment = document.getElementById("comment").value;
-    var dbName = document.getElementById("dbName").value;
-    var phraseKey =
+
+        function getNext() {
+        indexObj = document.getElementById('index');
+        index = parseInt(indexObj.innerText);
+        if (index >= 0) {
+        dataRequest(index + 1, 1);
+        }
+        }
+
+        // Jump to specific index.
+        function goTo(inputArea) {
+        indexObj = document.getElementById(inputArea);
+        index = parseInt(indexObj.value);
+        if (index >= 0) {
+        dataRequest(index, 0);
+        }
+        }
+
+        // Code to request {{language}} data at index with optional filter.
+        // Direction indicates previous (-1) or next (+1)
+        function dataRequest(index, direction) {
+        // Prepare for the call to the backendvar xmlhttp;
+        if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp=new XMLHttpRequest();
+        } else { // code for IE6, IE5
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        // Deal with the results
+        xmlhttp.onreadystatechange=function() {
+        if(xmlhttp.readyState==4) {
+        var returned_json = xmlhttp.responseText;
+        var index = document.getElementById('index');
+        var arabicText = document.getElementById('ArabicText');
+        var latinText = document.getElementById('latinText');
+        var utext = document.getElementById('UnicodeText');
+        var definitionUnicode = document.getElementById('UnicodeDefinition');
+        var english = document.getElementById('English');
+        var french = document.getElementById('French');
+        var newIndex = document.getElementById('newIndex');
+        var status = document.getElementById('status');
+        var errorMsg = document.getElementById('errorMsg');
+        var comment = document.getElementById('comment');
+        var dbName = document.getElementById('dbName');
+        var updatePhraseKey1 = document.getElementById('updatePhraseKeyStatus');
+        var updatePhraseKey2 = document.getElementById('updatePhraseKeyUpload');
+
+        var json_obj = JSON.parse(returned_json);
+        if (json_obj.error) {
+        // Warn, and don't change values.
+        alert(json_obj.error);
+        return;
+        }
+        index.value = index.innerHTML = json_obj.index;
+        arabicText.value = arabicText.innerHTML = json_obj.arabicText;
+        utext.value = utext.innerHTML = json_obj.unicodeText;
+        newIndex.value = newIndex.innerHTML = json_obj.index;
+        if (latinText) {
+        latinText.value = oldText.innerHTML = json_obj.latinText;
+        }
+        english.value = english.innerHTML = json_obj.english;
+        french.value = french.innerHTML = json_obj.french;
+        comment.value = comment.innerHTML = json_obj.comment;
+        dbName.value = json_obj.dbName
+
+        updatePhraseKey1.value = json_obj.phraseKey;
+        updatePhraseKey2.value = json_obj.phraseKey;
+
+        definitionUnicode.value = definitionUnicode.innerHTML = json_obj.definitionUnicode;
+
+        var warnStatus = setWarningBox(json_obj.utext, json_obj.oldtext);
+        if (json_obj.oldtext && !warnStatus) {
+        // uText is either empty or same as converted.
+        convertToUnicode('oldText', 'UnicodeText', 'old_hex');
+        }
+        warning_box = document.getElementById('warning');
+
+        var newStatus = json_obj.status;
+        if (newStatus == "" || newStatus == "unknown") {
+        newStatus = "Unknown";
+        }
+
+        status.value = status.innerHTML = newStatus;
+        // Reset the status radio button
+        setStatusRadioButton("updateStatus", newStatus);
+
+        // Handle voice icons
+        var isMaleVoice = json_obj.soundMaleLink;
+        if (isMaleVoice) {
+          setDisplayState('maleVoice', 'block');
+        } else {
+          setDisplayState('maleVoice', 'none');
+        }
+        var isFemaleVoice = json_obj.soundFemaleLink;
+        // TODO: Set icons and links for sound output.
+        if (isFemaleVoice) {
+          setDisplayState('femaleVoice', 'block');
+        } else {
+          setDisplayState('femaleVoice', 'none');
+        }
+        }
+        }
+
+        // Set up the call, with filtering.
+        var filterStatus = getStatusRadioButton("filterStatus");
+        if (direction == 0) {
+        // Should not filter if a direct "go to".
+        filterStatus = "All";
+        }
+        dbName = document.getElementById('dbName').value;
+        var databases = getDatabases();
+        var target = "/words/getWords/?index=" + index + "&filterStatus=" +
+        filterStatus +
+        "&direction=" + direction +
+        "&dbName=" + dbName
+        for (var i = 0; i
+        < databases.length
+        ; i++) {
+        target = target + "&databases=" + databases[i];
+        }
+        //xmlhttp.open("POST", target, true);
+        xmlhttp.open("GET", target, true);
+        var size = target.length;
+        xmlhttp.send(null);
+        }
+
+        function updatePhraseStatus(indexArea, statusSetter) {
+        // Get id and new status value.
+        // Prepare for the call to the backendvar xmlhttp;
+        var indexObj = document.getElementById(indexArea);
+        var index = parseInt(indexObj.innerText);
+        var unicodeData = document.getElementById("UnicodeText").value;
+        var arabicTextData = document.getElementById("ArabicText").value;
+        var english = document.getElementById('English').value;
+        var french = document.getElementById('French').value;
+        var comment = document.getElementById('comment').value;
+
+        if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp=new XMLHttpRequest();
+        } else { // code for IE6, IE5
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        // Deal with the results
+        xmlhttp.onreadystatechange=function()
+        {
+        if(xmlhttp.readyState==4) {
+        var returned_json = xmlhttp.responseText;
+        var json_obj = JSON.parse(returned_json);
+        if (json_obj.status) {
+        var statusObj = document.getElementById("status");
+        statusObj.value = statusObj.innerHTML = json_obj.status;
+        }
+        }
+        }
+
+        // Set up the call with new status.
+        var newStatus = getStatusRadioButton(statusSetter);
+        var comment = document.getElementById("comment").value;
+        var dbName = document.getElementById("dbName").value;
+        var phraseKey =
         document.getElementById("updatePhraseKeyStatus").value;
 
-	var target = "/words/updateStatus/?index=" + index + "&newStatus=" + newStatus +
-	  "&unicodePhrase=" + unicodeData + "&comment=" + comment +
-	  "&arabicText=" + arabicTextData +
-	  "&dbName=" + dbName +
-	  "&french=" + french +
-	  "&english=" + english +
-	  "&comment=" + comment +
-	  "&phraseKey=" + phraseKey;
-	
-	xmlhttp.open("GET", target, true);
-	var size = target.length;
-	xmlhttp.send(null);
- }
+        var target = "/words/updateStatus/?index=" + index + "&newStatus=" + newStatus +
+        "&unicodePhrase=" + unicodeData + "&comment=" + comment +
+        "&arabicText=" + arabicTextData +
+        "&dbName=" + dbName +
+        "&french=" + french +
+        "&english=" + english +
+        "&comment=" + comment +
+        "&phraseKey=" + phraseKey;
 
-  // Which radio button option is checked?
-  function getStatusRadioButton(statusSetter) {
-  	var statusButtons = document.getElementsByName(statusSetter);
-    for (var i = 0; i < statusButtons.length; i++) {       
-      if (statusButtons[i].checked) {
+        xmlhttp.open("GET", target, true);
+        var size = target.length;
+        xmlhttp.send(null);
+        }
+
+        // Which radio button option is checked?
+        function getStatusRadioButton(statusSetter) {
+        var statusButtons = document.getElementsByName(statusSetter);
+        for (var i = 0; i
+        < statusButtons.length
+        ; i++) {
+        if (statusButtons[i].checked) {
         return statusButtons[i].value;
-      }
-    }
-    return "";
-  }
+        }
+        }
+        return "";
+        }
 
-  // Set which radio button is checked.
-  function setStatusRadioButton(statusSetter, status) {
-  	// Set up the call with new status.
-  	var statusButtons = document.getElementsByName(statusSetter);
-    for (var i = 0; i < statusButtons.length; i++) {       
-      statusButtons[i].checked = (statusButtons[i].value == status);
-    }
-  }
+        // Set which radio button is checked.
+        function setStatusRadioButton(statusSetter, status) {
+        // Set up the call with new status.
+        var statusButtons = document.getElementsByName(statusSetter);
+        for (var i = 0; i
+        < statusButtons.length
+        ; i++) {
+        statusButtons[i].checked = (statusButtons[i].value == status);
+        }
+        }
 
-  function addPhraseToDatastore(oldText, unicodeText, englishText, frenchText) {
-    
-	if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
-	  xmlhttp=new XMLHttpRequest();
-	} else { // code for IE6, IE5
-	  xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-	}
+        function addPhraseToDatastore(oldText, unicodeText, englishText, frenchText) {
 
-    // Deal with the results	  
-    xmlhttp.onreadystatechange=function()
-	{
-	  if (xmlhttp.readyState==4) {
-	    var returned_json = xmlhttp.responseText;
-		var json_obj = JSON.parse(returned_json);
+        if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp=new XMLHttpRequest();
+        } else { // code for IE6, IE5
+        xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        // Deal with the results
+        xmlhttp.onreadystatechange=function()
+        {
+        if (xmlhttp.readyState==4) {
+        var returned_json = xmlhttp.responseText;
+        var json_obj = JSON.parse(returned_json);
         if (json_obj.new_index) {
-          // Update index value.
-          var indexObj = document.getElementById("index");
-          indexObj.innerHTML = indexObj.value = json_obj.new_index;
-          var numEntries = document.getElementById("numEntries");
-          numEntries.innerHTML = numEntries.value = json_obj.new_index;
+        // Update index value.
+        var indexObj = document.getElementById("index");
+        indexObj.innerHTML = indexObj.value = json_obj.new_index;
+        var numEntries = document.getElementById("numEntries");
+        numEntries.innerHTML = numEntries.value = json_obj.new_index;
         }
         // Set up alert for results.
-        alert(json_obj.message);       
-      }
-	}
-	
-  	// Set up the call to store new phrase information.
-    var arabicText = document.getElementById(oldText);
-    var uTextObj = document.getElementById(unicodeText);
-    var englishTextObj = document.getElementById(englishText);
-    var frenchTextObj = document.getElementById(frenchText);
-    var comment = document.getElementById('comment').value;
-    var definitionUnicode = document.getElementById('UnicodeDefinition').value;
-    var arabicText = arabicText.value;
-    var unicodeText = uTextObj.value;
-    var englishText = englishTextObj.value;
-    var frenchText = frenchTextObj.value;
-    var dbName = document.getElementById("dbName").value;
-    
-	var target = "/words/addPhrase/?arabicText=" + arabicText + "&uText=" + unicodeText +
-	  "&definitionUnicode=" + definitionUnicode +
-	  "&engText=" + englishText +
-	  "&frenchText=" + frenchText +
-	  "&comment=" + comment + "&dbName=" + dbName;
-	xmlhttp.open("GET", target, true);
-	var size = target.length;
-	xmlhttp.send(null);
-  }
-  
-  function switchDatabase() {
-    var dbList = getDatabases();
-    // TODO: change the database criteria
-  }
+        alert(json_obj.message);
+        }
+        }
 
-  function getDatabases() {
-    var chk_array =  document.getElementsByName("databases");
-    var dbList = [];
-    for (var i = 0; i < chk_array.length; i++) {
-      if (chk_array[i].checked) {
+        // Set up the call to store new phrase information.
+        var arabicText = document.getElementById(oldText);
+        var uTextObj = document.getElementById(unicodeText);
+        var englishTextObj = document.getElementById(englishText);
+        var frenchTextObj = document.getElementById(frenchText);
+        var comment = document.getElementById('comment').value;
+        var definitionUnicode = document.getElementById('UnicodeDefinition').value;
+        var arabicText = arabicText.value;
+        var unicodeText = uTextObj.value;
+        var englishText = englishTextObj.value;
+        var frenchText = frenchTextObj.value;
+        var dbName = document.getElementById("dbName").value;
+
+        var target = "/words/addPhrase/?arabicText=" + arabicText + "&uText=" + unicodeText +
+        "&definitionUnicode=" + definitionUnicode +
+        "&engText=" + englishText +
+        "&frenchText=" + frenchText +
+        "&comment=" + comment + "&dbName=" + dbName;
+        xmlhttp.open("GET", target, true);
+        var size = target.length;
+        xmlhttp.send(null);
+        }
+
+        function switchDatabase() {
+        var dbList = getDatabases();
+        // TODO: change the database criteria
+        }
+
+        function getDatabases() {
+        var chk_array = document.getElementsByName("databases");
+        var dbList = [];
+        for (var i = 0; i
+        < chk_array.length
+        ; i++) {
+        if (chk_array[i].checked) {
         dbList.push(chk_array[i].value);
-      }
-    }
-    return dbList;
-  }
+        }
+        }
+        return dbList;
+        }
 
-  function onFontSelected(selected) {
-    var output_text = document.getElementById('UnicodeText');
-    var fontFam = selected.value;
-    output_text.style.fontFamily = fontFam + ', Arial';
-  }
-  
-  function setWarningBox(oldUText, oldText) {
-    var warning_box = document.getElementById('warning');
-    if (!oldUText) {
-      warning_box.style.display = 'none';
-      return false;
-    }
+        function onFontSelected(selected) {
+        var output_text = document.getElementById('UnicodeText');
+        var fontFam = selected.value;
+        output_text.style.fontFamily = fontFam + ', Arial';
+        }
 
-    var oldTextArea = document.getElementById('oldText');
-    if (oldText == "") {
-      warning_box.style.display = 'none';
-      return false;
-    }
-    var convertedUText = convertOtherToUnicode(oldText,
-         false, true, false);
-    if (convertedUText !== oldUText) {
-      warning_box.style.display = 'block';
-      return true;
-    }
-    else {
-      warning_box.style.display = 'none';
-      return false;
-    }
-  }
+        function setWarningBox(oldUText, oldText) {
+        var warning_box = document.getElementById('warning');
+        if (!oldUText) {
+        warning_box.style.display = 'none';
+        return false;
+        }
 
-  // Convert to Unicode
-  function convertArabicToUnicode(idIn, outId, hexId, lowerId,
-      sentenceCaseId) {
-    var inObj = document.getElementById(idIn);
-    var outObj = document.getElementById(outId);
-    var hexObj = document.getElementById(hexId);
-    var lowerObj = document.getElementById(lowerId);
-    var sentenceCaseObj = document.getElementById(sentenceCaseId);
-    if (sentenceCaseObj) {
-      sentenceCaseChecked = sentenceCaseObj.checked;
-    } else {
-      sentenceCaseChecked = false;
-    }
-    var textOut = convertOtherToUnicode(inObj.value, lowerObj.checked,
-      sentenceCaseChecked);
+        var oldTextArea = document.getElementById('oldText');
+        if (oldText == "") {
+        warning_box.style.display = 'none';
+        return false;
+        }
+        var convertedUText = convertOtherToUnicode(oldText,
+        false, true, false);
+        if (convertedUText !== oldUText) {
+        warning_box.style.display = 'block';
+        return true;
+        }
+        else {
+        warning_box.style.display = 'none';
+        return false;
+        }
+        }
 
-    outObj.innerHTML = outObj.value = textOut;
-  }
+        // Convert to Unicode
+        function convertArabicToUnicode(idIn, outId, hexId, lowerId,
+        sentenceCaseId) {
+        var inObj = document.getElementById(idIn);
+        var outObj = document.getElementById(outId);
+        var hexObj = document.getElementById(hexId);
+        var lowerObj = document.getElementById(lowerId);
+        var sentenceCaseObj = document.getElementById(sentenceCaseId);
+        if (sentenceCaseObj) {
+        sentenceCaseChecked = sentenceCaseObj.checked;
+        } else {
+        sentenceCaseChecked = false;
+        }
+        var textOut = convertOtherToUnicode(inObj.value, lowerObj.checked,
+        sentenceCaseChecked);
 
-  function onSoundLoaded(audio_id, target) {
-    var audio_out = document.getElementById(audio_id);
-    audio_out.src = target;
-    audio_out.controls = "true";
-    // document.getElementById('audio_out').play();
-  }
+        outObj.innerHTML = outObj.value = textOut;
+        }
 
-  // Update to toggle region on/off.
-  function setDisplayState(id, newstate) {  // block or none
-    var obj = document.getElementById(id);
-    if(obj) {
-      obj.style.display = newstate;
-    }
-   }
+        function onSoundLoaded(audio_id, target) {
+        var audio_out = document.getElementById(audio_id);
+        audio_out.src = target;
+        audio_out.controls = "true";
+        // document.getElementById('audio_out').play();
+        }
+
+        // Update to toggle region on/off.
+        function setDisplayState(id, newstate) { // block or none
+        var obj = document.getElementById(id);
+        if(obj) {
+        obj.style.display = newstate;
+        }
+        }
 
 
-  // KEYBOARD
+        // KEYBOARD
 
-  function clearText(inputId) {
-      var field = document.getElementById(inputId);
-      field.value = "\u202e";
-      // field = document.getElementById('codepoints');
-      field.value = '';
-      field.focus();
-  }
+        function clearText(inputId) {
+        var field = document.getElementById(inputId);
+        field.value = "\u202e";
+        // field = document.getElementById('codepoints');
+        field.value = '';
+        field.focus();
+        }
 
-    var controller, visible = true;
+        var controller, visible = true;
 
-    function initKeyboard(inputId) {
-      clearText(inputId);
-      var input = document.getElementById(inputId);
-      controller = new i18n.input.keyboard.Keyboard();
-      controller.loadLayout('ful');
-      controller.reposition(input, 2, 0, [1, 0, 0, 0]);
-      controller.register(input);
-      controller.addEventListener('kc', function() { visible = false; });
-      input.focus();
-      //var selector = document.getElementById('selectKeyboard');
-      onLayoutSelected('ful', inputId);
-  }
+        function initKeyboard(inputId) {
+        clearText(inputId);
+        var input = document.getElementById(inputId);
+        controller = new i18n.input.keyboard.Keyboard();
+        controller.loadLayout('ful');
+        controller.reposition(input, 2, 0, [1, 0, 0, 0]);
+        controller.register(input);
+        controller.addEventListener('kc', function() { visible = false; });
+        input.focus();
+        //var selector = document.getElementById('selectKeyboard');
+        onLayoutSelected('ful', inputId);
+        }
 
-    function onLayoutSelected(value, inputId) {
-    controller.activateLayout(value);
-    document.getElementById(inputId).focus();
-    var vkbox = document.getElementById('kbd');
-    }
+        function onLayoutSelected(value, inputId) {
+        controller.activateLayout(value);
+        document.getElementById(inputId).focus();
+        var vkbox = document.getElementById('kbd');
+        }
 
-  function onKeyboardFocus(inputId) {
-    var input = document.getElementById(inputId);
-    controller.register(input);
-  }
+        function onKeyboardFocus(inputId) {
+        var input = document.getElementById(inputId);
+        controller.register(input);
+        }
 
-  // Initialize the page.
-  function init() {
-    // Set warning if store is not same as new conversion.
-    var oldText = document.getElementById('ArabicText').value;
-    var uText = document.getElementById('UnicodeText').value;
-    var warnStatus = setWarningBox(uText, oldText);
-  
-    if (oldText && !warnStatus) {
-      // uText is either empty or same as converted.
-      convertToUnicode('ArabicText', 'UnicodeText', 'old_hex');
-    }
-    // Set initial status.
-    var status = document.getElementById("status").innerHTML;
-    setStatusRadioButton("updateStatus", status);
+        // Initialize the page.
+        function init() {
+        // Set warning if store is not same as new conversion.
+        var oldText = document.getElementById('ArabicText').value;
+        var uText = document.getElementById('UnicodeText').value;
+        var warnStatus = setWarningBox(uText, oldText);
 
-    onFontSelected(document.getElementById("selectFont"));
+        if (oldText && !warnStatus) {
+        // uText is either empty or same as converted.
+        convertToUnicode('ArabicText', 'UnicodeText', 'old_hex');
+        }
+        // Set initial status.
+        var status = document.getElementById("status").innerHTML;
+        setStatusRadioButton("updateStatus", status);
 
-    initKeyboard("UnicodeText");
-  }
+        onFontSelected(document.getElementById("selectFont"));
 
-  </script>
-  
-  </head>
+        initKeyboard("UnicodeText");
+        }
+
+    </script>
+
+</head>
 
   <body onload="init()">
   <div class="container">

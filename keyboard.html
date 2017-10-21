@@ -17,8 +17,10 @@
     <link rel="stylesheet" type="text/css" href="/css/keyboard.css">
     <link rel="stylesheet" type="text/css" href="/css/fonts.css">
 
-    <script type="text/css">             f
-      .vk-button {font-family:Noto Sans Adlam, Adlam, Arial;}
+    <script type="text/css">
+      .vk-box {font-family:'Noto Sans Adlam'};
+
+      .vk-button {font-family:"Noto Sans Adlam", Adlam, Arial;}
       .input {font-size:18px;}
       .textarea {font-size:16px; font-family:"Courier New";}
       .t1 {font-family:Noto Sans Adlam, Arial;}
@@ -42,6 +44,11 @@
       onLayoutSelected(selector);
       var selector = document.getElementById('selectFont');
       onFontSelected(selector, 't1');
+
+      var kbd = document.getElementById('kbd');
+      if (kbd) {
+        kbd.style.fontFamily = 'Noto Sans Adlam';
+      }
     }
 
     function onLayoutSelected(selector) {

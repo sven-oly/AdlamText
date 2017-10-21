@@ -33,3 +33,8 @@ indexes:
   - name: status
   - name: index
     direction: desc
+
+- kind: PhraseDB
+  properties:
+  - name: status
+  - name: phraseUnicode

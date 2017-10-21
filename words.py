@@ -39,9 +39,9 @@ class PhraseDB(db.Model):
   comment = db.StringProperty('')
   reference = db.StringProperty('')  # Reference number or other identifier
 
-  # Pointing to sound files by URL:
-  soundFemaleLink = db.TextProperty('');
-  soundMaleLink = db.TextProperty('');
+# Pointing to sound files by URL:
+  soundFemaleLink = db.TextProperty('')
+  soundMaleLink = db.TextProperty('')
   soundLinks = db.ListProperty(str, verbose_name='sound_files', default=[])
 
 
@@ -490,7 +490,7 @@ class AddPhrase(webapp2.RequestHandler):
                                                  result.phraseUnicode,
                                                  result.englishPhrase))
 
-    logging.info('AddPhrase: %s, eng = %s' % (arabicText, engText) )
+    #logging.info('AddPhrase: %s, eng = %s' % (arabicText, engText) )
     if result:
       # It's a duplicate. Return warning.
       message = 'This message already exists at index %s' % result.index
@@ -523,6 +523,7 @@ class AddPhrase(webapp2.RequestHandler):
     }
     self.response.out.write(json.dumps(response))
 
+
 class DeletePhrase(webapp2.RequestHandler):
   def get(self):
     phraseKey = self.request.get('phraseKey', '')
@@ -537,64 +538,71 @@ class DeletePhrase(webapp2.RequestHandler):
       result = PhraseDB.delete(p)
     # TODO: Return result
 
-# Resets items from database.
+# Return entries based on the criteria given.
+def getDBItemsFiltered(databases, selectAllDB, filterStatus, orderBy=None):
+  q = PhraseDB.all()
+  if filterStatus:
+    q.filter('status =', filterStatus)
+  if not selectAllDB or databases:
+    if type(databases) is not list:
+      databases = [databases]
+    q.filter('dbName IN', databases)
+  if orderBy:
+    q.order(orderBy)
+
+  numEntries = 0
+  entries = []
+  nullIndexCount = 0
+  for p in q.run():
+    numEntries += 1
+
+    #logging.info('  ** entry = %s, %s' % (p.index, p.phraseUnicode))
+    if not p.index:
+      nullIndexCount += 1
+      entry = (p.index, p.englishPhrase, p.phraseLatin, p.phraseUnicode,
+               p.status, p.dbName)
+    entries.append(p)
+
+  logging.info('!!! getDBItemsFiltered has %d entries' % numEntries)
+  return entries
+
+
+# Returns items from database.
 class GetPhrases(webapp2.RequestHandler):
   def get(self):
     user_info = getUserInfo(self.request.url)
 
     filterStatus = self.request.get('filterStatus', '')
+    sortCriteria = self.request.get('sortCriteria', 'index')
     dbName = self.request.get('dbName', '')
     databases = self.request.GET.getall('databases')
+
     if databases == '*All*' or '*All*' in databases:
       selectAllDB = True
       databases = []
     else:
       selectAllDB = False
 
-    # logging.info('  **** Databases = %s, selectAllDB = %s' % (databases, selectAllDB))
+    logging.info('GetPhrases. Sort by %s. selectAllDB: %s' % (sortCriteria, selectAllDB))
 
-    q = PhraseDB.all()
-    if filterStatus:
-      q.filter('status =', filterStatus)
-    if not selectAllDB or databases:
-      if type(databases) is not list:
-        databases = [databases]
-      q.filter('dbName IN', databases)
-      logging.info('FILTER WITH DATABASES: %s' % databases)
-    q.order('index')
+    if sortCriteria == 'alpha':
+      sortCriteria = 'phraseUnicode'
+    entries = getDBItemsFiltered(databases, selectAllDB, filterStatus, sortCriteria)
 
-    # All available databases.
+    # Return all available databases.
     dbq = DbName.all()
     dbNames = [p.dbName for p in dbq.run()]
     dbNameListChecked = []
     for db in dbNames:
       setcheck = db in databases
       dbNameListChecked.append({'dbName':db, 'checked':setcheck})
-    # dbNameListChecked.append({'db':'All', 'checked':selectAllDB})
 
-    # logging.info('dbNames = %s' % dbNames)
-    # logging.info('dbNameListChecked = %s' % dbNameListChecked)
-    # logging.info('dbNameList = %s' % dbNames)
-
-    # TODO: Make this user-specific.
+    # TODO: Make this default to be user-specific.
     try:
       defaultDB = dbNames[0]
     except:
       defaultDB = None
 
-    numEntries = 0
-    entries = []
-    nullIndexCount = 0
-    for p in q.run():
-      numEntries += 1
-
-      # logging.info('  ** entry = %s, %s' % (p.index, p.phraseUnicode))
-      if not p.index:
-        nullIndexCount += 1
-        entry = (p.index, p.englishPhrase, p.phraseLatin, p.phraseUnicode,
-          p.status, p.dbName)
-      entries.append(p)
-    # TODO: get them, and sent to client
     template_values = {
       'language': main.Language,
       'entries': entries,
@@ -612,6 +620,55 @@ class GetPhrases(webapp2.RequestHandler):
 
     path = os.path.join(os.path.dirname(__file__), 'phrasesList.html')
     self.response.out.write(template.render(path, template_values))
+
+
+  # Returns items from database as CSV file.
+class GetPhrasesCSV(webapp2.RequestHandler):
+  def get(self):
+    user_info = getUserInfo(self.request.url)
+    logging.info('GetPhrasesCSV')
+
+    filterStatus = self.request.get('filterStatus', '')
+    sortCriteria = self.request.get('sortCriteria', 'index')
+    dbName = self.request.get('dbName', '')
+    outfileName = self.request.get('outfileName', 'database.csv')
+
+    databases = self.request.GET.getall('databases')
+    if databases == '*All*' or '*All*' in databases:
+      selectAllDB = True
+      databases = []
+    else:
+      selectAllDB = False
+
+    if sortCriteria == 'alpha':
+      sortCriteria = 'phraseUnicode'
+    entries = getDBItemsFiltered(databases, selectAllDB, filterStatus, sortCriteria)
+    # logging.info('GetPhrasesCSV WRITING %s entries' % entries)
+
+    self.response.headers['Content-Type'] = 'application/csv'
+    self.response.headers['Content-Disposition'] = str('attachment; filename="%s"' % outfileName)
+    writer = csv.writer(self.response.out)
+    # Headers
+    writer.writerow(['index',
+                     'Adlam unicode',
+                     'definition',
+                     'phrase Arabic',
+                     'english Phrase',
+                     'french Phrase',
+                     'status',
+                     'dbName',
+                     'comment'])
+    for entry in entries:
+      logging.info('GetPhrasesCSV WRITING index = %s' % entry.index)
+      writer.writerow([entry.index,
+                       entry.phraseUnicode.encode('utf-8'),
+                       entry.definitionUnicode.encode('utf-8'),
+                       entry.phraseArabic.encode('utf-8'),
+                       entry.englishPhrase.encode('utf-8'),
+                       entry.frenchPhrase.encode('utf-8'),
+                       entry.status,
+                       entry.dbName.encode('utf-8'),
+                       entry.comment.encode('utf-8')])
 
 
 # To handle UTF-8 input.
@@ -787,5 +844,6 @@ app = webapp2.WSGIApplication([
     ('/words/updateStatus/', UpdateStatus),
     ('/words/addPhrase/', AddPhrase),
     ('/words/deletePhrase/', DeletePhrase),
+    ('/words/downloadCSV/', GetPhrasesCSV),
 ], debug=True)
 
