@@ -32,6 +32,11 @@ indexes:
   properties:
   - name: status
   - name: index
+
+- kind: PhraseDB
+  properties:
+  - name: status
+  - name: index
     direction: desc
 
 - kind: PhraseDB

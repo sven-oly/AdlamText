@@ -102,10 +102,6 @@ class GetWordsHandler(webapp2.RequestHandler):
       result = db.get(keyForPhrase)
       logging.info('+++ Got object from key')
     else:
-      #logging.info('GetWordsHandler databases = %s' % databases)
-      #logging.info('GetWordsHandler index = %d, filterStatus=>%s<, direction = %d' %
-      #   (index, filterStatus, direction))
-
       qdb = DbName.all()
       dbNames = [p.dbName for p in qdb.run()]
 
@@ -113,36 +109,37 @@ class GetWordsHandler(webapp2.RequestHandler):
 
       selectByDB = True
       #logging.info('GetWordsHandler DBNAME = %s' % dbName)
-      if '*All*' in databases:
+      if 'All' in databases or '*All*' in databases:
         logging.info('*All* in databases = %s' % databases)
         selectByDB = False
 
       if databases:
         q.filter('dbName IN', databases)
-        # logging.info('GetWordsHandler FILTER by databases = %s' % databases)
+        logging.info('GetWordsHandler FILTER by databases = %s' % databases)
 
-      if filterStatus == 'All' or filterStatus == 'all':
-        # Get the specified index, with no status filter.
-        #logging.info('GetWordsHandler Going for index = %d' % index)
-        q.filter("index =", index)
-      else:
-        # Set up to get next phrase with required status and index >= query index.
+      if filterStatus != 'All' and filterStatus != 'all':
+        # Set up to get g phrase with required status and index >= query index.
         #logging.info('FILTERING WITH status = %s, index >= %d' % (filterStatus, index))
         q.filter('status =', filterStatus)
         if selectByDB and databases:
           q.filter('dbName IN', databases)
           logging.info('GetWordsHandler FILTER WITH DATABASES: %s' % databases)
-        if direction < 0:
-          q.filter('index <=', index)
-          q.order('-index')
-        else:
-          q.filter('index >=', index)
-          q.order('index')
+      if direction < 0:
+        q.filter('index <=', index)
+        q.order('-index')
+      else:
+        q.filter('index >=', index)
+        q.order('index')
 
-      result = q.get()  # Use get_multi for more than one?
+      results = q.run()  # Use get_multi for more than one?
+      logging.info(' RESULTS ITERATOR = %s' % results)
+      try:
+        result = results.next()
+        logging.info(' RESULT = %s' % result)
+      except:
+        result = None
       # END OF QUERY FOR RESULT.
 
-    #logging.info('RESULT = %s' % (result))
     if result:
       index = result.index
       dbName = result.dbName
@@ -226,7 +223,8 @@ class WordReviewHandler(webapp2.RequestHandler):
         if dbName:
           logging.info("dbName filter by %s" % dbName)
           q.filter("dbName", dbName)
-        result = q.get()
+        results = q.run()
+        result = results.next()
 
       dbq = DbName.all()
       dbNameList = [p.dbName for p in dbq.run()]
@@ -432,7 +430,7 @@ class UpdateStatus(webapp2.RequestHandler):
     else:
       q = PhraseDB.all()
       q.filter("index=", index)
-      result = q.get()
+      result = q.run()
       logging.info('+++ Object from INDEX = %s' % index)
 
     # TODO: Check for null result
@@ -531,12 +529,61 @@ class DeletePhrase(webapp2.RequestHandler):
     logging.info("_+_+_+ Delete phraseKey = %s" % phraseKey)
     # To get the database object more easily
     result = None
+    message = "Delete not done"
+    new_entry = None
+
     if phraseKey:
       keyForPhrase = db.Key(encoded=phraseKey)
       p = db.get(keyForPhrase)
+      result = None
 
-      result = PhraseDB.delete(p)
+      if p:
+        this_index = p.index
+
+        PhraseDB.delete(p)
+        result = True
+        new_index = -1  # Nothing found
+        if p:
+          message = "Delete message OK. Reload page."
+
+          # Now find the next or previous, if present.
+          try:
+            q = PhraseDB.all()
+            q.filter("index >", this_index)
+            q.order('index')
+            results = q.run()
+            new_entry =  result.next()
+            rew_index = new_entry.index
+          except:
+            x=1
+
+          # Check for the previous index.
+          try:
+            q = PhraseDB.all()
+            q.filter("index <", this_index)
+            q.order('-index')
+            results = q.run()
+            new_entry =  result.next()
+            new_index = new_entry.index
+          except:
+            x=1
+        # Nothing found
+    if new_entry:
+      phraseKey = str(new_entry.key())
+    else:
+      phraseKey = None
+
+    logging.info('DELETE: new index = %s, new entry = %s' % (new_index, new_entry))
     # TODO: Return result
+    response = {
+      'result': result,
+      'message': message,
+      'new_index': new_index,
+      'new_entry': new_entry,
+      'phraseKey': phraseKey,
+    }
+    self.response.out.write(json.dumps(response))
+
 
 # Return entries based on the criteria given.
 def getDBItemsFiltered(databases, selectAllDB, filterStatus, orderBy=None):
