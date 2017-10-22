@@ -34,11 +34,11 @@ oldFontsList = ['Aissata Arabic', 'Fuuta Arabic', 'Pulaar Arabic']
 
 unicode_font_list = [
   { 'family': 'Noto Sans Adlam',
-    'longName': 'Noto Sans Adlam',
+    'longName': 'Noto Sans Adlam (joined)',
     'source': '/fonts/NotoSansAdlam-Regular.ttf',
   },
   { 'family': 'Noto Sans Adlam',
-    'longName': 'extended Noto Sans Adlam',
+    'longName': 'extended Noto Sans Adlam (includes ASCII, etc)',
     'source': '/fonts/extendedNotoSansAdlam-Regular.ttf',
   },
   { 'family': 'Aissata Unicode',
@@ -112,6 +112,19 @@ class WordHandler(webapp2.RequestHandler):
       }
       path = os.path.join(os.path.dirname(__file__), 'words.html')
       self.response.out.write(template.render(path, template_values))
+
+class Download(webapp2.RequestHandler):
+    def get(self):
+        infile = self.request.get("infile", "")
+        outfile = self.request.get("outfile", "")
+        template_values = {
+          'infile': infile,
+          'outfile': outfile,
+          'language': Language,
+        }
+
+        path = os.path.join(os.path.dirname(__file__), 'downloads.html')
+        self.response.out.write(template.render(path, template_values))
 
 
 # Run tests to verify converted data

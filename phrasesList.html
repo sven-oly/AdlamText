@@ -140,19 +140,15 @@
       
       <tr class="default">
         <th>Index</th>
-        <th>Voice</th>
         <th>Entry</th>
         <th>Status</th>
+        <th>Voice</th>
         <th>DB</th>
 	  </tr>
       {% for entry in entries %}
       <tr class="default">
         <td valign="top"><a href="/words/review/?index={{entry.index}}&dbName={{entry.dbName}}" target=_blank>{{entry.index}}</a></td>
-        <td>{%if entry.soundMaleLink or entry.soundFemaleLink%}
-          <button onclick="openSoundModal('{{entry.soundMaleLink}}', '{{entry.soundFemaleLink}}', {{entry.index}}, '{{entry.phraseUnicode}}');">Play</button>
-          {% endif %}
-          {%if entry.soundMaleLink%}M{%endif%}
-          {% if entry.soundFemaleLink%}F{%endif%}</td>
+
         <td valign="top">
           <span class="NotoSansAdlam size18">{{entry.phraseUnicode}}</span>
          {% if entry.definitionUnicode %}<br />def: <span>{{entry.definitionUnicode}}</span>{% endif %}
@@ -163,7 +159,12 @@
          {% if entry.comment %}<br />{{entry.comment}}{% endif %}
         </td>
         <td valign="top">{{entry.status}}</td>
-        <td valign="top">{{entry.dbName}}</td>
+        <td>{%if entry.soundMaleLink or entry.soundFemaleLink%}
+          <button onclick="openSoundModal('{{entry.soundMaleLink}}', '{{entry.soundFemaleLink}}', {{entry.index}}, '{{entry.phraseUnicode}}');">Play</button>
+          {% endif %}
+          {%if entry.soundMaleLink%}M{%endif%}
+          {% if entry.soundFemaleLink%}F{%endif%}</td>
+         <td valign="top">{{entry.dbName}}</td>
       </tr>
       {% endfor %}
     </table>
