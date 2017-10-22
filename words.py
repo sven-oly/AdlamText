@@ -132,10 +132,10 @@ class GetWordsHandler(webapp2.RequestHandler):
         q.order('index')
 
       results = q.run()  # Use get_multi for more than one?
-      logging.info(' RESULTS ITERATOR = %s' % results)
+      #logging.info(' RESULTS ITERATOR = %s' % results)
       try:
         result = results.next()
-        logging.info(' RESULT = %s' % result)
+        #logging.info(' RESULT = %s' % result)
       except:
         result = None
       # END OF QUERY FOR RESULT.
@@ -414,6 +414,7 @@ class UpdateStatus(webapp2.RequestHandler):
     comment = self.request.get('comment', '')
     dbName = self.request.get('dbName', '')
     phraseKey = self.request.get('phraseKey', '')
+    status = None
 
     logging.info("_+_+_+ Update phraseKey = %s" % phraseKey)
     # To get the database object more easily
@@ -430,38 +431,41 @@ class UpdateStatus(webapp2.RequestHandler):
     else:
       q = PhraseDB.all()
       q.filter("index=", index)
-      result = q.run()
-      logging.info('+++ Object from INDEX = %s' % index)
+      results = q.run()
+      try:
+        result = results.next()
+        logging.info('+++ Object from INDEX = %s' % index)
+      except StopIteration:
+        result = None
 
     # TODO: Check for null result
-    result.status = newStatus;
-    result.comment = comment
-    if dbName:
-      result.dbName = dbName
-
-    if old_phrase:
-      result.phraseLatin = old_phrase
-    if unicodePhrase:
-      result.phraseUnicode = unicodePhrase
-    if arabicText:
-        result.phraseArabic = arabicText
-    if english:
-      result.englishPhrase = english
-    if french:
-      result.frenchPhrase = french
-    if definitionUnicode:
-      result.definitionUnicode = definitionUnicode
-
-    if comment:
+    if result:
+      result.status = newStatus;
       result.comment = comment
-
-    result.put()
+      if dbName:
+        result.dbName = dbName
+      if old_phrase:
+        result.phraseLatin = old_phrase
+      if unicodePhrase:
+        result.phraseUnicode = unicodePhrase
+      if arabicText:
+          result.phraseArabic = arabicText
+      if english:
+        result.englishPhrase = english
+      if french:
+        result.frenchPhrase = french
+      if definitionUnicode:
+        result.definitionUnicode = definitionUnicode
+      if comment:
+        result.comment = comment
+      status = result.status
+      result.put()
 
     # Send update back to client
     obj = {
       'language': main.Language,
       'index': index,
-      'status' : result.status,
+      'status' : status,
       ' phraseLatin' :  old_phrase,
     }
     self.response.out.write(json.dumps(obj))
