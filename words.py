@@ -257,7 +257,6 @@ class WordReviewHandler(webapp2.RequestHandler):
         'phraseKey': phraseKey,
         'dbNames': dbNameList,
         'numEntries': currentEntries,
-        'fontFamilies': fontList,
         'oldtext': oldtext,
         'utext': utext,
         'english': english,
@@ -273,8 +272,35 @@ class WordReviewHandler(webapp2.RequestHandler):
         'soundMaleLink': soundMaleLink,
         'showSounds': True,
         'editOrAdmin': user_info[4],
+        'updatePage': True,
       }
       # logging.info('WORDS = %s' % template_values)
+      path = os.path.join(os.path.dirname(__file__), 'word_review.html')
+      self.response.out.write(template.render(path, template_values))
+
+
+# Put a new phrase in the database.
+class AddNewPhrase(webapp2.RequestHandler):
+
+    def get(self):
+      logging.info('AddNewPhrase')
+      user_info = getUserInfo(self.request.url)
+
+      template_values = {
+        'fontFamilies': main.fontList,
+        'editOrAdmin': user_info[4],
+        'language': main.Language,
+        'user_nickname': user_info[1],
+        'user_logout': user_info[2],
+        'user_login_url': user_info[3],
+        'isAdmin': user_info[4],
+        'showSounds': True,
+        'editOrAdmin': user_info[4],
+        'updatePage': False,
+        'addPhrasePage': True,
+      }
+      logging.info('AddNewPhrase before path')
+
       path = os.path.join(os.path.dirname(__file__), 'word_review.html')
       self.response.out.write(template.render(path, template_values))
 
@@ -677,7 +703,7 @@ class GetPhrases(webapp2.RequestHandler):
 
 
   # Returns items from database as CSV file.
-class GetPhrasesCSV(webapp2.RequestHandler):
+class DownloadPhrasesCSV(webapp2.RequestHandler):
   def get(self):
     user_info = getUserInfo(self.request.url)
     logging.info('GetPhrasesCSV')
@@ -715,7 +741,7 @@ class GetPhrasesCSV(webapp2.RequestHandler):
     for entry in entries:
       logging.info('GetPhrasesCSV WRITING index = %s' % entry.index)
       new_row = [entry.index,
-                 entry.phraseUnicode.encode('utf-8')if entry.phraseUnicode else "",
+                 entry.phraseUnicode.encode('utf-8') if entry.phraseUnicode else "",
                  entry.definitionUnicode.encode('utf-8') if entry.definitionUnicode else "",
                  entry.phraseArabic.encode('utf-8') if entry.phraseArabic else "",
                  entry.englishPhrase.encode('utf-8') if entry.englishPhrase else "",
@@ -900,6 +926,8 @@ app = webapp2.WSGIApplication([
     ('/words/updateStatus/', UpdateStatus),
     ('/words/addPhrase/', AddPhrase),
     ('/words/deletePhrase/', DeletePhrase),
-    ('/words/downloadCSV/', GetPhrasesCSV),
+    ('/words/downloadCSV/', DownloadPhrasesCSV),
+    ('/words/addNewPhrase/', AddNewPhrase),
+
 ], debug=True)
 

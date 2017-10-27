@@ -382,7 +382,12 @@
         </li>
         <li>
           <a href="/words/review/">Phrase review</a>
-        </li>
+          </li>
+        {% if isAdmin %}
+          <li>
+            <a href="/words/addNewPhrase/">Add phrase</a>
+          </li>
+        {% endif %}
       </ul>
       {% if isAdmin %}
       <ul>

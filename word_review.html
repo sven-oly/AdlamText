@@ -3,7 +3,12 @@
 <head>
   <meta charset="utf-8"/>
 
+  {% if updatePage %}
   <title>{{language}} Phrase Review</title>
+  {% endif %}
+  {% if addPhrasePage %}
+  <title>Add {{language}} Phrase</title>
+  {% endif %}
 
   <link rel="stylesheet" href="/css/blueprint/screen.css" type="text/css" media="screen">
   <link rel="stylesheet" href="/css/blueprint/print.css" type="text/css" media="print"> 
@@ -341,11 +346,18 @@
 
   <body onload="init()">
   <div class="container">
-    <h2>Data from {{language}} word list: {{dbName}}</h2>
-    <div class="span-1">  
+    {% if addPhrasePage %}
+      <h2>Add {{language}} phrase: {{dbName}}</h2>
+    {% else %}
+      <h2>Review {{language}} phrase: {{dbName}}</h2>
+    {% endif %}
+
+    <div class="span-1">
     </div>
     <div class="span-16">
+    {% if updatePage %}
       <h3>Index <span id="index">{{index}}</span> of <span id="numEntries">{{numEntries}}</span></h3>
+    {% endif %}
 
       Adlam text.
       Select font: <select onchange="onFontSelected(this);" id="selectFont">
@@ -394,10 +406,19 @@
         <input type="radio" name="updateStatus" value="Other"> Other
         {% if editOrAdmin %}
         <br /><br />
-        <input type="button" value="Update record"
-           onclick="updatePhraseStatus('index', 'updateStatus');"/>
-        <input type="button" value="Delete record"
-           onclick="deletePhraseStatus('index', 'updateStatus');"/>
+          {% if updatePage %}
+            <input type="button" value="Update record"
+               onclick="updatePhraseStatus('index', 'updateStatus');"/>
+            <input type="button" value="Delete record"
+               onclick="deletePhraseStatus('index', 'updateStatus');"/>
+          {% endif %}
+
+          {% if addPhrasePage %}
+            <!-- Add a new value to the data store -->
+            <input type="button" onclick="addPhraseToDatastore('ArabicText', 'UnicodeText', 'English', 'French');"
+              value="Add new phrase to database">
+        {% endif %}
+
         {% endif %}
         <input type="hidden" id="updatePhraseKeyStatus" name="phraseKey" value="{{phraseKey}}">
       </form>
@@ -468,7 +489,12 @@
         <li>
           <a href="/words/review/">Phrase review</a>
         </li>
-      </ul>
+        {% if isAdmin %}
+          <li>
+            <a href="/words/addNewPhrase/">Add phrase</a>
+          </li>
+        {% endif %}
+    </ul>
       {% if isAdmin %}
       <hr>
       <h4>Admin Functions</h4>
@@ -477,6 +503,8 @@
         <li><a href="/users/">Manage users</a></li>
       </ul>
       {% endif %}
+
+      {%if updatePage %}
       <hr>
       
       <h4>Explore phrases:</h4>
@@ -512,14 +540,11 @@
         <input type="submit" value="Change DB"/>
       </select>
       <br />
-     </form>  
-     <br />    
+     </form>
+     <br />
      <hr />
-     <!-- Add a new value to the data store -->
-     {% if editOrAdmin %}
-     <input type="button" onclick="addPhraseToDatastore('ArabicText', 'UnicodeText', 'English', 'French');"
-       value="Add new phrase to database">
-     {% endif %}
+      {% endif %}
+
       
      </div> <!-- end span last -->
   </div> <!-- end container --> 
