@@ -224,7 +224,10 @@ class WordReviewHandler(webapp2.RequestHandler):
           logging.info("dbName filter by %s" % dbName)
           q.filter("dbName", dbName)
         results = q.run()
-        result = results.next()
+        try:
+          result = results.next()
+        except StopIteration:
+          result = None
 
       dbq = DbName.all()
       dbNameList = [p.dbName for p in dbq.run()]
@@ -711,15 +714,17 @@ class GetPhrasesCSV(webapp2.RequestHandler):
                      'comment'])
     for entry in entries:
       logging.info('GetPhrasesCSV WRITING index = %s' % entry.index)
-      writer.writerow([entry.index,
-                       entry.phraseUnicode.encode('utf-8'),
-                       entry.definitionUnicode.encode('utf-8'),
-                       entry.phraseArabic.encode('utf-8'),
-                       entry.englishPhrase.encode('utf-8'),
-                       entry.frenchPhrase.encode('utf-8'),
-                       entry.status,
-                       entry.dbName.encode('utf-8'),
-                       entry.comment.encode('utf-8')])
+      new_row = [entry.index,
+                 entry.phraseUnicode.encode('utf-8')if entry.phraseUnicode else "",
+                 entry.definitionUnicode.encode('utf-8') if entry.definitionUnicode else "",
+                 entry.phraseArabic.encode('utf-8') if entry.phraseArabic else "",
+                 entry.englishPhrase.encode('utf-8') if entry.englishPhrase else "",
+                 entry.frenchPhrase.encode('utf-8') if entry.frenchPhrase else "",
+                 entry.status.encode('utf-8') if entry.status else "",
+                 entry.dbName.encode('utf-8') if entry.dbName else "",
+                 entry.comment.encode('utf-8') if entry.comment else "",
+                 ]
+      writer.writerow(new_row)
 
 
 # To handle UTF-8 input.
