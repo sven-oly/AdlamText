@@ -33,7 +33,7 @@ class PhraseDB(db.Model):
   frenchPhrase = db.StringProperty(multiline=True)
   phraseLatin = db.StringProperty(u'')
   phraseArabic = db.StringProperty(u'')
-  phraseUnicode = db.StringProperty(u'')
+  phraseUnicode = db.StringProperty(u'')  # This is the main data in the language.
   definitionUnicode = db.StringProperty(u'')
   status = db.StringProperty('')
   comment = db.StringProperty('')
@@ -283,7 +283,7 @@ class WordReviewHandler(webapp2.RequestHandler):
 class AddNewPhrase(webapp2.RequestHandler):
 
     def get(self):
-      logging.info('AddNewPhrase')
+      # logging.info('AddNewPhrase')
       user_info = getUserInfo(self.request.url)
 
       template_values = {
@@ -299,7 +299,6 @@ class AddNewPhrase(webapp2.RequestHandler):
         'updatePage': False,
         'addPhrasePage': True,
       }
-      logging.info('AddNewPhrase before path')
 
       path = os.path.join(os.path.dirname(__file__), 'word_review.html')
       self.response.out.write(template.render(path, template_values))
@@ -445,14 +444,14 @@ class UpdateStatus(webapp2.RequestHandler):
     phraseKey = self.request.get('phraseKey', '')
     status = None
 
-    logging.info("_+_+_+ Update phraseKey = %s" % phraseKey)
+    logging.info("_+_+_+ Update unicodePhrase = %s" % unicodePhrase)
     # To get the database object more easily
     if phraseKey:
       keyForPhrase = db.Key(encoded=phraseKey)
     else:
       keyForPhrase = None
 
-    logging.info('_+_+_+_+_+_+_+ Update index = %d, old data = %s' % (index, old_phrase))
+    logging.info('_+_+_+_+_+_+_+ Update index = %d, phraseKey = %s' % (index, phraseKey))
 
     if keyForPhrase:
       result = db.get(keyForPhrase)
@@ -476,6 +475,7 @@ class UpdateStatus(webapp2.RequestHandler):
       if old_phrase:
         result.phraseLatin = old_phrase
       if unicodePhrase:
+        logging.info("_+_+_+ Resetting unicodePhrase = %s" % unicodePhrase)
         result.phraseUnicode = unicodePhrase
       if arabicText:
           result.phraseArabic = arabicText
@@ -495,7 +495,7 @@ class UpdateStatus(webapp2.RequestHandler):
       'language': main.Language,
       'index': index,
       'status' : status,
-      ' phraseLatin' :  old_phrase,
+      'phraseLatin' :  old_phrase,
     }
     self.response.out.write(json.dumps(obj))
 
