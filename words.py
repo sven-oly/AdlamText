@@ -39,7 +39,7 @@ class PhraseDB(db.Model):
   comment = db.StringProperty('')
   reference = db.StringProperty('')  # Reference number or other identifier
 
-# Pointing to sound files by URL:
+  # Pointing to sound files by URL:
   soundFemaleLink = db.TextProperty('')
   soundMaleLink = db.TextProperty('')
   soundLinks = db.ListProperty(str, verbose_name='sound_files', default=[])
@@ -62,15 +62,16 @@ class UserSound(db.Model):
 
 # Show data from word list converted for human verification
 class WordConvert(webapp2.RequestHandler):
-    def get(self):
-      user_info = getUserInfo(self.request.url)
-      template_values = {'fontFamilies': main.fontList,
-        'oldFontFamilies': main.oldFontsList,
-        'keylayouts': ['ful'],
-        'editOrAdmin': user_info[4],
-      }
-      path = os.path.join(os.path.dirname(__file__), 'words.html')
-      self.response.out.write(template.render(path, template_values))
+  def get(self):
+    user_info = getUserInfo(self.request.url)
+    template_values = {'fontFamilies': main.fontList,
+      'oldFontFamilies': main.oldFontsList,
+      'keylayouts': ['ful'],
+      'editOrAdmin': user_info[4],
+    }
+    path = os.path.join(os.path.dirname(__file__), 'words.html')
+    self.response.out.write(template.render(path, template_values))
+
 
 # Retrieves data at a given index and dbName via AJAX.
 class GetWordsHandler(webapp2.RequestHandler):
@@ -205,6 +206,8 @@ class WordReviewHandler(webapp2.RequestHandler):
       soundFemaleLink = ''
       soundMaleLink = ''
 
+      debugMode = self.request.get('debug', '')
+
       if phraseKey:
         keyForPhrase = db.Key(encoded=phraseKey)
         logging.info('+++ Key for Phrase = %s' % keyForPhrase)
@@ -277,6 +280,7 @@ class WordReviewHandler(webapp2.RequestHandler):
         'showSounds': True,
         'editOrAdmin': user_info[4],
         'updatePage': True,
+        'debugMode': debugMode,
       }
       logging.info('WORDS = %s' % template_values)
       path = os.path.join(os.path.dirname(__file__), 'word_review.html')
@@ -369,8 +373,6 @@ class ProcessUpload(webapp2.RequestHandler):
 # Clear out the entire phrase data store, or part of it (eventually)
 class ClearWords(webapp2.RequestHandler):
   def get(self):
-    user_info = getUserInfo(self.request.url)
-
     confirmClear = self.request.get('confirmClear', False)
     dbName = self.request.get('dbName', '')
     if not confirmClear:
@@ -401,8 +403,6 @@ class ClearWords(webapp2.RequestHandler):
 # Rename all entries in a DB to a new DB
 class RenameDB(webapp2.RequestHandler):
   def get(self):
-    user_info = getUserInfo(self.request.url)
-
     confirmRename = self.request.get('confirmRename', False)
     oldDbName = self.request.get('oldDbName', '')
     newDbName = self.request.get('newDbName', '')
@@ -448,14 +448,15 @@ class UpdateStatus(webapp2.RequestHandler):
     phraseKey = self.request.get('phraseKey', '')
     status = None
 
-    logging.info("_+_+_+ Update unicodePhrase = %s" % unicodePhrase)
+    #logging.info("_+_+_+ Update unicodePhrase = %s" % unicodePhrase)
+    #logging.info('_+_+_+_+_+_+_+ Update index = %d, phraseKey = %s' % (index, phraseKey))
     # To get the database object more easily
     if phraseKey:
       keyForPhrase = db.Key(encoded=phraseKey)
     else:
       keyForPhrase = None
+    #logging.info("_+_+_+ Update keyForPhrase = %s" % keyForPhrase)
 
-    logging.info('_+_+_+_+_+_+_+ Update index = %d, phraseKey = %s' % (index, phraseKey))
 
     if keyForPhrase:
       result = db.get(keyForPhrase)
@@ -466,12 +467,11 @@ class UpdateStatus(webapp2.RequestHandler):
       results = q.run()
       try:
         result = results.next()
-        logging.info('+++ Object from INDEX = %s = %s' % (index, result))
+        #logging.info('+++ Object from INDEX = %s = %s' % (index, result))
       except StopIteration:
-        logging.info('+++ Cannot get result from INDEX = %s' % index)
+        #logging.info('+++ Cannot get result from INDEX = %s' % index)
         result = None
 
-    # TODO: Check for null result
     if result:
       result.status = newStatus;
       result.comment = comment
@@ -493,6 +493,7 @@ class UpdateStatus(webapp2.RequestHandler):
       if comment:
         result.comment = comment
       status = result.status
+      logging.info("_+_+_+ Resetting phrase")
       result.put()
 
     # Send update back to client
@@ -568,12 +569,15 @@ class DeletePhrase(webapp2.RequestHandler):
     # To get the database object more easily
     result = None
     message = "Delete not done"
-    new_entry = None
+    entry = None
 
     if phraseKey:
+
       keyForPhrase = db.Key(encoded=phraseKey)
       p = db.get(keyForPhrase)
-      result = None
+      new_index = -1
+      phraseKey = None
+
 
       if p:
         this_index = p.index
@@ -590,37 +594,49 @@ class DeletePhrase(webapp2.RequestHandler):
             q.filter("index >", this_index)
             q.order('index')
             results = q.run()
-            new_entry =  result.next()
-            rew_index = new_entry.index
+            result = results.next()
+            entry = q.get()
+            new_index = result.index
+            logging.info('DELETE: next index = %s, new entry = %s' % (new_index, result.index))
           except:
-            x=1
+            # Check for the previous index.
+            try:
+              q = PhraseDB.all()
+              q.filter("index <", this_index)
+              q.order('-index')
+              results = q.run()
+              result = results.next()
+              entry = q.get()
+              new_index = result.index
+              logging.info('DELETE: previous index = %s, new entry = %s' % (new_index, result.index))
+            except:
+              logging.info('DELETE: no new entry found!')
+              # Nothing found
+              result = None
+              new_index = -1
 
-          # Check for the previous index.
-          try:
-            q = PhraseDB.all()
-            q.filter("index <", this_index)
-            q.order('-index')
-            results = q.run()
-            new_entry =  result.next()
-            new_index = new_entry.index
-          except:
-            x=1
-        # Nothing found
-    if new_entry:
-      phraseKey = str(new_entry.key())
-    else:
-      phraseKey = None
+      if result:
+        phraseKey = str(result.key())
+        entry = {'index': result.index,
+                 'dbName': result.dbName,
+                 'arabicText': result.phraseArabic,
+                 'latinText': result.phraseLatin,
+                 'phraseUnicode': result.phraseUnicode,
+                 'definitionUnicode': result.definitionUnicode,
+                 'english': result.englishPhrase,
+                 'french': result.frenchPhrase,
+                 'status': result.status,
+                 'comment': result.comment,
+                 }
 
-    logging.info('DELETE: new index = %s, new entry = %s' % (new_index, new_entry))
-    # TODO: Return result
-    response = {
-      'result': result,
-      'message': message,
-      'new_index': new_index,
-      'new_entry': new_entry,
-      'phraseKey': phraseKey,
-    }
-    self.response.out.write(json.dumps(response))
+      response = {
+        #'result': result,
+        'entry': entry,
+        'message': message,
+        'new_index': new_index,
+        'phraseKey': phraseKey,
+      }
+      self.response.out.write(json.dumps(response))
 
 
 # Return entries based on the criteria given.
@@ -641,11 +657,9 @@ def getDBItemsFiltered(databases, selectAllDB, filterStatus, orderBy=None):
   for p in q.run():
     numEntries += 1
 
-    #logging.info('  ** entry = %s, %s' % (p.index, p.phraseUnicode))
     if not p.index:
       nullIndexCount += 1
-      entry = (p.index, p.englishPhrase, p.phraseLatin, p.phraseUnicode,
-               p.status, p.dbName)
+
     entries.append(p)
 
   logging.info('!!! getDBItemsFiltered has %d entries' % numEntries)
@@ -659,7 +673,6 @@ class GetPhrases(webapp2.RequestHandler):
 
     filterStatus = self.request.get('filterStatus', '')
     sortCriteria = self.request.get('sortCriteria', 'index')
-    dbName = self.request.get('dbName', '')
     databases = self.request.GET.getall('databases')
 
     if databases == '*All*' or '*All*' in databases:
@@ -715,7 +728,6 @@ class DownloadPhrasesCSV(webapp2.RequestHandler):
 
     filterStatus = self.request.get('filterStatus', '')
     sortCriteria = self.request.get('sortCriteria', 'index')
-    dbName = self.request.get('dbName', '')
     outfileName = self.request.get('outfileName', 'database.csv')
 
     databases = self.request.GET.getall('databases')
@@ -773,7 +785,6 @@ def utf_8_encoder(unicode_csv_data):
 
 def processRow(index, row):
   english, latin = row
-  #logging.info('!! index = %d     english= %s' % (index, english))
   # TODO: dbName
   entry = PhraseDB(index=index,
                    englishPhrase=english,
@@ -790,7 +801,6 @@ def processRow(index, row):
 class ProcessCSVUpload(webapp2.RequestHandler):
 # http://stackoverflow.com/questions/2970599/upload-and-parse-csv-file-with-google-app-engine
   def post(self):
-    user = users.get_current_user()
     user_info = getUserInfo(self.request.url)
 
     csv_file = self.request.POST.get('file')

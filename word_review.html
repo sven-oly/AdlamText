@@ -45,55 +45,53 @@
 
   <script type="text/javascript">
 
-    // Set or clear fields.
-    function setFieldsFromEntry(entry, phraseKey) {
-    var indexObj = document.getElementById(indexArea);
-    var unicodeData = document.getElementById("UnicodeText").value;
-    var arabicTextData = document.getElementById("ArabicText").value;
-    var english = document.getElementById('English').value;
-    var french = document.getElementById('French').value;
-    var comment = document.getElementById('comment').value;
-    var phraseKey = document.getElementById("updatePhraseKeyStatus").value;
+  // Set or clear fields.
+  function setFieldsFromEntry(entry, phraseKey) {
+    var indexObj = document.getElementById("index");
+    var unicodeData = document.getElementById("UnicodeText");
+    var arabicTextData = document.getElementById("ArabicText");
+    var english = document.getElementById('English');
+    var french = document.getElementById('French');
+    var comment = document.getElementById('comment');
+    var phraseKey = document.getElementById("updatePhraseKeyStatus");
 
     if (entry) {
-    indexObj.innerHTML = indexObj.value = entry.index;
-    unicodeData.innerHTML = unicodeData.value = entry.phraseUnicode;
-    arabicTextData.innerHTML = arabicTextData.value = entry.arabicPhrase;
-    english.innerHTML = english.value = entry.phraseUnicode;
-    french.innerHTML = french.value = entry.phraseUnicode;
-    comment.innerHTML = comment.value = entry.phraseUnicode;
-    phraseKey.innerHTML = phraseKey.value = phraseKey;
+      indexObj.innerHTML = indexObj.value = entry.index;
+      unicodeData.innerHTML = unicodeData.value = entry.phraseUnicode;
+      arabicTextData.innerHTML = arabicTextData.value = entry.arabicPhrase;
+      english.innerHTML = english.value = entry.english;
+      french.innerHTML = french.value = entry.french;
+      comment.innerHTML = comment.value = entry.comment;
+      phraseKey.innerHTML = phraseKey.value = phraseKey;
     } else {
-    // Clear fields
-    indexObj.innerHTML = indexObj.value = "";
-    unicodeData.innerHTML = unicodeData.value = "";
-    arabicTextData.innerHTML = arabicTextData.value = "";
-    english.innerHTML = english.value = "";
-    french.innerHTML = french.value = "";
-    comment.innerHTML = comment.value = "";
-    phraseKey.innerHTML = phraseKey.value = "";
+      // Clear fields
+      indexObj.innerHTML = indexObj.value = "";
+      unicodeData.innerHTML = unicodeData.value = "";
+      arabicTextData.innerHTML = arabicTextData.value = "";
+      english.innerHTML = english.value = "";
+      french.innerHTML = french.value = "";
+      comment.innerHTML = comment.value = "";
+      phraseKey.innerHTML = phraseKey.value = "";
     }
-    }
+  }
 
-    function deletePhraseStatus(indexArea, statusSetter) {
+  function deletePhraseStatus(indexArea, statusSetter) {
     if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
-    xmlhttp=new XMLHttpRequest();
+      xmlhttp=new XMLHttpRequest();
     } else { // code for IE6, IE5
-    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+      xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
     }
 
     // Deal with the results
     xmlhttp.onreadystatechange=function() {
-    if(xmlhttp.readyState==4) {
-    var returned_json = xmlhttp.responseText;
-    var json_obj = JSON.parse(returned_json);
-    alert(json_obj.message + " Result = " + json_obj.result);
-    alert("New index = " + json_obj.new_index);
-    alert("New phrase = " + json_obj.phraseUnicode);
+      if(xmlhttp.readyState==4) {
+        var returned_json = xmlhttp.responseText;
+        var json_obj = JSON.parse(returned_json);
+        alert(json_obj.message + ". Result = " + json_obj.entry);
 
-    // Update entry or clear fields.
-    setFieldsFromEntry(json_obj.new_entry, json_obj.phraseKey);
-    }
+        // Update entry or clear fields.
+        setFieldsFromEntry(json_obj.entry, json_obj.phraseKey);
+      }
     }
 
     // Create restore URL string?
@@ -109,45 +107,46 @@
     xmlhttp.send(null);
     }
 
-    function updatePhraseStatus(indexArea, statusSetter) {
+  function updatePhraseStatus(indexArea, statusSetter) {
 
-      if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
-        xmlhttp=new XMLHttpRequest();
-      } else { // code for IE6, IE5
-       xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-      }
+    if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
+      xmlhttp=new XMLHttpRequest();
+    } else { // code for IE6, IE5
+     xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+    }
 
-      // Deal with the results
-      xmlhttp.onreadystatechange=function() {
-        if(xmlhttp.readyState==4) {
-        var returned_json = xmlhttp.responseText;
-          var json_obj = JSON.parse(returned_json);
-          if (json_obj.status) {
-            var statusObj = document.getElementById("status");
-            statusObj.value = statusObj.innerHTML = json_obj.status;
-          }
+    // Deal with the results
+    xmlhttp.onreadystatechange=function() {
+      if(xmlhttp.readyState==4) {
+      var returned_json = xmlhttp.responseText;
+        var json_obj = JSON.parse(returned_json);
+        if (json_obj.status) {
+          var statusObj = document.getElementById("status");
+          statusObj.value = statusObj.innerHTML = json_obj.status;
         }
       }
-
-      // Set up the call with new status.
-      var indexObj = document.getElementById(indexArea);
-      var index = parseInt(indexObj.innerText);
-
-      var target = "/words/updateStatus/" +
-        "?index=" + index +
-        "&newStatus=" + getStatusRadioButton(statusSetter) +
-        "&unicodePhrase=" + document.getElementById("UnicodeText").value +
-        "&arabicText=" + document.getElementById("ArabicText").value +
-        "&dbName=" + document.getElementById("dbName").value; +
-        "&french=" + document.getElementById('French').value +
-        "&english=" + document.getElementById('English').value +
-        "&comment=" + document.getElementById("comment").value +
-        "&phraseKey=" + document.getElementById("updatePhraseKeyStatus").value;
-
-      xmlhttp.open("GET", target, true);
-      var size = target.length;
-      xmlhttp.send(null);
     }
+
+    // Set up the call with new status.
+    var indexObj = document.getElementById(indexArea);
+    var index = parseInt(indexObj.innerText);
+
+    var target = "/words/updateStatus/" +
+      "?index=" + index +
+      "&newStatus=" + getStatusRadioButton(statusSetter) +
+      "&unicodePhrase=" + document.getElementById("UnicodeText").value +
+      "&definitionUnicode=" + document.getElementById("UnicodeDefinition").value +
+      "&arabicText=" + document.getElementById("ArabicText").value +
+      "&dbName=" + document.getElementById("dbName").value +
+      "&french=" + document.getElementById('French').value +
+      "&english=" + document.getElementById('English').value +
+      "&comment=" + document.getElementById("comment").value +
+      "&phraseKey=" + document.getElementById("updatePhraseKeyStatus").value;
+
+    xmlhttp.open("GET", target, true);
+    var size = target.length;
+    xmlhttp.send(null);
+  }
 
     // Which radio button option is checked?
     function getStatusRadioButton(statusSetter) {
@@ -175,6 +174,7 @@
       } else { // code for IE6, IE5
         xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
       }
+      var clearFields = document.getElementById("clearAfterAdd").checked;
 
       // Deal with the results
       xmlhttp.onreadystatechange = function() {
@@ -187,6 +187,10 @@
           indexObj.innerHTML = indexObj.value = json_obj.new_index;
           var numEntries = document.getElementById("numEntries");
           numEntries.innerHTML = numEntries.value = json_obj.new_index;
+
+          if (clearFields) {
+            setFieldsFromEntry(null, null);
+          }
         }
         // Set up alert for results.
         alert(json_obj.message);
@@ -201,6 +205,7 @@
         "&frenchText=" + document.getElementById('French').value +
         "&comment=" + document.getElementById('comment').value +
         "&dbName=" + document.getElementById("dbName").value;
+
       xmlhttp.open("GET", target, true);
       xmlhttp.send(null);
     }
@@ -367,6 +372,10 @@
     <div class="span-16">
     {% if updatePage %}
       <h3>Index <span id="index">{{index}}</span> of <span id="numEntries">{{numEntries}}</span></h3>
+    {% else %}
+      <input type="hidden" id="index">{{index}}</input>
+      <input type="hidden" id="numEntries">{{numEntries}}</input>
+
     {% endif %}
 
       Adlam text.
@@ -427,10 +436,18 @@
             <!-- Add a new value to the data store -->
             <input type="button" onclick="addPhraseToDatastore('ArabicText', 'UnicodeText', 'English', 'French');"
               value="Add new phrase to database">
+            <input type="checkbox" id="clearAfterAdd" checked>Clear after adding data?<br />
+
         {% endif %}
 
         {% endif %}
         <input type="hidden" id="updatePhraseKeyStatus" name="phraseKey" value="{{phraseKey}}">
+
+        {% if debugMode %}
+        <h4>Debug data</h4>
+        <span  value="{{phraseKey}}">Phrase key = {{phraseKey}}</span>
+        {% endif %}
+
       </form>
       <br />
       <h4>Comment:</h4>
