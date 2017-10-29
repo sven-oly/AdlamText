@@ -188,15 +188,16 @@ class GetWordsHandler(webapp2.RequestHandler):
 class WordReviewHandler(webapp2.RequestHandler):
     def get(self):
       user_info = getUserInfo(self.request.url)
+      logging.info('+++ WordReviewHandler')
       fontList = []
-      index = 1
+
       oldtext = self.request.get('oldtext', '')
       arabicText = self.request.get('arabicText', '')
       dbName = self.request.get('dbName', '')
       utext = self.request.get('utext', '')
       english = self.request.get('english', '')
       french = self.request.get('french', '')
-      index = int(self.request.get('index', '1'))
+      index = int(self.request.get('index', 1))
       comment = self.request.get('comment', '')
       dbName = self.request.get('dbName', '')
       phraseKey = self.request.get('phraseKey', '')
@@ -219,7 +220,8 @@ class WordReviewHandler(webapp2.RequestHandler):
         q = PhraseDB.all()
         for p in q.run():
           currentEntries += 1
-        q.filter("index =", index)
+        q.filter("index >=", index)
+        logging.info('*** Filtering by >= %s' % index)
         if dbName:
           logging.info("dbName filter by %s" % dbName)
           q.filter("dbName", dbName)
@@ -229,6 +231,7 @@ class WordReviewHandler(webapp2.RequestHandler):
         except StopIteration:
           result = None
 
+      logging.info('Review results= %s' % results)
       dbq = DbName.all()
       dbNameList = [p.dbName for p in dbq.run()]
 
@@ -263,6 +266,7 @@ class WordReviewHandler(webapp2.RequestHandler):
         'french': english,
         'comment': comment,
         'status': status,
+        'result': result,
         'fontFamilies': main.fontList,
         'user_nickname': user_info[1],
         'user_logout': user_info[2],
@@ -274,7 +278,7 @@ class WordReviewHandler(webapp2.RequestHandler):
         'editOrAdmin': user_info[4],
         'updatePage': True,
       }
-      # logging.info('WORDS = %s' % template_values)
+      logging.info('WORDS = %s' % template_values)
       path = os.path.join(os.path.dirname(__file__), 'word_review.html')
       self.response.out.write(template.render(path, template_values))
 
@@ -462,8 +466,9 @@ class UpdateStatus(webapp2.RequestHandler):
       results = q.run()
       try:
         result = results.next()
-        logging.info('+++ Object from INDEX = %s' % index)
+        logging.info('+++ Object from INDEX = %s = %s' % (index, result))
       except StopIteration:
+        logging.info('+++ Cannot get result from INDEX = %s' % index)
         result = None
 
     # TODO: Check for null result

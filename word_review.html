@@ -98,9 +98,9 @@
 
     // Create restore URL string?
     if (confirm("Delete this record?") != true) {
-    txt = "Delete canceled!";
-    window.alert(txt);
-    return null;
+      txt = "Delete canceled!";
+      window.alert(txt);
+      return null;
     }
 
     var phraseKey = document.getElementById("updatePhraseKeyStatus").value;
@@ -111,42 +111,42 @@
 
     function updatePhraseStatus(indexArea, statusSetter) {
 
-    if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
-    xmlhttp=new XMLHttpRequest();
-    } else { // code for IE6, IE5
-    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-    }
+      if (window.XMLHttpRequest) { // code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp=new XMLHttpRequest();
+      } else { // code for IE6, IE5
+       xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+      }
 
-    // Deal with the results
-    xmlhttp.onreadystatechange=function() {
-    if(xmlhttp.readyState==4) {
-    var returned_json = xmlhttp.responseText;
-    var json_obj = JSON.parse(returned_json);
-    if (json_obj.status) {
-    var statusObj = document.getElementById("status");
-    statusObj.value = statusObj.innerHTML = json_obj.status;
-    }
-    }
-    }
+      // Deal with the results
+      xmlhttp.onreadystatechange=function() {
+        if(xmlhttp.readyState==4) {
+        var returned_json = xmlhttp.responseText;
+          var json_obj = JSON.parse(returned_json);
+          if (json_obj.status) {
+            var statusObj = document.getElementById("status");
+            statusObj.value = statusObj.innerHTML = json_obj.status;
+          }
+        }
+      }
 
-    // Set up the call with new status.
-    var indexObj = document.getElementById(indexArea);
-    var index = parseInt(indexObj.innerText);
+      // Set up the call with new status.
+      var indexObj = document.getElementById(indexArea);
+      var index = parseInt(indexObj.innerText);
 
-    var target = "/words/updateStatus/" +
-    "?index=" + index +
-    "&newStatus=" + getStatusRadioButton(statusSetter) +
-    "&unicodePhrase=" + document.getElementById("UnicodeText").value +
-    "&arabicText=" + document.getElementById("ArabicText").value +
-    "&dbName=" + document.getElementById("dbName").value; +
-    "&french=" + document.getElementById('French').value +
-    "&english=" + document.getElementById('English').value +
-    "&comment=" + document.getElementById("comment").value +
-    "&phraseKey=" + document.getElementById("updatePhraseKeyStatus").value;
+      var target = "/words/updateStatus/" +
+        "?index=" + index +
+        "&newStatus=" + getStatusRadioButton(statusSetter) +
+        "&unicodePhrase=" + document.getElementById("UnicodeText").value +
+        "&arabicText=" + document.getElementById("ArabicText").value +
+        "&dbName=" + document.getElementById("dbName").value; +
+        "&french=" + document.getElementById('French').value +
+        "&english=" + document.getElementById('English').value +
+        "&comment=" + document.getElementById("comment").value +
+        "&phraseKey=" + document.getElementById("updatePhraseKeyStatus").value;
 
-    xmlhttp.open("GET", target, true);
-    var size = target.length;
-    xmlhttp.send(null);
+      xmlhttp.open("GET", target, true);
+      var size = target.length;
+      xmlhttp.send(null);
     }
 
     // Which radio button option is checked?
@@ -206,8 +206,8 @@
     }
 
     function switchDatabase() {
-    var dbList = getDatabases();
-    // TODO: change the database criteria
+      var dbList = getDatabases();
+      // TODO: change the database criteria
     }
 
     function getDatabases() {
@@ -231,24 +231,23 @@
       var warning_box = document.getElementById('warning');
       if (!oldUText) {
         warning_box.style.display = 'none';
-      return false;
-    }
+        return false;
+      }
 
-    var oldTextArea = document.getElementById('oldText');
-    if (oldText == "") {
-    warning_box.style.display = 'none';
-    return false;
-    }
-    var convertedUText = convertOtherToUnicode(oldText,
-    false, true, false);
-    if (convertedUText !== oldUText) {
-    warning_box.style.display = 'block';
-    return true;
-    }
-    else {
-    warning_box.style.display = 'none';
-    return false;
-    }
+      var oldTextArea = document.getElementById('oldText');
+      if (oldText == "") {
+        warning_box.style.display = 'none';
+        return false;
+      }
+      var convertedUText = convertOtherToUnicode(oldText,
+      false, true, false);
+      if (convertedUText !== oldUText) {
+        warning_box.style.display = 'block';
+        return true;
+      } else {
+        warning_box.style.display = 'none';
+        return false;
+      }
     }
 
     // Convert to Unicode
@@ -275,11 +274,21 @@
       audio_out.controls = "true";
     }
 
-    // Update to toggle region on/off.
+    // Update to set region on/off.
     function setDisplayState(id, newstate) { // block or none
       var obj = document.getElementById(id);
       if(obj) {
-      obj.style.display = newstate;
+        obj.style.display = newstate;
+      }
+    }
+
+    // Update to toggle region on/off.
+    function toggleDisplayState(id) { // block or none
+      var obj = document.getElementById(id);
+      if (obj.style.display == "none") {
+        obj.style.display = "block";
+      } else {
+        obj.style.display = "none"
       }
     }
   </script>
@@ -298,7 +307,6 @@
     }
 
     function initKeyboard(inputId) {
-      clearText(inputId);
       var input = document.getElementById(inputId);
       controller = new i18n.input.keyboard.Keyboard();
       controller.loadLayout('ful');
@@ -317,7 +325,9 @@
 
     function onKeyboardFocus(inputId) {
       var input = document.getElementById(inputId);
-      controller.register(input);
+      if (controller && input) {
+        controller.register(input);
+      }
     }
 
     // Initialize the page.
@@ -365,7 +375,7 @@
         <option value="{{font}}">{{font}}</option>
         {% endfor %}
       </select>
-      <br />
+      <input type="button" value="Toggle keyboard" onclick="toggleDisplayState('kbd');"/>      <br />
 	  <textarea id="UnicodeText" class="NotoSansAdlam" dir="rtl"
                 onfocus="onKeyboardFocus('UnicodeText');">{{utext}}</textarea>
       <br />
@@ -461,6 +471,7 @@
     {% endif %}
       <input type="hidden" id="updatePhraseKeyUpload" name="phraseKey" value="{{phraseKey}}">
 
+    <hr>
     </div>
 
     <div class="span-4 last">
