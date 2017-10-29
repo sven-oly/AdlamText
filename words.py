@@ -19,7 +19,6 @@ from google.appengine.api import users
 from google.appengine.ext import blobstore
 from google.appengine.ext.webapp import blobstore_handlers
 from google.appengine.ext import db
-
 from google.appengine.ext.webapp import template
 
 # dbName will allow multiple sets of information to be stored and retrieved by that
@@ -627,7 +626,9 @@ class DeletePhrase(webapp2.RequestHandler):
                  'french': result.frenchPhrase,
                  'status': result.status,
                  'comment': result.comment,
-                 }
+                 'soundFemaleLink': result.soundFemaleLink,
+                 'soundMaleLink': result.soundMaleLink,
+        }
 
       response = {
         #'result': result,
