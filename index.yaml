@@ -14,3 +14,32 @@ indexes:
   properties:
   - name: dbName
   - name: index
+
+- kind: PhraseDB
+  properties:
+  - name: dbName
+  - name: status
+  - name: index
+
+- kind: PhraseDB
+  properties:
+  - name: dbName
+  - name: status
+  - name: index
+    direction: desc
+
+- kind: PhraseDB
+  properties:
+  - name: status
+  - name: index
+
+- kind: PhraseDB
+  properties:
+  - name: status
+  - name: index
+    direction: desc
+
+- kind: PhraseDB
+  properties:
+  - name: status
+  - name: phraseUnicode

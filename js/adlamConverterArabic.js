@@ -74,6 +74,7 @@ var adlam_convert_unicode_map = {
   // Other characters from books
   '\u00c0': '\u0027',  // Simple apostrophe
   '\u00c3': '\u2022',
+  '\u00eb': '\u2022',
   '\u00ed': '\u0027',
   '\u00f8': String.fromCodePoint(0x01E905),
   '\u00f9': '\u2022',

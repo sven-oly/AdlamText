@@ -22,7 +22,7 @@
           <li>Unicode {{language}} column: <input type="text" size=3 name="unicodeColumn"></li>
           <li>English column: <input type="text" size=3 name="englishColumn"></li>
           <li>French column: <input type="text" size=3 name="frenchColumn"></li>
-          <li>Arabic {{language}} column: <input type="text" size=3 name="osageColumn"></li>
+          <li>Arabic {{language}} column: <input type="text" size=3 name="arabicColumn"></li>
           <li>Comment column: <input type="text" size=3 name="commentColumn"></li>
           <li>Reference column: <input type="text" size=3 name="referenceColumn"></li>
           <li>Lines to skip at start:
@@ -38,7 +38,7 @@
   <hr>
   <form action="/words/clear/" method="GET">
       Delete all contents of database:
-      <select id="selectDatabase" name="dbName">
+      <select id="selectClearDatabase" name="dbName">
           {% for dbName in dbNames %}
             <option value="{{dbName}}">{{dbName}}</option>
           {% endfor %}
@@ -49,14 +49,14 @@
   <hr>
   <form action="/words/renameDB/" method="GET">
       Rename all contents of old database:
-      <select id="selectDatabase" name="oldDbName">
+      <select id="selectOldDatabase" name="oldDbName">
           {% for dbName in dbNames %}
             <option value="{{dbName}}">{{dbName}}</option>
           {% endfor %}
           <option value="*All*">All</option>
       </select>
       to new database:
-      <select id="selectDatabase" name="newDbName">
+      <select id="selectNewDatabase" name="newDbName">
           {% for dbName in dbNames %}
             <option value="{{dbName}}">{{dbName}}</option>
           {% endfor %}
@@ -73,7 +73,7 @@
   <hr>
   <form action="/db/handleDB/" method="GET">
         Database to delete:
-        <select id="selectDatabase" name="dbName">
+        <select id="selectDeleteDatabase" name="dbName">
           {% for dbName in dbNames %}
             <option value="{{dbName}}">{{dbName}}</option>
           {% endfor %}
