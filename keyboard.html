@@ -34,6 +34,7 @@
       var input = document.getElementById('t1');
       controller = new i18n.input.keyboard.Keyboard();
       controller.loadLayout('ful');
+      controller.loadLayout('ff_adlam');
       controller.reposition(input, 2, 0, [1, 0, 0, 0]);
       controller.register(input);
       controller.addEventListener('kc', function() { visible = false; });
@@ -102,6 +103,7 @@
 
   <select onchange="onLayoutSelected(this)" id="selectKeyboard">
     <option value="ful">Fulani Unicode</option>
+    <option value="ff_adlam">New ff keyboard</option>
   </select>
   <input type="button" value="Clear text" onclick="clearText()">
     Select font: <select onchange="onFontSelected(this, 't1');" id="selectFont">
