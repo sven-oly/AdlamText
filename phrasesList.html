@@ -59,6 +59,9 @@
       filetype = "tsv";
     }
     var outputFile = window.prompt("File name for downloaded CSV","database." + filetype);
+    if (outputFile == null) {
+      return;
+    }
     var target = "/words/downloadCSV/?filterStatus=" + filterStatus +
       "&delimiter=" + delimiter +
       "&sortCriteria=" + sortCriteria +
