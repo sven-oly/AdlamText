@@ -158,12 +158,17 @@ class ProcessCSVUpload(webapp2.RequestHandler):
     englishColumn = self.request.POST.get('englishColumn', 'D')
     commentColumn = self.request.POST.get('commentColumn', '')
     unicodeColumn = self.request.POST.get('unicodeColumn', '')
+    definitionColumn = self.request.POST.get('definitionColumn', '')
+    statusColumn = self.request.POST.get('statusColumn', '')
     referenceColumn = self.request.POST.get('referenceColumn', '')
     skipLines = int(self.request.POST.get('skipLines', '1'))
     skipEmptyLines = self.request.POST.get('skipEmptyLines', False)
     maxLines = int(self.request.POST.get('maxLines', -1))
 
     logging.info('unicodeColumn = %s' % unicodeColumn)
+    logging.info('definitionColumn = %s' % definitionColumn)
+
+    logging.info('statusColumn = %s' % statusColumn)
 
     logging.info('skip Empty Lines = %s' % skipEmptyLines)
     columns = [arabicColumn, englishColumn, commentColumn, unicodeColumn]
@@ -218,13 +223,22 @@ class ProcessCSVUpload(webapp2.RequestHandler):
           reference = row[columnMap[referenceColumn]].strip()
         except:
           reference = ''
+        try:
+          definition = row[columnMap[definitionColumn]].strip()
+        except:
+          definition = ''
+        try:
+          status = row[columnMap[statusColumn]].strip()
+        except:
+          status = ''
         # Add Latin transformation if needed.
         phraseLatin = ''
 
         logging.info('    Eng: >%s<E \n' % (englishPhrase))
-        logging.info('    Arab: >%sO< \n' % (arabicPhrase))
+        logging.info('    Arab: >%sA< \n' % (arabicPhrase))
         logging.info('    Com: >%s<C \n' % (comment))
         logging.info('    Uni: >%s<Y\n' % (utext))
+        logging.info('    Def: >%s<D\n' % (definition))
 
         if (skipEmptyLines and not englishPhrase and not arabicPhrase and not utext):
           emptyLines += 1
@@ -240,11 +254,12 @@ class ProcessCSVUpload(webapp2.RequestHandler):
             phraseArabic=arabicPhrase.decode('utf-8'),
             phraseLatin=phraseLatin,
             phraseUnicode=utext.decode('utf-8'),
+            definitionUnicode=definition,
+            status=status,
             comment=comment,
             reference=reference,
             soundFemaleLink='',
-            soundMaleLink='',
-            status='Unknown')
+            soundMaleLink='',)
           entry.put()
           entries.append(entry)
           numProcessed += 1

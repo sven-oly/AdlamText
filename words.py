@@ -462,7 +462,7 @@ class UpdateStatus(webapp2.RequestHandler):
       logging.info('+++ Got object from key')
     else:
       q = PhraseDB.all()
-      q.filter("index=", index)
+      q.filter("index =", index)
       results = q.run()
       try:
         result = results.next()
@@ -518,7 +518,7 @@ class AddPhrase(webapp2.RequestHandler):
 
     # Check if this already exists.
     q = PhraseDB.all()
-    q.filter('phraseUnicode=', utext)
+    q.filter('phraseUnicode =', utext)
     result = q.get()
 
     if result:
@@ -642,14 +642,19 @@ class DeletePhrase(webapp2.RequestHandler):
 
 # Return entries based on the criteria given.
 def getDBItemsFiltered(databases, selectAllDB, filterStatus, orderBy=None):
+  logging.info('!!! getDBItemsFiltered selectAllDB %s' % selectAllDB)
+
   q = PhraseDB.all()
   if filterStatus:
+    logging.info('!!! getDBItemsFiltered filterStatus %s' % filterStatus)
     q.filter('status =', filterStatus)
   if not selectAllDB or databases:
+    logging.info('!!! getDBItemsFiltered databases %s' % databases)
     if type(databases) is not list:
       databases = [databases]
     q.filter('dbName IN', databases)
   if orderBy:
+    logging.info('!!! getDBItemsFiltered orderBy %s' % orderBy)
     q.order(orderBy)
 
   numEntries = 0
@@ -721,7 +726,7 @@ class GetPhrases(webapp2.RequestHandler):
     self.response.out.write(template.render(path, template_values))
 
 
-  # Returns items from database as CSV file.
+  # Returns items from database as CSV file or TSV file.
 class DownloadPhrasesCSV(webapp2.RequestHandler):
   def get(self):
     user_info = getUserInfo(self.request.url)
@@ -731,21 +736,38 @@ class DownloadPhrasesCSV(webapp2.RequestHandler):
     sortCriteria = self.request.get('sortCriteria', 'index')
     outfileName = self.request.get('outfileName', 'database.csv')
 
+    delimiter = self.request.get('delimiter', ',')  # This may set up TSV or other types.
+
     databases = self.request.GET.getall('databases')
-    if databases == '*All*' or '*All*' in databases:
+
+
+    if databases == None or databases == '*All*' or '*All*' in databases:
       selectAllDB = True
       databases = []
     else:
       selectAllDB = False
 
+    logging.info('filterStatus = %s' % filterStatus)
+    logging.info('sortCriteria = %s' % sortCriteria)
+    logging.info('outfileName = %s' % outfileName)
+    logging.info('delimiter = %s' % delimiter)
+    logging.info('databases = %s' % databases)
+
     if sortCriteria == 'alpha':
       sortCriteria = 'phraseUnicode'
     entries = getDBItemsFiltered(databases, selectAllDB, filterStatus, sortCriteria)
-    # logging.info('GetPhrasesCSV WRITING %s entries' % entries)
+    logging.info('GetPhrasesCSV WRITING %s entries' % entries)
 
-    self.response.headers['Content-Type'] = 'application/csv'
+    output_type = 'csv'
+    if delimiter == 'comma':
+      delimiter = ','
+    if delimiter == 'tab':
+      delimiter='\t'
+      output_type = 'tsv'
+    self.response.headers['Content-Type'] = 'application/%s' % output_type
+
     self.response.headers['Content-Disposition'] = str('attachment; filename="%s"' % outfileName)
-    writer = csv.writer(self.response.out)
+    writer = csv.writer(self.response.out, delimiter=delimiter)
     # Headers
     writer.writerow(['index',
                      'Adlam unicode',
@@ -812,6 +834,8 @@ class ProcessCSVUpload(webapp2.RequestHandler):
     englishColumn = self.request.POST.get('englishColumn', 'D')
     commentColumn = self.request.POST.get('commentColumn', '')
     unicodeColumn = self.request.POST.get('unicodeColumn', '')
+    definitionColumn = self.request.POST.get('definitionColumn', '')
+    statusColumn = self.request.POST.get('statusColumn', '')
     referenceColumn = self.request.POST.get('referenceColumn', '')
     skipLines = int(self.request.POST.get('skipLines', '1'))
     skipEmptyLines = self.request.POST.get('skipEmptyLines', False)
@@ -837,7 +861,7 @@ class ProcessCSVUpload(webapp2.RequestHandler):
       'a' : 0, 'b': 1, 'c': 2, 'd': 3, 'e': 4, 'f': 5, 'g': 6,
     }
 
-    # TODO: find maxIndex from existing entries in dbNam
+    # TODO: find maxIndex from existing entries in dbName
     maxIndex = 0
     emptyLines = 0
 
@@ -860,9 +884,9 @@ class ProcessCSVUpload(webapp2.RequestHandler):
         except:
           englishPhrase = ''
         try:
-           phraseLatin = row[columnMap[arabicColumn]].strip()
+          phraseArabic = row[columnMap[arabicColumn]].strip()
         except:
-           phraseLatin = ''
+          phraseArabic = ''
         try:
           comment = row[columnMap[commentColumn]].strip()
         except:
@@ -875,33 +899,32 @@ class ProcessCSVUpload(webapp2.RequestHandler):
           reference = row[columnMap[referenceColumn]].strip()
         except:
           reference = ''
+        try:
+          status = row[columnMap[statusColumn]].strip()
+        except:
+          status = ''
+        try:
+          definitionUnicode = row[columnMap[definitionColumn]].strip()
+        except:
+          definitionUnicode = ''
 
-        # TODO: get from spreadsheeet
-        definitionUnicode = ''
-
-        #self.response.out.write('    E>%s<E \n' % (englishPhrase))
-        #self.response.out.write('    O>%sO< \n' % ( phraseLatin))
-        #self.response.out.write('    C>%s<C \n' % (comment))
-        #self.response.out.write('    U>%s<Y\n' % (utext))
-
-        if (skipEmptyLines and not englishPhrase and not  phraseLatin and
-          not utext):
+        # Each line must at least include the primary text for the language.
+        if (skipEmptyLines and not utext):
           emptyLines += 1
-          #self.response.out.write('--- Skipping line %d: %s' % (lineNum, row))
           continue
         try:
           entry = PhraseDB(
             index=indexValue,
             dbName=dbName,
-            englishPhrase=englishPhrase.decode('utf-8'),
-            phraseLatin= phraseLatin,
             phraseUnicode=utext.decode('utf-8'),
             definitionUnicode= definitionUnicode,
+            englishPhrase=englishPhrase.decode('utf-8'),
+            phraseArabic= phraseArabic,
             comment=comment,
             reference=reference,
             soundFemaleLink='',
             soundMaleLink='',
-            status= 'Unknown')
+            status= status)
           entry.put()
           entries.append(entry)
           numProcessed += 1
