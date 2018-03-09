@@ -145,7 +145,7 @@ function createGameGrid(grid, grid_width, words, answers) {
       var btn = document.createElement("button");
       var t = document.createTextNode(word);
       var this_word = word;
-      var this_upper = word.toLocaleUpperCase('osa-osge');
+      var this_upper = word.toLocaleUpperCase('ff-adlm');
       btn.append(t);
       //btn.onclick = function () {
       //  alert(word);
@@ -319,23 +319,9 @@ function createGameGrid(grid, grid_width, words, answers) {
   }
 
   // Handle Keyboard
-  var controller, visible = true;
-  function initKeyboardOLD(textAreaID) {
-      var input = document.getElementById(textAreaID);
-      controller = new i18n.input.keyboard.Keyboard();
-      controller.loadLayout('ff_adlam');
-      controller.loadLayout('ful');
-      controller.reposition(input, 2, 0, [1, 0, 0, 0]);
-      controller.register(input);
-      controller.addEventListener('kc', function() { visible = false; });
-      input.focus();
-      var selector = document.getElementById('selectKeyboard');
-      onLayoutSelected(selector, controller, textAreaID);
-  }
-
 
   function initKeyboard(textAreaID) {
-      clearText();
+      // clearText();
       var input = document.getElementById(textAreaID);
       controller = new i18n.input.keyboard.Keyboard();
       controller.loadLayout('ful');
@@ -345,11 +331,12 @@ function createGameGrid(grid, grid_width, words, answers) {
       controller.addEventListener('kc', function() { visible = false; });
       input.focus();
       var selector = document.getElementById('selectKeyboard');
-      onLayoutSelected(selector);
+      onLayoutSelected(selector, null, textAreaID);
+
       var selector = document.getElementById('selectFont');
       onFontSelected(selector, 't1');
 
-      var kbd = document.getElementById('kbd');
+      var kbd = document.getElementById(textAreaID);
       if (kbd) {
         kbd.style.fontFamily = 'Noto Sans Adlam';
       }
@@ -372,7 +359,7 @@ function createGameGrid(grid, grid_width, words, answers) {
   }
 
   function onFontSelected(selected) {
-    var fontFam = selected.value + ", Arial, Osage";
+    var fontFam = selected.value + ", Arial, Noto Sans Adlam";
 
     var output_text = document.getElementById('wordlist');
     output_text.style.fontFamily = fontFam;
@@ -408,6 +395,8 @@ function createGameGrid(grid, grid_width, words, answers) {
     if (controller) {
       controller.className += " noprint";
     }
+    var selector = document.getElementById('selectKeyboard');
+    onLayoutSelected(selector, null, 'wordlist');
   }
   </script>
 </head>
@@ -425,8 +414,9 @@ function createGameGrid(grid, grid_width, words, answers) {
             {% endfor %}
           </select>
 
-            Keyboard: <select onchange="onLayoutSelected(this, null, 'UnicodeOsageTools')")" id="selectKeyboard">
+            Keyboard: <select onchange="onLayoutSelected(this, null, 'wordlist')")" id="selectKeyboard">
             <option value="ff_adlam">Fulah Unicode</option>
+            <option value="ful">Fulah</option>
             </select>
                         <input type='button' value='Toggle keyboard'
                 onClick="toggleKeyboard(); return false;" />
