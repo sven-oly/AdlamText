@@ -202,28 +202,58 @@ function createGameGrid(grid, grid_width, words, answers) {
 
   function drawLines(answers) {
     var grid = whole_grid;
+    var grid_size = grid.length;
+
     var canvas = document.getElementById('myCanvas');
     var ctx = canvas.getContext("2d");
     ctx.font = "30px Pawhuska";
-    var xfactor = 50; xoff = 25;
-    var yfactor = 50; yoff = 25;
+    var xfactor = 50; xoff = 15;
+    var yfactor = 50; yoff = 35; ylineoff = 15;
+
+    //ctx.fillStyle = "white";
+    ctx.fillRect(0, 0, xfactor * grid_size, yfactor * grid_size);
+    ctx.clearRect(0, 0, xfactor * grid_size, yfactor * grid_size);
+
+
+
+    // Draw the outline:
+    ctx.strokeStyle="#FF0000";
+    ctx.moveTo(0, 0);
+    ctx.lineTo(xfactor * grid_size, 0);
+    ctx.lineTo(xfactor * grid_size, yfactor * grid_size);
+    ctx.lineTo(0, yfactor * grid_size);
+    ctx.lineTo(0, 0);
+
+    ctx.strokeStyle= "#DCDCDC";
+    for (var i = 1; i < grid_size; i ++) {
+      ctx.moveTo(i * xfactor, 0);
+      ctx.lineTo(i * xfactor, yfactor * grid_size);
+    }
+    for (var i = 1; i < grid_size; i ++) {
+      ctx.moveTo(0, i * yfactor);
+      ctx.lineTo(xfactor * grid_size, i * yfactor);
+    }
+    ctx.strokeStyle="#000000";
+
     for (var answer in all_answers) {
       // Get each cell and highlight.
       var cells = all_answers[answer][0];
       var word = all_answers[answer][2];
       var last = cells.length - 1;
-      var y = cells[0][0] * xfactor;
-      var x = cells[0][1] * yfactor;
-      ctx.moveTo(cells[last][1] * xfactor + xoff, cells[last][0] * yfactor+yoff);
-      ctx.lineTo(x + xoff,y+yoff);
+      var y = cells[0][0] * yfactor;
+      var x = cells[0][1] * xfactor;
+      ctx.moveTo(cells[last][1] * xfactor + xoff, cells[last][0] * yfactor + ylineoff);
+      ctx.lineTo(x + xoff, y + ylineoff);
       ctx.stroke();
 
       word = all_words[answer];
       for (var i = 0; i < cells.length; i++) {
-        var text = grid[cells[i][1], cells[i][0]];
-        var y = cells[i][0] * xfactor;
-        var x = cells[i][1] * yfactor;
-        ctx.fillText(text[i], x + xoff, y+yoff);
+        var row = cells[i][0];
+        var col = cells[i][1];
+        var text = grid[row][col];
+        var y = cells[i][0] * yfactor;
+        var x = cells[i][1] * xfactor;
+        ctx.fillText(text, x + xoff, y+yoff);
       }
     }
   }

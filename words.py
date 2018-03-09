@@ -726,7 +726,7 @@ class GetPhrases(webapp2.RequestHandler):
     self.response.out.write(template.render(path, template_values))
 
 
-  # Returns items from database as CSV file or TSV file.
+# Returns items from database as CSV file or TSV file.
 class DownloadPhrasesCSV(webapp2.RequestHandler):
   def get(self):
     user_info = getUserInfo(self.request.url)
