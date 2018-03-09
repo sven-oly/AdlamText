@@ -321,6 +321,7 @@ def tryPlacingWord(tokens, x, y, direction, grid):
 
 def getTokens(word):
     '''Get the tokens, not code points.'''
+    # This is language-specific.
     # TODO: make this smarter utf-16 and diacritics.
     vals = list(word)
     retval = []
@@ -329,7 +330,7 @@ def getTokens(word):
         item = ''
         v = ord(vals[index])
 
-        if v >= 0xd800 and v <+ 0xdbff:
+        if v >= 0xd800 and v <= 0xdbff:
             item += vals[index] + vals[index+1]
             index += 2
         else:
@@ -339,6 +340,11 @@ def getTokens(word):
             # It's a combining character. Add to the growing item.
             item += vals[index]
             index += 1
+        while index + 1 < len(vals) and v == 0xD83A and (ord(vals[index+1]) >= 0xdd44 and
+          ord(vals[index + 1]) <= 0xdd4a):
+            # It's an Adlam combining character. Add to the growing item.
+            item += vals[index] + vals[index+1]
+            index += 2
         retval.append(item)
     return retval
 
@@ -363,10 +369,6 @@ def printAnswers(answers):
 
 # Runs with an array of words
 def generateWordsGrid(words):
-    #words = [u'𐓏𐒻𐒷𐒻𐒷', u'𐓀𐒰𐓓𐒻͘', u'𐓏𐒰𐓓𐒰𐓓𐒷', u'𐒻𐒷𐓏𐒻͘ ', u'𐓈𐒻𐓍𐒷', u'𐒹𐓂𐓏𐒷͘𐒼𐒻',
-    #         u'𐓇𐓈𐓂͘𐓄𐒰𐓄𐒷', u'𐒰̄𐓍𐓣𐓟𐓸𐓟̄𐓛𐓣̄𐓬', u'𐒼𐒰𐓆𐒻𐓈𐒰͘', u'𐓏𐒰𐓇𐒵𐒻͘𐒿𐒰 ',
-    #         u'𐒻𐓏𐒻𐒼𐒻', u'𐓂𐓍𐒰𐒰𐒾𐓎𐓓𐓎𐒼𐒰']
-
     # Set the size to be the maximum word length.
     max_xy = 0
     total_tokens = 0
