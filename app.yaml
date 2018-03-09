@@ -28,6 +28,9 @@ handlers:
 - url: /sound/.*
   script: sounds.app
 
+- url: /games/.*
+  script: games.app
+
 - url: .*
   script: main.app
 
