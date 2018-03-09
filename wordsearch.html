@@ -320,10 +320,11 @@ function createGameGrid(grid, grid_width, words, answers) {
 
   // Handle Keyboard
   var controller, visible = true;
-  function initKeyboard(textAreaID) {
+  function initKeyboardOLD(textAreaID) {
       var input = document.getElementById(textAreaID);
       controller = new i18n.input.keyboard.Keyboard();
       controller.loadLayout('ff_adlam');
+      controller.loadLayout('ful');
       controller.reposition(input, 2, 0, [1, 0, 0, 0]);
       controller.register(input);
       controller.addEventListener('kc', function() { visible = false; });
@@ -331,6 +332,28 @@ function createGameGrid(grid, grid_width, words, answers) {
       var selector = document.getElementById('selectKeyboard');
       onLayoutSelected(selector, controller, textAreaID);
   }
+
+
+  function initKeyboard(textAreaID) {
+      clearText();
+      var input = document.getElementById(textAreaID);
+      controller = new i18n.input.keyboard.Keyboard();
+      controller.loadLayout('ful');
+      controller.loadLayout('ff_adlam');
+      controller.reposition(input, 2, 0, [1, 0, 0, 0]);
+      controller.register(input);
+      controller.addEventListener('kc', function() { visible = false; });
+      input.focus();
+      var selector = document.getElementById('selectKeyboard');
+      onLayoutSelected(selector);
+      var selector = document.getElementById('selectFont');
+      onFontSelected(selector, 't1');
+
+      var kbd = document.getElementById('kbd');
+      if (kbd) {
+        kbd.style.fontFamily = 'Noto Sans Adlam';
+      }
+    }
 
   function onLayoutSelected(selector, this_controller, outputId) {
     var layoutCode = selector.value;
