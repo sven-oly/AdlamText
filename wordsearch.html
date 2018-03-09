@@ -166,37 +166,40 @@ function createGameGrid(grid, grid_width, words, answers) {
 
   function showAnswerGrid(tableId) {
 
-    var table = document.getElementById(tableId);
-    var rows = table.getElementsByTagName("tr")
-    var grid = whole_grid;
-    var grid_width = whole_grid.length;
-    var answer = all_answers;
+    var colorTheGrid = false;
+        if (colorTheGrid) {
+        var table = document.getElementById(tableId);
+        var rows = table.getElementsByTagName("tr")
+        var grid = whole_grid;
+        var grid_width = whole_grid.length;
+        var answer = all_answers;
 
-    for (var row = 0; row < grid_width; row ++) {
-      // Insert New Columns for Row1 at index '0'.
-      row1 = rows[row];
+        for (var row = 0; row < grid_width; row ++) {
+          // Insert New Columns for Row1 at index '0'.
+          row1 = rows[row];
 
-      for (var col = 0; col < grid_width; col ++) {
-        var row1col1 = row1.cells[col];
-        row1col1.bgColor = "gray"
-      }
-    }
-
-    // Set all the background to gray.
-    // Then highlight each answer, with color on the first letter.
-    for (var answer in all_answers) {
-      // Get each cell and highlight.
-      var cells = all_answers[answer][0];
-      for (var i = 0; i < cells.length; i++) {
-        row1 = rows[cells[i][0]];
-        rowcol = row1.cells[cells[i][1]];
-        rowcol.bgColor = "white";
-        if (i == 0) {
-          rowcol.bgColor = "yellow";
+          for (var col = 0; col < grid_width; col ++) {
+            var row1col1 = row1.cells[col];
+            row1col1.bgColor = "gray"
+          }
         }
 
+        // Set all the background to gray.
+        // Then highlight each answer, with color on the first letter.
+        for (var answer in all_answers) {
+          // Get each cell and highlight.
+          var cells = all_answers[answer][0];
+          for (var i = 0; i < cells.length; i++) {
+            row1 = rows[cells[i][0]];
+            rowcol = row1.cells[cells[i][1]];
+            rowcol.bgColor = "white";
+            if (i == 0) {
+              rowcol.bgColor = "yellow";
+            }
+
+          }
+        }
       }
-    }
       drawLines(all_answers);
   }
 
@@ -207,14 +210,14 @@ function createGameGrid(grid, grid_width, words, answers) {
     var canvas = document.getElementById('myCanvas');
     var ctx = canvas.getContext("2d");
     ctx.font = "30px Pawhuska";
-    var xfactor = 50; xoff = 15;
+    var xfactor = 50; xoff = 15; xlineoff = 25;
     var yfactor = 50; yoff = 35; ylineoff = 15;
 
     //ctx.fillStyle = "white";
     ctx.fillRect(0, 0, xfactor * grid_size, yfactor * grid_size);
     ctx.clearRect(0, 0, xfactor * grid_size, yfactor * grid_size);
 
-
+    ctx.beginPath();
 
     // Draw the outline:
     ctx.strokeStyle="#FF0000";
@@ -242,8 +245,8 @@ function createGameGrid(grid, grid_width, words, answers) {
       var last = cells.length - 1;
       var y = cells[0][0] * yfactor;
       var x = cells[0][1] * xfactor;
-      ctx.moveTo(cells[last][1] * xfactor + xoff, cells[last][0] * yfactor + ylineoff);
-      ctx.lineTo(x + xoff, y + ylineoff);
+      ctx.moveTo(cells[last][1] * xfactor + xlineoff, cells[last][0] * yfactor + ylineoff);
+      ctx.lineTo(x + xlineoff, y + ylineoff);
       ctx.stroke();
 
       word = all_words[answer];
