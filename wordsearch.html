@@ -51,7 +51,7 @@
 <script>
 
   function sendTestWords(resultArea, answerArea) {
-  var wordData = ['𞤼𞤢𞤦𞤢𞤤𞤣𞤫', '𞤵𞤧𞤭𞤯𞤮', '𞤢𞤤𞤢𞤤'];
+  var wordData = ['𞤼𞤢𞤦𞤢𞤤𞤣𞤫', '𞤵𞤧𞤭𞤯𞤮', '𞤢𞤤𞤢𞤤', '𞤭𞥅𞤢𞤷', '𞤰𞤢𞥄'];
     return sendWords(wordData, resultArea, answerArea);
   }
 
@@ -162,9 +162,11 @@ function createGameGrid(grid, grid_width, words, answers) {
       answerArea.appendChild(li);
 
     }
+
+    createAnswerGrid('gridTable');
   }
 
-  function showAnswerGrid(tableId) {
+  function createAnswerGrid(tableId) {
 
     var colorTheGrid = false;
         if (colorTheGrid) {
@@ -288,9 +290,7 @@ function createGameGrid(grid, grid_width, words, answers) {
   }
 
   function toggle(id, toggle) {
-    if (id == 'answerBlock') {
-      showAnswerGrid('gridTable');
-    }
+
     var obj = document.getElementById(id);
     var checkBox = document.getElementById(toggle);
     var showIt = checkBox.checked;
@@ -449,23 +449,18 @@ function createGameGrid(grid, grid_width, words, answers) {
             </p>
         </div>
 
-        <div id="testarea">
-          <!--
-        <input type="button"
-            onclick="highlightAnswer('test', [[2,3], [1, 1], [2, 1], [3, 2]]);"
-            value="test highlight">
-        -->
     </div>
-        <p style="page-break-before: always; border:none;">
-        <div id="answers">
-            <input type="checkbox" id="toggleAnswers"
-                   onclick="toggle('answerBlock', 'toggleAnswers');"/>Show answers?
-            <div id="answerBlock" style="display:none;">
+    <p style="page-break-before: always; border:none;"> </p>
+    <input type="checkbox" id="toggleAnswers"
+                   onclick="toggle('answers', 'toggleAnswers');"/>Show answers?
+        <div id="answers" style="display: none;">
+
+            <div id="answerBlock">
                 <ul id="answerList">
                 </ul>
             </div>
+            <canvas id="myCanvas" width="800" height="800"></canvas>
         </div>
-        <canvas id="myCanvas" width="800" height="800"></canvas>
 
     </div>
 
