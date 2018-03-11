@@ -51,7 +51,7 @@
 <script>
 
   function sendTestWords(resultArea, answerArea) {
-  var wordData = ['𞤼𞤢𞤦𞤢𞤤𞤣𞤫', '𞤵𞤧𞤭𞤯𞤮', '𞤢𞤤𞤢𞤤', '𞤭𞥅𞤢𞤷', '𞤰𞤢𞥄'];
+  var wordData = ['𞤼𞤢𞤦𞤢𞤤𞤣𞤫', '𞤵𞤧𞤭𞤯𞤮', '𞤢𞤤𞤢𞤤', '𞤭𞥅𞤢𞤷', '𞤰𞤢𞥄', '𞤦𞤢𞥄𞤫', '𞤸𞥆𞤷𞤭𞥅𞤰𞤮𞥅𞤳𞤢𞥄'];
     return sendWords(wordData, resultArea, answerArea);
   }
 
@@ -173,7 +173,7 @@ function createGameGrid(grid, grid_width, words, answers) {
         var table = document.getElementById(tableId);
         var rows = table.getElementsByTagName("tr")
         var grid = whole_grid;
-        var grid_width = whole_grid.length;
+        var grid_width = grid_width;
         var answer = all_answers;
 
         for (var row = 0; row < grid_width; row ++) {
@@ -207,7 +207,7 @@ function createGameGrid(grid, grid_width, words, answers) {
 
   function drawLines(answers) {
     var grid = whole_grid;
-    var grid_size = grid.length;
+    var grid_size = grid_width;
 
     var canvas = document.getElementById('myCanvas');
     var ctx = canvas.getContext("2d");
@@ -215,9 +215,7 @@ function createGameGrid(grid, grid_width, words, answers) {
     var xfactor = 50; xoff = 15; xlineoff = 25;
     var yfactor = 50; yoff = 35; ylineoff = 25;
 
-    //ctx.fillStyle = "white";
-    ctx.fillRect(0, 0, xfactor * grid_size, yfactor * grid_size);
-    ctx.clearRect(0, 0, xfactor * grid_size, yfactor * grid_size);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     ctx.beginPath();
 

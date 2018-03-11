@@ -14,6 +14,7 @@ import userDB
 import json
 import logging
 import os
+import sys
 import urllib
 import webapp2
 
@@ -82,6 +83,7 @@ class GenerateWordSearchHandler(webapp2.RequestHandler):
       'answers': answers,
       'words': words,
       'grid_width': grid_width,
+      'maxunicode': sys.maxunicode,
     }
     self.response.out.write(json.dumps(template_values))
 
