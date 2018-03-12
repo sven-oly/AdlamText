@@ -187,7 +187,7 @@ def insertWord(word, grid, invalid, is_wordsearch):
     Returns an updated grid as well as a list of the added word's indices.'''
 
     if debug:
-      logging.info('insert word %s')
+      logging.info('insert word %s' % word)
     height, width = len(grid), len(grid[0])
     # TODO: Use the number of combined characters, not just length.
     tokens = getTokens(word)
@@ -340,8 +340,8 @@ def getTokens(word):
             # It's a combining character. Add to the growing item.
             item += vals[index]
             index += 1
-        while index + 1 < len(vals) and v == 0xD83A and (ord(vals[index+1]) >= 0xdd44 and
-          ord(vals[index + 1]) <= 0xdd4a):
+        while index + 1 < len(vals) and ord(vals[index]) == 0xD83A and (
+            ord(vals[index+1]) >= 0xdd44 and ord(vals[index + 1]) <= 0xdd4a):
             # It's an Adlam combining character. Add to the growing item.
             item += vals[index] + vals[index+1]
             index += 2
@@ -435,7 +435,8 @@ def main(args):
            u'𐒻𐓏𐒻𐒼𐒻', u'𐓂𐓍𐒰𐒰𐒾𐓎𐓓𐓎𐒼𐒰']
 
 
-  grid, answers = makeGrid(words, [11,11], 10, False)  # Try with a crossword
+  words = ['𞤢𞥄', '𞤣𞥆', '𞤤𞥆', '𞤥𞥆𞤢', '𞤪𞤦𞥆', '𞤫𞥅𞤸𞤧', '𞥁𞥂𞥆']
+  grid, answers = makeGrid(words, [11,11], 10, True)  # Try with a crossword
   printGrid(grid)
   printAnswers(answers)
 
