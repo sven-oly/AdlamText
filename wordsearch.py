@@ -4,13 +4,9 @@
 # Starting with
 #   https://codereview.stackexchange.com/questions/98247/wordsearch-generator
 import itertools
-
-from copy import deepcopy
-from random import randint
-
 import logging
-
 import sys
+from random import randint
 
 # Set up fill letters, including those with diacritics.
 # Should we done something with statistics?
@@ -52,6 +48,8 @@ class WordSearch():
         self.do_diagonal = True
         self.do_reverse = True
         self.size = 0
+        self.width = 0
+        self.height = 0
         self.wordlist = None
         self.answers = None
         self.current_level = 0
@@ -66,8 +64,9 @@ class WordSearch():
         # where it could be placed, given grid size and
         # number of tokens in the word
         positions = []
-        for x in xrange(0, width - length):
-            for y in xrange(0, height - length):
+        length = len(tokens)
+        for x in xrange(0, self.width - length):
+            for y in xrange(0, self.height - length):
                 for dir in self.directions:
                     positions.append([x, y])
         return positions
@@ -135,8 +134,8 @@ def attemptGrid(words, size, is_wordsearch=True):
     sizeCap = (size[0] if size[0] >= size[1] else size[1])
     sizeCap -= 1
     if any(len(tokens) > sizeCap for tokens in tokenList):
-        logging.info("ERROR: Too small a grid for supplied words: %s" % tokens)
-        return None, None
+      logging.info("ERROR: Too small a grid for supplied words: %s" % words)
+      return None, None
 
     grid = [[' ' for _ in range(size[0])] for __ in range(size[1])]
 
@@ -150,11 +149,9 @@ def attemptGrid(words, size, is_wordsearch=True):
             #logging.info('A ROW')
             direction = 'ROW'
         elif answer[0][1] == answer[-1][1]:
-            #logging.info('A COLUMN')
             direction = 'COLUMN'
         else:
             direction = 'DIAGONAL'
-            #logging.info('A DIAGONAL')
 
         if reversed:
             # Put the coordinates in the right order
@@ -340,11 +337,23 @@ def getTokens(word):
             # It's a combining character. Add to the growing item.
             item += vals[index]
             index += 1
-        while index + 1 < len(vals) and ord(vals[index]) == 0xD83A and (
-            ord(vals[index+1]) >= 0xdd44 and ord(vals[index + 1]) <= 0xdd4a):
-            # It's an Adlam combining character. Add to the growing item.
-            item += vals[index] + vals[index+1]
-            index += 2
+
+        if sys.maxunicode <= 0xffff:
+            # Python compiled with
+            while index + 1 < len(vals) and (ord(vals[index]) == 0xD83A and
+                ord(vals[index+1]) >= 0xdd44 and ord(vals[index + 1]) <= 0xdd4a):
+                # It's an Adlam combining character. Add to the growing item.
+                item += vals[index] + vals[index+1]
+                index += 2
+        else:
+            while index < len(vals) and (
+                ord(vals[index]) >= 0x1E944 and ord(vals[index]) <= 0x1E94A):
+                # It's an Adlam combining character. Add to the growing item.
+                logging.info('Character in big range = %s' % ord(vals[index]))
+                item += vals[index]
+                index += 1
+            pass
+
         retval.append(item)
     return retval
 
@@ -400,7 +409,6 @@ def generateCrosswordsGrid(words):
     logging.info('generateCrosswordsGrid max size = %s ' % (max_xy))
     grid, answers = makeGrid(words, [max_xy + 1, max_xy + 1], 10, False)
     return grid, answers, words, max_xy + 1
-    return
 
 
 # Runs with a set grid
@@ -426,17 +434,15 @@ def testGrid():
 
 
 def main(args):
-  # The Osage works, with diacritics
-  osageWords = [u'𐓏𐒻𐒷𐒻𐒷', u'𐓀𐒰𐓓𐒻͘', u'𐓏𐒰𐓓𐒰𐓓𐒷', u'𐒻𐒷𐓏𐒻͘ ', u'𐓈𐒻𐓍𐒷', u'𐒹𐓂𐓏𐒷͘𐒼𐒻', u'𐓇𐓈𐓂͘𐓄𐒰𐓄𐒷',
-                u'𐒰̄𐓍𐓣𐓟𐓸𐓟̄𐓛𐓣̄𐓬']
+  # The test words, with diacritics
 
-  words = [u'𐓣𐓟𐓷𐓣͘', u' 𐓡𐓪𐓷𐓘͘𐓤', u'𐓏𐒻𐒷𐒻𐒷', u'𐓀𐒰𐓓𐒻͘', u'𐓏𐒰𐓓𐒰𐓓𐒷', u'𐒻𐒷𐓏𐒻͘ ', u'𐓈𐒻𐓍𐒷', u'𐒹𐓂𐓏𐒷͘𐒼𐒻',
-           u'𐓇𐓈𐓂͘𐓄𐒰𐓄𐒷', u'𐒰̄𐓍𐓣𐓟𐓸𐓟̄𐓛𐓣̄𐓬', u'𐒼𐒰𐓆𐒻𐓈𐒰͘', u'𐓏𐒰𐓇𐒵𐒻͘𐒿𐒰 ',
-           u'𐒻𐓏𐒻𐒼𐒻', u'𐓂𐓍𐒰𐒰𐒾𐓎𐓓𐓎𐒼𐒰']
 
 
   words = ['𞤢𞥄', '𞤣𞥆', '𞤤𞥆', '𞤥𞥆𞤢', '𞤪𞤦𞥆', '𞤫𞥅𞤸𞤧', '𞥁𞥂𞥆']
-  grid, answers = makeGrid(words, [11,11], 10, True)  # Try with a crossword
+  # TODO: Try with a crossword
+  grid, answers = makeGrid(words, [5, 5], 10, True)
+
+
   printGrid(grid)
   printAnswers(answers)
 
