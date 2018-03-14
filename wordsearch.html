@@ -317,7 +317,8 @@ function createGameGrid(grid, grid_width, words, answers) {
   }
 
   // Handle Keyboard
-
+  var visible = false;
+  var controller;
   function initKeyboard(textAreaID) {
       // clearText();
       var input = document.getElementById(textAreaID);
@@ -337,6 +338,7 @@ function createGameGrid(grid, grid_width, words, answers) {
       var kbd = document.getElementById(textAreaID);
       if (kbd) {
         kbd.style.fontFamily = 'Noto Sans Adlam';
+        visible = true;
       }
     }
 
