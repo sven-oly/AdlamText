@@ -46,6 +46,7 @@ class WordSearchHandler(webapp2.RequestHandler):
       'language': main.Language,
       'fontFamilies': main.fontList,
       'wordTestData': wordData,
+      'maxunicode': sys.maxunicode,
     }
     path = os.path.join(os.path.dirname(__file__), 'wordsearch.html')
     self.response.out.write(template.render(path, template_values))
@@ -102,7 +103,7 @@ class CrosswordHandler(webapp2.RequestHandler):
       'user_logout': user_info[2],
       'user_login_url': user_info[3],
       'language': main.Language,
-      'fontFamilies': main.unicode_font_list,
+      'fontFamilies': main.fontList,
     }
     path = os.path.join(os.path.dirname(__file__), 'crossword.html')
     self.response.out.write(template.render(path, template_values))
