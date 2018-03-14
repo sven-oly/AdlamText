@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
 
-    <title>{{language}} wordsearch generator</title>
+    <title>{{language}} word search generator</title>
 
     <link rel="stylesheet" href="/css/blueprint/screen.css" type="text/css" media="screen">
     <link rel="stylesheet" href="/css/blueprint/print.css" type="text/css" media="print">
@@ -147,7 +147,6 @@ function createGameGrid(grid, grid_width, words, answers) {
       var this_word = word;
       var this_upper = word.toLocaleUpperCase('ff-adlm');
       btn.append(t);
-
       btn.onclick = onAnswerClickEvent;
 
       li.appendChild(btn);
@@ -160,7 +159,6 @@ function createGameGrid(grid, grid_width, words, answers) {
     showAnswerGrid('gridTable');
   }
 
-  // TESTING
   function onAnswerClickEvent(e) {
     var x = e;
     var text = e.target.innerHTML;
@@ -434,8 +432,8 @@ function createGameGrid(grid, grid_width, words, answers) {
           </select>
 
             Keyboard: <select onchange="onLayoutSelected(this, null, 'wordlist');" id="selectKeyboard">
-            <option value="ff_adlam">Fulah Unicode</option>
-            <option value="ful">Fulah</option>
+            <option value="ff_adlam">{{language}} Unicode</option>
+            <option value="ful">{{language}}</option>
             </select>
                         <input type='button' value='Toggle keyboard'
                 onClick="toggleKeyboard(); return false;" />
