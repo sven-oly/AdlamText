@@ -37,13 +37,16 @@ class WordSearchHandler(webapp2.RequestHandler):
     #logging.info('games WordSearchHandler grid = %s' % grid)
     #logging.info('games WordSearchHandler answers = %s' % answers)
     #logging.info('games WordSearchHandler words = %s' % words)
+    wordData = ['𞤼𞤢𞤦𞤢𞤤𞤣𞤫', '𞤵𞤧𞤭𞤯𞤮', '𞤢𞤤𞤢𞤤', '𞤭𞥅𞤢𞤷', '𞤰𞤢𞥄', '𞤦𞤢𞥄𞤫', '𞤸𞥆𞤷𞤭𞥅𞤰𞤮𞥅𞤳𞤢𞥄']
 
     template_values = {
       'user_nickname': user_info[1],
       'user_logout': user_info[2],
       'user_login_url': user_info[3],
       'language': main.Language,
-      'fontFamilies': main.unicode_font_list,
+      'fontFamilies': main.fontList,
+      'wordTestData': wordData,
+      'maxunicode': sys.maxunicode,
     }
     path = os.path.join(os.path.dirname(__file__), 'wordsearch.html')
     self.response.out.write(template.render(path, template_values))
@@ -100,7 +103,7 @@ class CrosswordHandler(webapp2.RequestHandler):
       'user_logout': user_info[2],
       'user_login_url': user_info[3],
       'language': main.Language,
-      'fontFamilies': main.unicode_font_list,
+      'fontFamilies': main.fontList,
     }
     path = os.path.join(os.path.dirname(__file__), 'crossword.html')
     self.response.out.write(template.render(path, template_values))
