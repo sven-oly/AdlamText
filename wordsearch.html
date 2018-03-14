@@ -147,14 +147,8 @@ function createGameGrid(grid, grid_width, words, answers) {
       var this_word = word;
       var this_upper = word.toLocaleUpperCase('ff-adlm');
       btn.append(t);
-      //btn.onclick = function () {
-      //  alert(word);
-      //}
-      btn.addEventListener ("click",
-        function() {
-          return highlightAnswer(word, positions); // The positions.
-        }
-      );
+
+      btn.onclick = onAnswerClickEvent;
 
       li.appendChild(btn);
       var ans_text = document.createTextNode(" : " + positions + ' (' + answer[3] + ')');
@@ -164,6 +158,15 @@ function createGameGrid(grid, grid_width, words, answers) {
     }
 
     createAnswerGrid('gridTable');
+  }
+
+  // TESTING
+  function onAnswerClickEvent(e) {
+    var x = e;
+    var text = e.target.innerHTML;
+    var positions = all_answers[text][0];
+
+    highlightAnswer(e.target.innerHTML, positions);
   }
 
   function createAnswerGrid(tableId) {
@@ -303,6 +306,8 @@ function createGameGrid(grid, grid_width, words, answers) {
     var table = document.getElementById('gridTable');
     var rows = table.getElementsByTagName("tr")
 
+    clearGridHighlighting(table);
+
     var this_answer = all_answers[word][0];
     // For each position in the answer, highlight the cell with a color.
     var count = this_answer.length;
@@ -314,6 +319,20 @@ function createGameGrid(grid, grid_width, words, answers) {
       var col = row.cells[y];
       col.style.backgroundColor = "yellow";
     }
+  }
+
+  function clearGridHighlighting(table) {
+    var rows = table.getElementsByTagName("tr");
+    for (var rownum  = 0; rownum < rows.length; rownum ++) {
+      var row = rows[rownum];
+      for (var col = 0; col < row.cells.length; col++) {
+        var column = row.cells[col];
+        if (column) {
+          column.style.backgroundColor = "white";
+        }
+      }
+    }
+
   }
 
   // Handle Keyboard
