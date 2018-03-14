@@ -127,7 +127,7 @@ function createGameGrid(grid, grid_width, words, answers) {
     }
 
     // Add the words to find.
-    var wordArea = document.getElementById('wordList');
+    var wordArea = document.getElementById('wordsToFind');
     var wordList = "";
     for (word in words) {
         wordList += " " + word + "\u00a0\u00a0\u00a0";
@@ -157,7 +157,7 @@ function createGameGrid(grid, grid_width, words, answers) {
 
     }
 
-    createAnswerGrid('gridTable');
+    showAnswerGrid('gridTable');
   }
 
   // TESTING
@@ -169,7 +169,8 @@ function createGameGrid(grid, grid_width, words, answers) {
     highlightAnswer(e.target.innerHTML, positions);
   }
 
-  function createAnswerGrid(tableId) {
+
+  function showAnswerGrid(tableId) {
 
     var colorTheGrid = false;
         if (colorTheGrid) {
@@ -337,10 +338,8 @@ function createGameGrid(grid, grid_width, words, answers) {
 
   // --------------------------------------------------------------
   // Handle Keyboard
-  var visible = false;
-  var controller;
+  var controller, visible = true;
   function initKeyboard(textAreaID) {
-      // clearText();
       var input = document.getElementById(textAreaID);
       controller = new i18n.input.keyboard.Keyboard();
       controller.loadLayout('ful');
@@ -384,7 +383,7 @@ function createGameGrid(grid, grid_width, words, answers) {
     var output_text = document.getElementById('wordlist');
     output_text.style.fontFamily = fontFam;
 
-    var output_text = document.getElementById('wordList');
+    var output_text = document.getElementById('wordsToFind');
     output_text.style.fontFamily = fontFam;
 
     var output_text = document.getElementById('gridTable');
@@ -464,7 +463,7 @@ function createGameGrid(grid, grid_width, words, answers) {
         </div>
         <div>
             <h2>Words to find:</h2>
-            <p id="wordList">
+            <p id="wordsToFind">
 
             </p>
         </div>
@@ -484,8 +483,4 @@ function createGameGrid(grid, grid_width, words, answers) {
 
     </div>
 
-</div>
-</div>
-</div>
-</div>
 </body>
