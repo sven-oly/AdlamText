@@ -47,6 +47,7 @@ class WordSearchHandler(webapp2.RequestHandler):
       'fontFamilies': main.fontList,
       'wordTestData': wordData,
       'maxunicode': sys.maxunicode,
+      'text_direction': 'rtl',
     }
     path = os.path.join(os.path.dirname(__file__), 'wordsearch.html')
     self.response.out.write(template.render(path, template_values))
@@ -87,6 +88,7 @@ class GenerateWordSearchHandler(webapp2.RequestHandler):
       'words': words,
       'grid_width': grid_width,
       'maxunicode': sys.maxunicode,
+      'text_direction': 'rtl',
     }
     self.response.out.write(json.dumps(template_values))
 
@@ -104,6 +106,7 @@ class CrosswordHandler(webapp2.RequestHandler):
       'user_login_url': user_info[3],
       'language': main.Language,
       'fontFamilies': main.fontList,
+      'text_direction': 'rtl',
     }
     path = os.path.join(os.path.dirname(__file__), 'crossword.html')
     self.response.out.write(template.render(path, template_values))
@@ -143,6 +146,7 @@ class GenerateCrosswordHandler(webapp2.RequestHandler):
       'answers': answers,
       'words': words,
       'grid_width': grid_width,
+      'text_direction': 'rtl',
     }
     self.response.out.write(json.dumps(template_values))
 
