@@ -22,6 +22,11 @@
     }
     @media screen {
     }
+
+    textarea, button, p, ul, li {
+      direction: rtl;
+    }
+
     </style>
     <style>
         p, table {
@@ -440,10 +445,7 @@ function createGameGrid(grid, grid_width, words, answers) {
                         <input type='button' value='Print page'
                 onClick="printPage(); return false;" />            <div>
                 {{language}} Words:<br />
-                <textarea id="wordlist"
-                          {% if text_direction %} dir={{text_direction}}
-                          {% endif %}
-                          ></textarea>
+                <textarea id="wordlist"></textarea>
             </div>
             <input type="button" value="Clear words and solution"
                    onclick="clearArea('wordlist');clearArea('wordList');clearChildNodes('answerList');clearTableRows('gridTable');">
@@ -464,10 +466,7 @@ function createGameGrid(grid, grid_width, words, answers) {
         </div>
         <div>
             <h2>Words to find:</h2>
-            <p id="wordsToFind"
-                          {% if text_direction %} dir={{text_direction}}
-                          {% endif %}
-               >
+            <p id="wordsToFind">
 
             </p>
         </div>
