@@ -40,6 +40,7 @@ class WordSearchHandler(webapp2.RequestHandler):
     wordData = ['𞤼𞤢𞤦𞤢𞤤𞤣𞤫', '𞤵𞤧𞤭𞤯𞤮', '𞤢𞤤𞤢𞤤', '𞤭𞥅𞤢𞤷', '𞤰𞤢𞥄', '𞤦𞤢𞥄𞤫', '𞤸𞥆𞤷𞤭𞥅𞤰𞤮𞥅𞤳𞤢𞥄']
 
     template_values = {
+      'dir': 'rtl',
       'user_nickname': user_info[1],
       'user_logout': user_info[2],
       'user_login_url': user_info[3],
