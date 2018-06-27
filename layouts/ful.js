@@ -19,7 +19,7 @@
 
 var FUL_UNICODE_LAYOUT = {
   'id': 'ful',
-  'title': 'Fulfulde Adlam Unicode',
+  'title': '𞤆𞤵𞤤𞤢𞤪/𞤊𞤵𞤤𞤬𞤵𞤤𞤣𞤫',
   'direction': 'rtl',
   'mappings': {
     '': {

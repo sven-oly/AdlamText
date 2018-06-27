@@ -35,6 +35,15 @@ var adlam_Latin_to_unicode_map = {
   'dd': String.fromCodePoint(0x1e923) + String.fromCodePoint(0x1E946),
   'dD': String.fromCodePoint(0x1e923) + String.fromCodePoint(0x1E946),
 
+  'dj': '𞤶',
+  'dJ': '𞤶',
+  'Dj': '𞤔',
+  'DJ': '𞤔',
+  'dy': '𞤶',
+  'dY': '𞤶',
+  'Dy': '𞤔',
+  'DY': '𞤔',
+
   'E': String.fromCodePoint(0x1e909),
   'e': String.fromCodePoint(0x1e92b),
   'EE': String.fromCodePoint(0x1e909) + String.fromCodePoint(0x1e945),
@@ -42,6 +51,32 @@ var adlam_Latin_to_unicode_map = {
   'ee': String.fromCodePoint(0x1e92b) + String.fromCodePoint(0x1e945),
   'eE': String.fromCodePoint(0x1e92b) + String.fromCodePoint(0x1e945),
 
+  'è': '𞤫',
+  'é': '𞤫',
+  'È': '𞤉',
+  'É': '𞤉',
+
+  'ê': '𞤫𞥅',
+  'ë': '𞤫𞥅',
+  'Ê': '𞤉𞥅',
+  'Ë': '𞤉𞥅',
+
+  'î': '𞤭𞥅',
+  'Î': '𞤋𞥅',
+  'ï': '𞤭𞥅',
+  'Ï': '𞤋𞥅',
+
+  'ô': '𞤮',
+  'Ô': '𞤌',
+  'ö': '𞤮',
+  'Ö': '𞤌',
+
+  'û': '𞤵𞥅',
+  'Û': '𞤓𞥅',
+
+  'â': '𞤢',
+  'Â': '𞤀',
+  
   'F': String.fromCodePoint(0x1e90a),
   'f': String.fromCodePoint(0x1e92c),
   'FF': String.fromCodePoint(0x1e90a) + String.fromCodePoint(0x1E946),
@@ -355,6 +390,7 @@ var adlam_Latin_to_unicode_map = {
 var adlam_latin_chars =
   "aa|bb|cc|dd|ee|ff|gg|hh|ii|jj|kk|ll|mm|nn|oo|pp|qq|rr|ss|tt|uu|vv|ww|xx|yy|zz|" +
     "ɓɓ|ɗɗ|ƴƴ|" +
+    "dj|dy|j|è|é|ê|ë|Ï|î|Ô|ö|û|â" +
     "[\u000A\u0020]n[bdgj]|^n[bdgj]|[\u000A\u0020]mb|^mb" +  // To handle initial nb,nd,ng,nj with appostrophe
     "n\u0303|" + "[ydb]\u0309|" +
     "[bdgqy]h|g[bn]|kpa|sha|ty|\u000a|" + ".";  // n[bdgjqy]

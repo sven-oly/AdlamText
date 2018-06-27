@@ -18,7 +18,7 @@
 
 var FF_ADLM_UNICODE_LAYOUT = {
   'id': 'ff_Adlm',
-  'title': 'Fula Adlam Unicode',
+  'title': '𞤆𞤵𞤤𞤢𞤪/𞤊𞤵𞤤𞤬𞤵𞤤𞤣𞤫',
   'direction': 'rtl',
   'mappings': {
     '': {
