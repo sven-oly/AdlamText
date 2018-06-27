@@ -95,7 +95,16 @@
      var output_text = document.getElementById(area);
      var fontFam = selected.value;
      output_text.style.fontFamily = fontFam;
+     setKeyCapsFont(fontFam);
    }
+
+   function setKeyCapsFont(newFontFamily) {
+     var keycaps = document.getElementsByClassName("vk-cap");
+     for (var i = 0; i < keycaps.length; i++ ) {
+       keycaps[i].style.fontFamily = newFontFamily;
+     }
+   }
+
   </script>
 
 <script>window["_GOOG_TRANS_EXT_VER"] = "1";</script>
