@@ -31,9 +31,9 @@ var FF_ADLM_UNICODE_LAYOUT = {
           '{{\uD83A\udd2e}}{{\uD83A\udd28}}{{\uD83A\udd3d}}{{\uD83A\udd39}}',
       'a': '{{\uD83A\udd22}}{{\uD83A\udd27}}{{\uD83A\udd23}}{{\uD83A\udd2c}}' +
           '{{\uD83A\udd3a}}{{\uD83A\udd38}}{{\uD83A\udd36}}{{\uD83A\udd33}}' +
-          '{{\uD83A\udd24}};\'',
+          '{{\uD83A\udd24}}\u204f\'',
       'z': '{{\uD83A\udd2f}}{{\uD83A\udd30}}{{\uD83A\udd37}}{{\uD83A\udd29}}' +
-          '{{\uD83A\udd26}}{{\uD83A\udd32}}{{\uD83A\udd25}},./'
+          '{{\uD83A\udd26}}{{\uD83A\udd32}}{{\uD83A\udd25}}\u2e41./'
     },
     's': {
       '': '~!@#$%{{\uD83A\udd48}}&*()_+',
