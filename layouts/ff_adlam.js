@@ -31,9 +31,9 @@ var FF_ADLM_UNICODE_LAYOUT = {
           '{{\uD83A\udd2e}}{{\uD83A\udd28}}{{\uD83A\udd3d}}{{\uD83A\udd39}}',
       'a': '{{\uD83A\udd22}}{{\uD83A\udd27}}{{\uD83A\udd23}}{{\uD83A\udd2c}}' +
           '{{\uD83A\udd3a}}{{\uD83A\udd38}}{{\uD83A\udd36}}{{\uD83A\udd33}}' +
-          '{{\uD83A\udd24}};\'',
+          '{{\uD83A\udd24}}\u204f\'',
       'z': '{{\uD83A\udd2f}}{{\uD83A\udd30}}{{\uD83A\udd37}}{{\uD83A\udd29}}' +
-          '{{\uD83A\udd26}}{{\uD83A\udd32}}{{\uD83A\udd25}},./'
+          '{{\uD83A\udd26}}{{\uD83A\udd32}}{{\uD83A\udd25}}\u2e41./'
     },
     's': {
       '': '~!@#$%{{\uD83A\udd48}}&*()_+',
@@ -78,10 +78,10 @@ var FF_ADLM_UNICODE_LAYOUT = {
     }
   },
   'transform': {
-    '\uD83A\udd00\uD83A\udd00': '\uD83A\udd00\uD83A\udd44',  // Alif lengthener
-    '\uD83A\udd00\uD83A\udd22': '\uD83A\udd00\uD83A\udd44',  // Alif lengthener
-    '\uD83A\udd22\uD83A\udd22': '\uD83A\udd22\uD83A\udd44',
-    '\uD83A\udd22\uD83A\udd00': '\uD83A\udd22\uD83A\udd44',
+    '\uD83A\udd00\uD83A\udd00': '\u001d\u000d\uD83A\uD83A\udd44',  // Alif lengthener
+    '\uD83A\udd00\uD83A\udd22': '\u001d\uD83A\udd00\uD83A\udd44',  // Alif lengthener
+    '\uD83A\udd22\uD83A\udd22': '\u001d\uD83A\udd22\uD83A\udd44',
+    '\uD83A\udd22\uD83A\udd00': '\u001d\uD83A\udd22\uD83A\udd44',
     '\uD83A\udd09\uD83A\udd09': '\uD83A\udd09\uD83A\udd45',  // Vowel lengthener
     '\uD83A\udd09\uD83A\udd2b': '\uD83A\udd09\uD83A\udd45',
     '\uD83A\udd2b\uD83A\udd2b': '\uD83A\udd2b\uD83A\udd45',
@@ -161,7 +161,10 @@ var FF_ADLM_UNICODE_LAYOUT = {
     '\uD83A\udd40\uD83A\udd40': '\uD83A\udd40\ud83a\udd46',
     '\uD83A\udd41\uD83A\udd41': '\uD83A\udd41\ud83a\udd46',
     '\uD83A\udd42\uD83A\udd42': '\uD83A\udd42\ud83a\udd46',
-    '\uD83A\udd43\uD83A\udd43': '\uD83A\udd43\ud83a\udd46'
+    '\uD83A\udd43\uD83A\udd43': '\uD83A\udd43\ud83a\udd46',
+
+    '\uD83A\u0000\uD83A\udd44\uD83A\udd00': '\uD83A\udd00\uD83A\udd00',  // Double alif
+    '\uD83A\u0022\uD83A\udd44\uD83A\udd22': '\uD83A\udd22\uD83A\udd22',  // Double alif
     }
 };
 
