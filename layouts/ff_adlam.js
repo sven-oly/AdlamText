@@ -49,8 +49,13 @@ var FF_ADLM_UNICODE_LAYOUT = {
     },
    'c': {  // alt-control
      '': '{{\uD83A\uDD5E}}1234567890^',
+     'qwe': '{{ud83a\udd46}}{{ud83a\udd47}}{{ud83a\udd45}}',
+     'r': '{{ud83a\udd49}}',
+     't': '{{ud83a\udd4a}}',
      'p': '{{\uD83A\uDD42}}[]\\',
+     'a': '{{ud83a\udd44}}',
      'sh': '{{\uD83A\uDD43}}{{\uD83A\uDD3f}}',
+     'l': '{{ud83a\udd48}}',
      'zvb/': '{{\uD83A\uDD41}}{{\uD83A\uDD3e}}{{\uD83A\uDD40}}{{\uD83A\udd5f}}'
     },
    'sc': {  // shift-alt-control
