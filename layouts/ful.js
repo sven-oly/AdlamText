@@ -129,12 +129,13 @@ var FUL_UNICODE_LAYOUT = {
     // Typing letter again undoes the lengthener.
     '\uD83A([\udd00\udd22])\uD83A\udd44\u001d?\ud83a([\udd00\udd22])': '\uD83A$1\ud83a$2',
 
-    '\uD83A([\udd09\udd2b])\uD83A\udd45\u001d?\ud83a([\udd09\udd2b])': '\uD83A$1\uD83A$2',  // Vowel lengthener
+    // Undo vowel lengthener
+    '\uD83A([\udd09\udd2b])\uD83A\udd45\u001d?\ud83a([\udd09\udd2b])': '\uD83A$1\uD83A$2',
     '\uD83A([\udd0b\udd2d])\uD83A\udd45\u001d?\ud83a([\udd0b\udd2d])': '\uD83A$1\uD83A$2',
     '\uD83A([\udd0c\udd2e])\uD83A\udd45\u001d?\ud83a([\udd0c\udd2e])': '\uD83A$1\uD83A$2',
     '\uD83A([\udd13\udd35])\uD83A\udd45\u001d?\ud83a([\udd13\udd35])': '\uD83A$1\uD83A$2',
 
-    // Double consonants
+    // Undo double consonants
     '\uD83A([\udd01\udd23])\uD83A\udd46\u001d?\ud83a([\udd01\udd23])': '\uD83A$1\ud83a$2',
     '\uD83A([\udd02\udd24])\uD83A\udd46\u001d?\ud83a([\udd02\udd24])': '\uD83A$1\ud83a$2',
     '\uD83A([\udd03\udd25])\uD83A\udd46\u001d?\ud83a([\udd03\udd25])': '\uD83A$1\ud83a$2',
@@ -164,7 +165,6 @@ var FUL_UNICODE_LAYOUT = {
     '\uD83A([\udd1f\udd41])\uD83A\udd46\u001d?\ud83a([\udd1f\udd41])': '\uD83A$1\ud83a$2',
     '\uD83A([\udd20\udd42])\uD83A\udd46\u001d?\ud83a([\udd20\udd42])': '\uD83A$1\ud83a$2',
     '\uD83A([\udd21\udd43])\uD83A\udd46\u001d?\ud83a([\udd21\udd43])': '\uD83A$1\ud83a$2',
-
     }
 };
 
