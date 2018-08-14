@@ -53,13 +53,13 @@ var FUL_UNICODE_LAYOUT = {
     },
    'c': {  // alt-control
       '': '{{\uD83A\uDD5E}}1234567890^{{}}' +
-	'{{\uD83A\udd46}}{{\uD83A\udd47}}{{\uD83A\udd45}}{{\uD83A\udd47}}' +
-	  '{{\uD83A\udd48}}{{\uD83A\udd49}}{{\uD83A\udd4a}}{{}}' +
+	'{{}}{{\uD83A\udd47}}{{\uD83A\udd45}}{{\uD83A\udd47}}' +
+	  '{{\uD83A\udd4a}}{{\uD83A\udd49}}{{\uD83A\udd48}}{{}}' +
 	  '{{}}{{\uD83A\uDD42}}[]\\' +
-	  '{{\uD83A\udd44}}{{\uD83A\uDD43}}{{}}{{}}' +
-	     '{{}}{{\uD83A\uDD3f}}{{}}{{}}' +
+	  '{{\uD83A\udd44}}{{\uD83A\uDD43}}{{\ud83a\udd47}}{{}}' +
+	     '{{\ud83a\udd45}}{{\uD83A\uDD3f}}{{}}{{}}' +
 	     '{{}}{{}}{{}}' +
-	  '{{\uD83A\uDD41}}{{}}{{}}{{\uD83A\uDD3e}}' +
+	  '{{\uD83A\uDD41}}{{}}{{\ud83a\udd46}}{{\uD83A\uDD3e}}' +
 	     '{{\uD83A\uDD40}}{{}}{{}}{{}}' +
 	     '{{}}{{\uD83A\udd5f}}'
     },
