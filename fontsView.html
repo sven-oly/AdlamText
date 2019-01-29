@@ -105,6 +105,9 @@ function buildEncodingTable(table) {
   var rowNum = 1;  // Skip the headers
   for (var index in code_list) {
     var code = code_list[index];
+    if (code === "") {
+      continue;
+    }
     var row = table.insertRow(rowNum);
     var items = private_use_map_combined[code];
 
@@ -124,24 +127,28 @@ function buildEncodingTable(table) {
       // The encoded value.
       var cell = row.insertCell(outIndex);
 
-        if (items[i]) {
-      cell.innerHTML = code; // the encoded value
-        }
-      var fontString = encoding_font_list[i];
-      cell.style.fontFamily = fontString;
-      cell.style.fontSize = "30px";
+      if (items[i]) {
+        cell.innerHTML = code; // the encoded value
+          var fontString = encoding_font_list[i];
+          cell.style.fontFamily = fontString;
+          cell.style.fontSize = "30px";
+      }
       outIndex += 1;
 
       // Unicode conversion.
       var cellUni = row.insertCell(outIndex);
-      cellUni.innerHTML = items[i];
-      var fontStringUni = unicode_font_list[0];
-      cellUni.style.fontFamily = fontStringUni;
-      cellUni.style.fontSize = "20px";
+      if (items[i]) {
+          cellUni.innerHTML = items[i];
+          var fontStringUni = unicode_font_list[0];
+          cellUni.style.fontFamily = fontStringUni;
+          cellUni.style.fontSize = "20px";
 
-      // Add the Unicode hex for hover info.
-      cellUni.title = charsToHexString(items[i]);
-      outIndex += 1;
+          // Add the Unicode hex for hover info.
+          if (items[i] !== "") {
+              cellUni.title = charsToHexString(items[i]);
+          }
+        }
+        outIndex += 1;
     }
    rowNum += 1;
   }
