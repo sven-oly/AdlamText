@@ -16,7 +16,7 @@ upper_letters = u'𞤀𞤁𞤂𞤃𞤄𞤅𞤆𞤇𞤈𞤉𞤊𞤋𞤌𞤍𞤎�
 lower_letters = u'𞤢𞤣𞤤𞤥𞤦𞤧𞤨𞤩𞤪𞤫𞤬𞤭𞤮𞤯𞤰𞤱𞤲𞤳𞤴𞤵𞤶𞤷𞤸𞤹𞤺𞤻𞤼𞤽𞤾𞤿𞥀𞥁𞥂𞥃'
 letters = lower_letters
 
-debug = True
+debug = False
 
 # Constants for word from the starting point
 RIGHT, DOWN, DOWNRIGHT, UPRIGHT = 0, 1, 2, 3
@@ -100,8 +100,9 @@ def makeGrid(words, size=[10,10], attempts=10, is_wordsearch = True):
 
     Size contains the height and width of the board.
     Word is a list of words it should contain.'''
-    logging.info('makeGrid: size = %s, is_wordsearch = %s' %
-                 (size, is_wordsearch))
+    if debug:
+      logging.info('makeGrid: size = %s, is_wordsearch = %s' %
+                   (size, is_wordsearch))
 
     tokenList = [getTokens(x) for x in words].sort(key=len, reverse=True)
     for attempt in range(attempts):
@@ -129,7 +130,8 @@ def attemptGrid(words, size, is_wordsearch=True):
     tokenList = []
     for w in words:
       tokenList.append(getTokens(w))
-    logging.info('tokenList = %s', tokenList)
+    if debug:
+      logging.info('tokenList = %s', tokenList)
 
     sizeCap = (size[0] if size[0] >= size[1] else size[1])
     sizeCap -= 1
@@ -262,18 +264,19 @@ def insertWord(word, grid, invalid, is_wordsearch):
     start = [y, x, direction] #Saved in case of invalid placement
     # logging.info('Start = %s' % start)
     if is_wordsearch:
-      do_reverse = bool(randint(0,1))
+      do_reverse = (randint(0,1) == 1)
     else:
       do_reverse = False  # Not for crossword
 
     #Now attempt to insert each letter
+    logging.info('** Reverse = %s' % do_reverse)
     if do_reverse:
         tokens.reverse()
     line = tryPlacingWord(tokens, x, y, direction, grid)
 
     if line:
-        if do_reverse:
-            line.reverse()
+        #if do_reverse:
+        #    line.reverse()
             # print 'REVERSED'
         for i,cell in enumerate(line):
             grid[cell[0]][cell[1]] = tokens[i]
@@ -349,7 +352,7 @@ def getTokens(word):
             while index < len(vals) and (
                 ord(vals[index]) >= 0x1E944 and ord(vals[index]) <= 0x1E94A):
                 # It's an Adlam combining character. Add to the growing item.
-                logging.info('Character in big range = %s' % ord(vals[index]))
+                # logging.info('Character in big range = %s' % ord(vals[index]))
                 item += vals[index]
                 index += 1
             pass
