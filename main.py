@@ -32,6 +32,8 @@ from google.appengine.ext.webapp import template
 fontList = ['Noto Sans Adlam',  'Adlam CWC', 'Aissata Unicode', 'Noto Sans Adlam Unjoined', 'Pulaar Unicode']
 oldFontsList = ['Aissata Arabic', 'Fuuta Arabic', 'Pulaar Arabic']
 
+LanguageCode = 'adlam'
+
 unicode_font_list = [
   { 'family': 'Noto Sans Adlam',
     'longName': 'Noto Sans Adlam (joined)',
@@ -50,6 +52,29 @@ unicode_font_list = [
    'source': '/fonts/Fulfulde-PulaarUnicode.ttf'
    }
 ]
+
+encoding_font_list = [
+    {
+      'font_path':'/fonts/Fulfulde-PulaarUnicode.ttf',
+      'font_name':'Aissata',
+      'display_name': 'Aissata',
+    },
+  {
+    'font_path': '/fonts/extendedNotoSansAdlam-Regular.ttf',
+    'font_name': 'Latin',
+    'display_name': 'Latin',
+  },
+  ]
+
+# List of the individual javascript converters.
+converters = [
+  '/js/adlamConverterArabic.js',
+  '/js/adlamConverterLatin.js',
+]
+
+kb_list = []
+
+links = []
 
 Language = "Fulfulde"
 # TODO: Fill this in with RTL
@@ -140,6 +165,7 @@ class ConvertTestHandler(webapp2.RequestHandler):
     path = os.path.join(os.path.dirname(__file__), 'convertTest.html')
     self.response.out.write(template.render(path, template_values))
 
+
 # Show data from word list converted for human verification
 class DownloadHandler(webapp2.RequestHandler):
     def get(self):
@@ -150,6 +176,7 @@ class DownloadHandler(webapp2.RequestHandler):
       }
       path = os.path.join(os.path.dirname(__file__), 'downloads.html')
       self.response.out.write(template.render(path, template_values))
+
 
 # Test creating PDF file
 class tryPDFHandler(webapp2.RequestHandler):
@@ -174,11 +201,27 @@ class tryPDFHandler(webapp2.RequestHandler):
     self.response.headers['Content-Disposition'] = 'attachment; filename=testAdlam.pdf'
     self.response.out.write(pdfResult)
 
+class EncodingRules(webapp2.RequestHandler):
+  def get(self):
+
+    template_values = {
+        'converterJS': '/js/' + LanguageCode + 'Converter.js',
+        'language': Language,
+        'encoding_list': encoding_font_list,
+        'unicode_list': unicode_font_list,
+        'kb_list': kb_list,
+        'links': links,
+      'converters': converters,
+    }
+    path = os.path.join(os.path.dirname(__file__), 'fontsView.html')
+    self.response.out.write(template.render(path, template_values))
+
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/keyboard/', KeyboardHandler),
     ('/downloads/', DownloadHandler),
+    ('/encodingrules/', EncodingRules),
     ('/words/', WordHandler),
     ('/convertTest/', ConvertTestHandler),
 
