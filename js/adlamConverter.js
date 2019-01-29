@@ -5,14 +5,19 @@ private_use_map_combined = {};
 function combineMaps() {
   var key_arab = adlam_convert_unicode_map;
   for (k in key_arab) {
-    private_use_map_combined[k] = [adlam_convert_unicode_map[k], ''];
+    var stripped_key = k;
+    stripped_key = k.replace(/\s/g,'')
+    private_use_map_combined[stripped_key] = [adlam_convert_unicode_map[k], ''];
   }
 
   for (k in adlam_Latin_to_unicode_map) {
-    if (private_use_map_combined[k]) {
-      private_use_map_combined[k] = [adlam_convert_unicode_map[k], adlam_Latin_to_unicode_map[k]];
+    stripped_key = k.replace(/\s/g,'')
+    if (private_use_map_combined[stripped_key]) {
+      private_use_map_combined[stripped_key] =
+	  [adlam_convert_unicode_map[k], adlam_Latin_to_unicode_map[k]];
     } else {
-       private_use_map_combined[k] = ['', adlam_Latin_to_unicode_map[k]];
+      private_use_map_combined[stripped_key] =
+	  ['', adlam_Latin_to_unicode_map[k]];
    }
   }
 }

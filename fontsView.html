@@ -100,7 +100,7 @@ function buildEncodingTable(table) {
   for (code in private_use_map_combined) {
     code_list.push(code);
   }
-  code_list.sort();
+  //code_list.sort();
 
   var rowNum = 1;  // Skip the headers
   for (var index in code_list) {
@@ -123,7 +123,10 @@ function buildEncodingTable(table) {
     for (var i = 0; i<items.length; i ++) {
       // The encoded value.
       var cell = row.insertCell(outIndex);
+
+        if (items[i]) {
       cell.innerHTML = code; // the encoded value
+        }
       var fontString = encoding_font_list[i];
       cell.style.fontFamily = fontString;
       cell.style.fontSize = "30px";
