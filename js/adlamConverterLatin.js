@@ -402,6 +402,7 @@ var new_adlam_Latin_to_unicode_map = {
   'ɓ': '𞤩',
   'ƁƁ': '𞤇𞥆',
   'Ɓɓ': '𞤇𞥆',
+  'ɓƁ': '𞤩𞥆',
   'ɓɓ': '𞤩𞥆',
   'BH': '𞤇',
   'Bh': '𞤇',
@@ -419,10 +420,10 @@ var new_adlam_Latin_to_unicode_map = {
   'DD': '𞤁𞥆',
   'Dd': '𞤁𞥆',
   'dd': '𞤣𞥆',
-  ' Ɗ': '𞤍',
+  'Ɗ': '𞤍',
   'ɗ': '𞤯',
-  ' ƊƊ': '𞤍𞥆',
-  ' Ɗɗ': '𞤍𞥆',
+  'ƊƊ': '𞤍𞥆',
+  'Ɗɗ': '𞤍𞥆',
   'ɗɗ': '𞤯𞥆',
   'DH': '𞤍',
   'dh': '𞤯',
@@ -550,7 +551,9 @@ var new_adlam_Latin_to_unicode_map = {
   'Ss': '𞤅𞥆',
   'ss': '𞤧𞥆',
   'SH': '𞤡',
-  'Sh': '𞥃',
+  'Sh': '𞤡',
+  'sh': '𞥃',
+  'sH': '𞥃',
   'SSH': '𞤡𞥆',
   'Ssh': '𞤡𞥆',
   'ssh': '𞥃𞥆',
@@ -620,26 +623,30 @@ var new_adlam_Latin_to_unicode_map = {
   '7': '𞥗',
   '8': '𞥘',
   '9': '𞥙',
-  '!': '!',
+  '!': '𞥞',  // At start of sentence only
+  '?': '𞥟',  // At start of sentence only
   '.': '.',
   ',': ',',
 };
 
-// To parse out combinations. Doubled letters
+// To parse out combinations. Doubled letters and other combinations
 var adlam_latin_chars =
-  "aa|bb|cc|dd|ee|ff|gg|hh|ii|jj|kk|ll|mm|nn|oo|pp|qq|rr|ss|tt|uu|vv|ww|xx|yy|zz|" +
-    "ɓɓ|ɗɗ|ƴƴ|" +
-    "dj|dy|j|è|é|ê|ë|Ï|î|Ô|ö|û|â" +
-    "[\u000A\u0020]n[bdgj]|^n[bdgj]|[\u000A\u0020]mb|^mb" +  // To handle initial nb,nd,ng,nj with appostrophe
+    "bbh|ddh|ggb|ggh|kkh|kkp|mmb|nnd|nng|nnj|nnh|nny|ssh|yyh|" +
+  "aa|bb|cc|dd|ee|ff|gg|hh|ii|jj|kk|ll|mm|nn|ññ|oo|pp|qq|rr|ss|tt|uu|vv|ww|xx|yy|zz|" +
+    "ɓɓ|ɗɗ|ŋŋ|ƴƴ|" +
+    "bh|dj|dy|gn|mb|nd|ng|nj|nh|ny|sh|" +
+    "j|è|é|ê|ë|ï|î|Ô|ö|û|â|" +
+//    "[\u000A\u0020]n[bdgj]|^n[bdgj]|[\u000A\u0020]mb|^mb" +  // To handle initial nb,nd,ng,nj with appostrophe
     "n\u0303|" + "[ydb]\u0309|" +
-    "[bdgqy]h|g[bn]|kpa|sha|ty|\u000a|" + ".";  // n[bdgjqy]
-  
+    "[bdgqy]h|g[bn]|kpa|ty|\u000a|" + ".";  // n[bdgjqy]
+
 function convertLatinToUnicode(textIn, toLower) {
   var parsedText = preParseAdlamLatin(textIn);
   var textOut = "\u202e";
   for (index = 0; index < parsedText.length; index ++) {
     var c = parsedText[index];
-    var result = adlam_Latin_to_unicode_map[c];
+    var result = new_adlam_Latin_to_unicode_map[c];
+    // var result = adlam_Latin_to_unicode_map[c];
 
     if (result === undefined) {
       result = c;
@@ -647,7 +654,7 @@ function convertLatinToUnicode(textIn, toLower) {
     if (toLower && result >= minAdlamU && result <= maxAdlamU) {
       result = String.fromCodePoint(result.codePointAt(0) + adlamCaseOffset);
     }
-    textOut += result; 
+    textOut += result;
   }
   return textOut;
 }
@@ -661,20 +668,20 @@ function preParseAdlamLatin(instring) {
 //------------------ TESTS ------------------
 function testAllLatin() {
   var results = {};
-  
+
   result = testDoubleVowels();
-  results[result["name"]] = result; 
+  results[result["name"]] = result;
 
   result = testDigits();
   results[result["name"]] = result;
-  
+
   result = testDoubleConsonants();
   results[result["name"]] = result;
-  
+
   var result = test1();
   results[result["name"]] = result;
 
-  // TODO: Add more tests. 
+  // TODO: Add more tests.
 
   return results;
 }
