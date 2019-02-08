@@ -676,14 +676,20 @@ function splitBySentence(text) {
     index += 2;
   }
   // Check for final question or exclamation
-  var position = splits[index].match(/[.!?\u061F]/).index;
-
-  var lastPart = splits[index].substr(position);
-  sentences.push(replacePunctuation(lastPart, splits[index].substr(0, position)));
-  return sentences;
+  var puncMatch = splits[index].match(/[.!?\u061F]/);
+  if (puncMatch) {
+    var position =puncMatch.index;
+    var lastPart = splits[index].substr(position);
+    sentences.push(replacePunctuation(lastPart, splits[index].substr(0, position)));
+  } else {
+    sentences.push(splits[index]);
+  }
+   return sentences;
 };
 
 function convertLatinToUnicode(textIn, toLower) {
+  if (textIn.length == 0)
+    return textIn;
 
   // Get the individual sentences.
   var sentences = splitBySentence(textIn);
