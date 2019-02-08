@@ -665,7 +665,7 @@ function replacePunctuation(match, textRun) {
 };
 
 function splitBySentence(text) {
-  if (text.length == 0 || typeof text != 'string') {
+  if (typeof text != 'string' || text.length == 0) {
      return text;
   }
 
