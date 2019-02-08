@@ -623,11 +623,16 @@ var new_adlam_Latin_to_unicode_map = {
   '7': '𞥗',
   '8': '𞥘',
   '9': '𞥙',
-  '!': '𞥞',  // At start of sentence only
-  '?': '𞥟',  // At start of sentence only
   '.': '.',
   ',': ',',
+  '?': '\u061f',  // Arabic question mark
 };
+
+// Special punctuation.
+/*
+  '!': '𞥞',  // At start of sentence only
+  '?': '𞥟',  // At start of sentence only
+*/
 
 // To parse out combinations. Doubled letters and other combinations
 var adlam_latin_chars =
@@ -636,13 +641,58 @@ var adlam_latin_chars =
     "ɓɓ|ɗɗ|ŋŋ|ƴƴ|" +
     "bh|dj|dy|gn|mb|nd|ng|nj|nh|ny|sh|" +
     "j|è|é|ê|ë|ï|î|Ô|ö|û|â|" +
-//    "[\u000A\u0020]n[bdgj]|^n[bdgj]|[\u000A\u0020]mb|^mb" +  // To handle initial nb,nd,ng,nj with appostrophe
+//    "[\u000A\u0020]n[bdgj]|^n[bdgj]|[\u000A\u0020]mb|^mb" +  // To handle initial nb,nd,ng,nj with apostrophe
     "n\u0303|" + "[ydb]\u0309|" +
     "[bdgqy]h|g[bn]|kpa|ty|\u000a|" + ".";  // n[bdgjqy]
 
+
+function replacePunctuation(match, textRun) {
+    var match;
+    switch (match[0]) {
+    case '?':
+    case '\u061F':
+      replacement = '𞥟 ';
+      break;
+    case '!':
+      replacement = '𞥞 ';
+      break;
+    default:
+    case '.':
+      replacement = '';
+      break;
+    }
+    return replacement + textRun + match;
+};
+
+function splitBySentence(text) {
+  separators = /([.!?\u061F] )/g;
+  // Insert Adlam exclamation and interrogative if needed, and reinsert the sentence endings.
+  // Elements 1, 3, 5, etc. contain the split strings.
+  var splits = text.split(separators);
+  var index = 0;
+  var sentences = [];
+  while (index < splits.length -1) {
+    sentences.push(replacePunctuation(splits[index+1], splits[index]));
+    index += 2;
+  }
+  // Check for final question or exclamation
+  var position = splits[index].match(/[.!?\u061F]/).index;
+
+  var lastPart = splits[index].substr(position);
+  sentences.push(replacePunctuation(lastPart, splits[index].substr(0, position)));
+  return sentences;
+};
+
 function convertLatinToUnicode(textIn, toLower) {
-  var parsedText = preParseAdlamLatin(textIn);
+
+  // Get the individual sentences.
+  var sentences = splitBySentence(textIn);
+
   var textOut = "\u202e";
+
+  for (var index in sentences){
+  var parsedText = preParseAdlamLatin(sentences[index]);
+
   for (index = 0; index < parsedText.length; index ++) {
     var c = parsedText[index];
     var result = new_adlam_Latin_to_unicode_map[c];
@@ -655,6 +705,7 @@ function convertLatinToUnicode(textIn, toLower) {
       result = String.fromCodePoint(result.codePointAt(0) + adlamCaseOffset);
     }
     textOut += result;
+  }
   }
   return textOut;
 }
