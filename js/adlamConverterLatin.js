@@ -665,6 +665,10 @@ function replacePunctuation(match, textRun) {
 };
 
 function splitBySentence(text) {
+  if (text.length == 0 || typeof text != 'string') {
+     return text;
+  }
+
   separators = /([.!?\u061F] )/g;
   // Insert Adlam exclamation and interrogative if needed, and reinsert the sentence endings.
   // Elements 1, 3, 5, etc. contain the split strings.
