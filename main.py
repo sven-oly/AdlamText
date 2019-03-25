@@ -82,6 +82,24 @@ Language_native = ''
 
 Script = "Adlam"
 
+class adlamCharData():
+  def __init__(self, v):
+    self.charcode = v
+    # Handle small and large character spaces.
+    self.hextext = '0x%x' % v
+    if sys.maxunicode <= 65535:
+      # UTF-16: \uD83A\uDD1A
+      self.unicodeChar = unichr(0xd83a) + unichr(v - 0x1e900 + 0xDD00) + ' '
+    else:
+      self.unicodeChar = unichr(v)
+    self.asciiCode = 0
+    self.pulaarCode = 0x628
+    self.pulaarChar = unichr(self.pulaarCode)
+
+# Unicode characters
+ranges = range(0x1e900, 0x1e94b)
+ranges.extend(range(0x1e950, 0x1e95a))
+ranges.extend(range(0x1e95e, 0x1e960))
 
 class MainHandler(webapp2.RequestHandler):
     def get(self):
@@ -89,16 +107,13 @@ class MainHandler(webapp2.RequestHandler):
       user = users.get_current_user()
 
       adlamText= ''
-      ranges = range(0x1e900, 0x1e94b)
-      ranges.extend(range(0x1e950, 0x1e95a))
-      ranges.extend(range(0x1e95e, 0x1e960))
       for index in (ranges):
         if sys.maxunicode <= 65535:
           # UTF-16: \uD83A\uDD1A
           adlamText +=unichr(0xd83a) + unichr(index - 0x1e900 + 0xDD00) + ' '
         else:
           adlamText += unichr(index) + ' ' 
-        
+
       template_values = {
         'fontFamilies': fontList,
         'adlamText': adlamText,
@@ -216,10 +231,33 @@ class EncodingRules(webapp2.RequestHandler):
     path = os.path.join(os.path.dirname(__file__), 'fontsView.html')
     self.response.out.write(template.render(path, template_values))
 
+class FontCompareHandler(webapp2.RequestHandler):
+  def get(self):
+
+    charData = []
+    for r in ranges:
+      charInfo = adlamCharData(r)
+      charData.append(charInfo)
+
+    template_values = {
+        'converterJS': '/js/' + LanguageCode + 'Converter.js',
+        'language': Language,
+        'encoding_list': encoding_font_list,
+        'unicode_list': unicode_font_list,
+        'links': links,
+        'charData': charData,  ## The characters
+        'converters': converters,
+        'encoding_fonts': encoding_font_list,
+        'unicode_fonts': unicode_font_list,
+    }
+    path = os.path.join(os.path.dirname(__file__), 'fontCompare.html')
+    self.response.out.write(template.render(path, template_values))
+
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
     ('/keyboard/', KeyboardHandler),
+    ('/fontCompare/', FontCompareHandler),
     ('/downloads/', DownloadHandler),
     ('/encodingrules/', EncodingRules),
     ('/words/', WordHandler),
