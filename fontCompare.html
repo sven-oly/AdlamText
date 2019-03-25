@@ -18,6 +18,14 @@
 </style>
 
 <style>
+  table {
+      border-collapse: collapse;
+  }
+  
+  table, th, td {
+      border: 1px solid black;
+  }
+
   textarea {
     width: 600px;
 	height: 240px;
@@ -98,7 +106,7 @@
   <div class="container">
     <div class="span-1">  
     </div>
-  <div class="span-20">
+  <div class="span-24-last">
 
    <div id="arab_adlam_area">
      <h2>Adlam font comparison</h2>
@@ -111,6 +119,7 @@
          <th>combined</th>
 
          <th>Encoded</th>
+         <th>Comment</th>
        </tr>
        {% for char in charData %}
        <tr>
@@ -118,11 +127,13 @@
          <td class='NotoSansAdlam'>{{char.unicodeChar}}</td>
          <td class='NotoSansAdlam'>{{char.unicodeChar}}{{char.unicodeChar}}{{char.unicodeChar}}</td>
          <td class='pulaarArabic'>{{char.pulaarChar}}</td>
+         <td></td>
        </tr>
        {% endfor %}
      </table>
    </div>
   </div>
+  <!-- TURN OFF FOR A WHILE
   <div class="span-4 last">
     {% if user_nickname %}
       <h4>Welcome {{user_nickname}}</h4>
@@ -161,12 +172,10 @@
           <a href="/downloads/">Resources</a>
         </li>
 
-  <!--
         <li>
           <a href="/words/getPhrases/">View database</a>
                     <br />
           <br />
--->
         </li>
       </ul>
 
@@ -188,6 +197,7 @@
         </li>
       </ul>
     </div>
+-->
   </div> <!-- container -->
   </body>
 </html>
