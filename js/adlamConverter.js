@@ -3,7 +3,6 @@
 private_use_map_combined = {};
 
 var latin_map = new_adlam_Latin_to_unicode_map;
-// var latin_map = adlam_Latin_to_unicode_map;
 
 function combineMaps() {
   var key_arab = adlam_convert_unicode_map;

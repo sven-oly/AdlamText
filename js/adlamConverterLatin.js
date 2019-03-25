@@ -375,13 +375,13 @@ var adlam_Latin_to_unicode_map = {
   '7': String.fromCodePoint(0x1e957),
   '8': String.fromCodePoint(0x1e958),
   '9': String.fromCodePoint(0x1e959),
-  
+
   // Punctuation
   '!': String.fromCodePoint(0x1e95e),
   '?': String.fromCodePoint(0x1e95f),
-  ',': '\u060c',
-  ';': '\u061b',
- 
+  ',': '\u2E41',
+  ';': '\u204f',
+
   // Special for return adding RTL marker
   '\u000a' : '\u000a\u202e',
 };
@@ -626,7 +626,8 @@ var new_adlam_Latin_to_unicode_map = {
   '!': '𞥞',  // At start of sentence only
   '?': '𞥟',  // At start of sentence only
   '.': '.',
-  ',': ',',
+  ',': '\u2E41',
+  ';': '\u204f',
 };
 
 // To parse out combinations. Doubled letters and other combinations
@@ -638,7 +639,7 @@ var adlam_latin_chars =
     "j|è|é|ê|ë|ï|î|Ô|ö|û|â|" +
 //    "[\u000A\u0020]n[bdgj]|^n[bdgj]|[\u000A\u0020]mb|^mb" +  // To handle initial nb,nd,ng,nj with appostrophe
     "n\u0303|" + "[ydb]\u0309|" +
-    "[bdgqy]h|g[bn]|kpa|ty|\u000a|" + ".";  // n[bdgjqy]
+    "[bdgqy]h|g[bn]|kpa|ty|\u000a|" + ".,;";  // n[bdgjqy]
 
 function convertLatinToUnicode(textIn, toLower) {
   var parsedText = preParseAdlamLatin(textIn);
@@ -656,6 +657,7 @@ function convertLatinToUnicode(textIn, toLower) {
     }
     textOut += result;
   }
+  // Special cases, e.g., initial punctuation "!" or "?" replacement.
   return textOut;
 }
 
