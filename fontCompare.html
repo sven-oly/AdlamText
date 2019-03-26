@@ -116,17 +116,27 @@
          <th >hex</th>
          <th>Noto</th>
 
-         <th>combined</th>
+         <th>P</th>
+         <th>A</th>
+         <th>F</th>
+         <th>Current chart</th>
+         <th>Proposed glyph</th>
+         <th>Combined</th>
 
-         <th>Encoded</th>
          <th>Comment</th>
        </tr>
        {% for char in charData %}
        <tr>
          <td class='NotoSansAdlam'>{{char.hextext}}</td>
-         <td class='NotoSansAdlam'>{{char.unicodeChar}}</td>
+         <td class='NotoSansAdlam' align="center">{{char.unicodeChar}}</td>
+         <td class='pulaarArabic' align="center">{{char.pulaarChar}}</td>
+         <td class='aissataArabic' align="center">{{char.pulaarChar}}</td>
+         <td class='fuutaArabic' align="center">{{char.pulaarChar}}</td>
+
+         <td></td>
+         <td></td>
+
          <td class='NotoSansAdlam'>{{char.unicodeChar}}{{char.unicodeChar}}{{char.unicodeChar}}</td>
-         <td class='pulaarArabic'>{{char.pulaarChar}}</td>
          <td></td>
        </tr>
        {% endfor %}

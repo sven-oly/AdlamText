@@ -23,6 +23,8 @@ import urllib
 import webapp2
 import sys
 
+import convert
+
 #from fpdf import FPDF
 
 from google.appengine.api import users
@@ -86,14 +88,21 @@ class adlamCharData():
   def __init__(self, v):
     self.charcode = v
     # Handle small and large character spaces.
-    self.hextext = '0x%x' % v
+    self.hextext = '%x' % v
     if sys.maxunicode <= 65535:
       # UTF-16: \uD83A\uDD1A
       self.unicodeChar = unichr(0xd83a) + unichr(v - 0x1e900 + 0xDD00) + ' '
     else:
       self.unicodeChar = unichr(v)
     self.asciiCode = 0
-    self.pulaarCode = 0x628
+    if v in convert.reverseConvert:
+      self.pulaarCode = convert.reverseConvert[v]
+    else:
+      if v - 0x22 in convert.reverseConvert:
+        self.pulaarCode = convert.reverseConvert[v - 0x22];  # For lower case
+      else:
+        self.pulaarCode = 0x3f
+    self.pulaarHex = '%x' % self.pulaarCode
     self.pulaarChar = unichr(self.pulaarCode)
 
 # Unicode characters
