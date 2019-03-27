@@ -111,34 +111,27 @@
    <div id="arab_adlam_area">
      <h2>Adlam font comparison</h2>
 
+     <!-- TODO: put Arabic code point in hover text -->
      <table>
        <tr class='NotoSansAdlam'>
          <th >hex</th>
          <th>Noto</th>
-
          <th>Pulaar</th>
-<!--
-         <th>A</th>
-         <th>F</th>
--->         <th>Current chart</th>
-         <th>Proposed glyph</th>
 
+         <th>Current chart</th>
+         <th>Proposed glyph</th>
          <th>Comment</th>
        </tr>
+       
        {% for char in charData %}
        <tr>
-         <td class='NotoSansAdlam'>{{char.hextext}}</td>
-         <td class='NotoSansAdlam' align="right">{{char.unicodeChar}}{{char.unicodeChar}}{{char.unicodeChar}} {{char.unicodeChar}}</td>
-         <td class='pulaarArabic' direction ='rtl'>{{char.pulaarChar}}{{char.pulaarChar}}{{char.pulaarChar}} {{char.pulaarChar}}</td>
-         <!--
-         <td class='aissataArabic' align="center">{{char.pulaarChar}}</td>
-         <td class='fuutaArabic' align="center">{{char.pulaarChar}}</td>
--->
+         <td class='NotoSansAdlam' class='rtl'>{{char.hextext}} {{char.charName}}</td>
+         <td class='NotoSansAdlam'>{% if char.isLetter %}{{char.mixedCase}} {{char.unicodeChar}}{{char.unicodeChar}}{{char.unicodeChar}}{% endif %} {{char.unicodeChar}}
+         </td>
+
+         <td class='pulaarArabic' class='rtl'>{% if char.isLetter %}{{char.pulaarChar}}{{char.pulaarChar}}{{char.pulaarChar}} {% endif %}{{char.pulaarChar}}</td>
          <td></td>
          <td></td>
-<!--
-         <td class='NotoSansAdlam'>{{char.unicodeChar}}{{char.unicodeChar}}{{char.unicodeChar}}</td>
--->
          <td></td>
        </tr>
        {% endfor %}

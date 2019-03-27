@@ -23,6 +23,7 @@ import urllib
 import webapp2
 import sys
 
+import adlam
 import convert
 
 #from fpdf import FPDF
@@ -87,13 +88,26 @@ Script = "Adlam"
 class adlamCharData():
   def __init__(self, v):
     self.charcode = v
-    # Handle small and large character spaces.
+    self.charType = ''
+    self.charName = ''
+    if v in adlam.adlamProperties:
+      self.charType = adlam.adlamProperties[v][1]
+      self.charName = adlam.adlamProperties[v][0].replace("ADLAM ", "").replace("LETTER ", "").lower()
+
+      # Handle small and large character spaces.
+    caseOffset = 0x22
+    if self.charType == "Ll":
+      caseOffset = -caseOffset
+
     self.hextext = '%x' % v
     if sys.maxunicode <= 65535:
       # UTF-16: \uD83A\uDD1A
       self.unicodeChar = unichr(0xd83a) + unichr(v - 0x1e900 + 0xDD00) + ' '
+      self.otherCase = unichr(0xd83a) + unichr(v - 0x1e900 + 0xDD00 + caseOffset) + ' '
     else:
       self.unicodeChar = unichr(v)
+      self.otherCase = unichr(v + caseOffset)
+
     self.asciiCode = 0
     if v in convert.reverseConvert:
       self.pulaarCode = convert.reverseConvert[v]
@@ -101,9 +115,16 @@ class adlamCharData():
       if v - 0x22 in convert.reverseConvert:
         self.pulaarCode = convert.reverseConvert[v - 0x22];  # For lower case
       else:
-        self.pulaarCode = 0x3f
+        self.pulaarCode = 0
     self.pulaarHex = '%x' % self.pulaarCode
     self.pulaarChar = unichr(self.pulaarCode)
+
+    if self.charType == 'Lu' or self.charType == 'Ll':
+      self.isLetter = True
+      self.mixedCase = self.unicodeChar + self.otherCase + self.otherCase
+    else:
+      self.isLetter = False
+      self.mixedCase = self.unicodeChar
 
 # Unicode characters
 ranges = range(0x1e900, 0x1e94b)

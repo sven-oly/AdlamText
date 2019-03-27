@@ -75,12 +75,12 @@
 
     .NotoSansAdlam {
       font-family:'Noto Sans Adlam';
-      font-size: 20px;
+      font-size: 18px;
     }
 
     .extendedNotoSansAdlam {
       font-family:'extended Noto Sans Adlam';
-      font-size: 28px;
+      font-size: 20px;
     }
 
     @font-face {
@@ -113,3 +113,7 @@
       font-size: 32px;
     }
 
+
+    .td.rtl {
+      direction: rtl;
+    }      
