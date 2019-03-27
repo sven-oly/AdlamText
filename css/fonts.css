@@ -75,7 +75,7 @@
 
     .NotoSansAdlam {
       font-family:'Noto Sans Adlam';
-      font-size: 18px;
+      font-size: 20px;
     }
 
     .extendedNotoSansAdlam {
@@ -114,6 +114,7 @@
     }
 
 
-    .td.rtl {
-      direction: rtl;
-    }      
+    td {
+      vertical-align: text-top;
+      padding-bottom: 10px;
+    }

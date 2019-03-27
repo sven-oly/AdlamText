@@ -114,8 +114,8 @@
      <!-- TODO: put Arabic code point in hover text -->
      <table>
        <tr class='NotoSansAdlam'>
-         <th >hex</th>
-         <th>Noto</th>
+         <th>Hex and name</th>
+         <th>Noto Sans</th>
          <th>Pulaar</th>
 
          <th>Current chart</th>
@@ -129,7 +129,7 @@
          <td class='NotoSansAdlam'>{% if char.isLetter %}{{char.mixedCase}} {{char.unicodeChar}}{{char.unicodeChar}}{{char.unicodeChar}}{% endif %} {{char.unicodeChar}}
          </td>
 
-         <td class='pulaarArabic' class='rtl'>{% if char.isLetter %}{{char.pulaarChar}}{{char.pulaarChar}}{{char.pulaarChar}} {% endif %}{{char.pulaarChar}}</td>
+         <td class='pulaarArabic' align='right' valign='top'>{% if char.isLetter %}{{char.pulaarChar}}{{char.pulaarChar}}{{char.pulaarChar}} {% endif %}{{char.pulaarChar}}</td>
          <td></td>
          <td></td>
          <td></td>
