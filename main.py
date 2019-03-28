@@ -279,6 +279,8 @@ class FontCompareHandler(webapp2.RequestHandler):
         'converters': converters,
         'encoding_fonts': encoding_font_list,
         'unicode_fonts': unicode_font_list,
+        'stdBase': '/img/StdFont_',
+        'proposedBase': '/img/EbrimaFont_',
     }
     path = os.path.join(os.path.dirname(__file__), 'fontCompare.html')
     self.response.out.write(template.render(path, template_values))

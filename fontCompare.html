@@ -118,8 +118,8 @@
          <th>Noto Sans</th>
          <th>Pulaar</th>
 
-         <th>Current chart</th>
-         <th>Proposed glyph</th>
+         <th>Now</th>
+         <th>New</th>
          <th>Comment</th>
        </tr>
        
@@ -130,8 +130,8 @@
          </td>
 
          <td class='pulaarArabic' align='right' valign='top'>{% if char.isLetter %}{{char.pulaarChar}}{{char.pulaarChar}}{{char.pulaarChar}} {% endif %}{{char.pulaarChar}}</td>
-         <td></td>
-         <td></td>
+         <td><img src='{{stdBase}}U{{char.hextext}}.png' height='28'></td>
+         <td><img src='{{proposedBase}}U{{char.hextext}}.png' height='28'></td>
          <td></td>
        </tr>
        {% endfor %}

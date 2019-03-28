@@ -109,8 +109,8 @@ print 'Max width = %d, max height = %d' % (maxColWidth, maxRowHeight)
 ucode = 0x1e900
 firstRow = 1
 namebase = 'StdFont'
-firstRow = 2
-namebase = 'EbrimaFont'
+#firstRow = 2
+#namebase = 'EbrimaFont'
 
 for rowId in xrange(firstRow, len(rowsRaw), 2):
   rowStart = ((rowsRaw[rowId][1] + rowsRaw[rowId][0]) - (maxRowHeight + 4)) / 2
@@ -127,4 +127,3 @@ for rowId in xrange(firstRow, len(rowsRaw), 2):
     print '  Saved %s' % name
     clipped.save(name)
     ucode += 1
- 
