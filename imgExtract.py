@@ -127,10 +127,4 @@ for rowId in xrange(firstRow, len(rowsRaw), 2):
     print '  Saved %s' % name
     clipped.save(name)
     ucode += 1
-
-
-
-
-    exim = im.crop((200, 0, 253, 1193))
-
-saved = exim.save('cropped.png')
+ 
