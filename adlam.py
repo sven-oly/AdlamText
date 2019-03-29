@@ -71,7 +71,6 @@ adlamProperties = {
     0x1E941 : ['ADLAM SMALL LETTER ZAL (supplementary)', 'Ll', '0;R;;;;;N;;;1E91F;;1E91F'],
     0x1E942 : ['ADLAM SMALL LETTER KPO (supplementary)', 'Ll', '0;R;;;;;N;;;1E920;;1E920'],
     0x1E943 : ['ADLAM SMALL LETTER SHA (supplementary)', 'Ll', '0;R;;;;;N;;;1E921;;1E921'],
-    0x1E944 : ['ADLAM ALIF LENGTHENER', 'Mn', '230;NSM;;;;;N;;;;;'],
     0x1E945 : ['ADLAM VOWEL LENGTHENER', 'Mn', '230;NSM;;;;;N;;;;;'],
     0x1E946 : ['ADLAM GEMINATION MARK', 'Mn', '230;NSM;;;;;N;;;;;'],
     0x1E947 : ['ADLAM HAMZA', 'Mn', '230;NSM;;;;;N;;;;;'],
@@ -91,3 +90,30 @@ adlamProperties = {
     0x1E95E : ['ADLAM INITIAL EXCLAMATION MARK', 'Pu', '0;R;;9;9;9;N;;;;;'],
     0x1E95F : ['ADLAM INITIAL QUESTION MARK', 'Pu', '0;R;;9;9;9;N;;;;;'],
 }
+
+
+# Sorting methods
+
+# Sort by code point
+def adlamByCodepoint():
+  input = adlamCodePoints()
+  return sorted(input)
+
+
+# Sort by code point, interleaving by case
+def adlamAlphaInterleave():
+  input = adlamCodePoints()
+  return sorted(input, key=alphaInterleaveKey)
+
+
+# Key computer for code points for alpha interleave
+def alphaInterleaveKey(v):
+  if v < 0x1E922 or v > 0x1E944:
+    return v
+  else:
+    return (v - 0x22) + 0.5  # to put lower letter after upper letter
+
+
+# Create list with code point as first value.
+def adlamCodePoints():
+  return adlamProperties.keys()

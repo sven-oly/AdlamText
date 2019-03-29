@@ -264,8 +264,14 @@ class EncodingRules(webapp2.RequestHandler):
 class FontCompareHandler(webapp2.RequestHandler):
   def get(self):
 
+    sortType = self.request.get('sort', 'interleave')
     charData = []
-    for r in ranges:
+    if sortType == 'interleave':
+      adlamCodeList = adlam.adlamAlphaInterleave()
+    else:
+      adlamCodeList = adlam.adlamByCodepoint()
+
+    for r in adlamCodeList:
       charInfo = adlamCharData(r)
       charData.append(charInfo)
 
