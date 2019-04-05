@@ -375,13 +375,13 @@ var adlam_Latin_to_unicode_map = {
   '7': String.fromCodePoint(0x1e957),
   '8': String.fromCodePoint(0x1e958),
   '9': String.fromCodePoint(0x1e959),
-
+  
   // Punctuation
   '!': String.fromCodePoint(0x1e95e),
   '?': String.fromCodePoint(0x1e95f),
-  ',': '\u2E41',
-  ';': '\u204f',
-
+  ',': '\u060c',
+  ';': '\u061b',
+ 
   // Special for return adding RTL marker
   '\u000a' : '\u000a\u202e',
 };
@@ -624,8 +624,7 @@ var new_adlam_Latin_to_unicode_map = {
   '8': '𞥘',
   '9': '𞥙',
   '.': '.',
-  ',': '\u2E41',
-  ';': '\u204f',
+  ',': ',',
   '?': '\u061f',  // Arabic question mark
 };
 
@@ -644,7 +643,7 @@ var adlam_latin_chars =
     "j|è|é|ê|ë|ï|î|Ô|ö|û|â|" +
 //    "[\u000A\u0020]n[bdgj]|^n[bdgj]|[\u000A\u0020]mb|^mb" +  // To handle initial nb,nd,ng,nj with apostrophe
     "n\u0303|" + "[ydb]\u0309|" +
-    "[bdgqy]h|g[bn]|kpa|ty|\u000a|" + ".,;";  // n[bdgjqy]
+    "[bdgqy]h|g[bn]|kpa|ty|\u000a|" + ".";  // n[bdgjqy]
 
 
 function replacePunctuation(match, textRun) {
@@ -717,11 +716,7 @@ function convertLatinToUnicode(textIn, toLower) {
     }
     textOut += result;
   }
-<<<<<<< HEAD
-  // Special cases, e.g., initial punctuation "!" or "?" replacement.
-=======
   }
->>>>>>> 9b8195e4b15dd02477855f5a0bd2de4d1ae8e637
   return textOut;
 }
 
