@@ -3,5 +3,7 @@
 *~
 #*#
 .DS_*
-
+# File directory to not put on GIT HUB
 DONT_UPLOAD
+#
+*Private.*

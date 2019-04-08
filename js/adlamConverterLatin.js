@@ -426,6 +426,8 @@ var new_adlam_Latin_to_unicode_map = {
   'Ɗɗ': '𞤍𞥆',
   'ɗɗ': '𞤯𞥆',
   'DH': '𞤍',
+  'Dh': '𞤍',
+  'dH': '𞤯',
   'dh': '𞤯',
   'DDH': '𞤍𞥆',
   'Ddh': '𞤍𞥆',
@@ -501,6 +503,8 @@ var new_adlam_Latin_to_unicode_map = {
   'Ŋŋ': '𞤛𞥆',
   'ŋŋ': '𞤽𞥆',
   'NH': '𞤛',
+  'Nh': '𞤛',
+  'nH': '𞤽',
   'nh': '𞤽',
   'NNH': '𞤛𞥆',
   'Nnh': '𞤛𞥆',
@@ -639,7 +643,7 @@ var adlam_latin_chars =
     "bbh|ddh|ggb|ggh|kkh|kkp|mmb|nnd|nng|nnj|nnh|nny|ssh|yyh|" +
   "aa|bb|cc|dd|ee|ff|gg|hh|ii|jj|kk|ll|mm|nn|ññ|oo|pp|qq|rr|ss|tt|uu|vv|ww|xx|yy|zz|" +
     "ɓɓ|ɗɗ|ŋŋ|ƴƴ|" +
-    "bh|dj|dy|gn|mb|nd|ng|nj|nh|ny|sh|" +
+    "bh|dh|dj|dy|gn|mb|nd|ng|nj|nh|ny|sh|" +
     "j|è|é|ê|ë|ï|î|Ô|ö|û|â|" +
 //    "[\u000A\u0020]n[bdgj]|^n[bdgj]|[\u000A\u0020]mb|^mb" +  // To handle initial nb,nd,ng,nj with apostrophe
     "n\u0303|" + "[ydb]\u0309|" +
