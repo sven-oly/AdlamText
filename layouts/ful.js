@@ -33,7 +33,7 @@ var FUL_UNICODE_LAYOUT = {
 	  '{{}}' +
 	'{{\uD83A\udd22}}{{\uD83A\udd27}}{{\uD83A\udd23}}{{\uD83A\udd2c}}' +
 	  '{{\uD83A\udd3a}}{{\uD83A\udd38}}{{\uD83A\udd36}}{{\uD83A\udd33}}' +
-	  '{{\uD83A\udd24}}\u204f{{\'}}' +
+	  '{{\uD83A\udd24}}\u204f{{\uD83A\udd4b}}' +
 	'{{\uD83A\udd2f}}{{\uD83A\udd30}}{{\uD83A\udd37}}{{\uD83A\udd29}}' +
 	  '{{\uD83A\udd26}}{{\uD83A\udd32}}{{\uD83A\udd25}}\u2e41' +
 	  '{{.}}{{/}}'
@@ -58,7 +58,7 @@ var FUL_UNICODE_LAYOUT = {
 	  '{{}}{{\uD83A\uDD42}}[]\\' +
 	  '{{\uD83A\udd44}}{{\uD83A\uDD43}}{{\ud83a\udd47}}{{}}' +
 	     '{{\ud83a\udd45}}{{\uD83A\uDD3f}}{{}}{{}}' +
-	     '{{}}{{}}{{}}' +
+	     '{{}}{{}}{{\'}}' +
 	  '{{\uD83A\uDD41}}{{}}{{\ud83a\udd46}}{{\uD83A\uDD3e}}' +
 	     '{{\uD83A\uDD40}}{{}}{{}}{{}}' +
 	     '{{}}{{\uD83A\udd5f}}'

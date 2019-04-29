@@ -31,7 +31,7 @@ var FF_ADLM_UNICODE_LAYOUT = {
           '{{\uD83A\udd2e}}{{\uD83A\udd28}}{{\uD83A\udd3d}}{{\uD83A\udd39}}',
       'a': '{{\uD83A\udd22}}{{\uD83A\udd27}}{{\uD83A\udd23}}{{\uD83A\udd2c}}' +
           '{{\uD83A\udd3a}}{{\uD83A\udd38}}{{\uD83A\udd36}}{{\uD83A\udd33}}' +
-          '{{\uD83A\udd24}}\u204f\'',
+          '{{\uD83A\udd24}}\u204f{{\uD83A\udd4B}}',
       'z': '{{\uD83A\udd2f}}{{\uD83A\udd30}}{{\uD83A\udd37}}{{\uD83A\udd29}}' +
           '{{\uD83A\udd26}}{{\uD83A\udd32}}{{\uD83A\udd25}}\u2e41./'
     },
@@ -54,6 +54,7 @@ var FF_ADLM_UNICODE_LAYOUT = {
      't': '{{ud83a\udd4a}}',
      'p': '{{\uD83A\uDD42}}[]\\',
      'a': '{{ud83a\udd44}}',
+     '\'': '\'',
      'sh': '{{\uD83A\uDD43}}{{\uD83A\uDD3f}}',
      'l': '{{ud83a\udd48}}',
      'zvb/': '{{\uD83A\uDD41}}{{\uD83A\uDD3e}}{{\uD83A\uDD40}}{{\uD83A\udd5f}}'
