@@ -628,8 +628,9 @@ var new_adlam_Latin_to_unicode_map = {
   '8': '𞥘',
   '9': '𞥙',
   '.': '.',
-  ',': ',',
-  '?': '\u061f',  // Arabic question mark
+  ',': '⹁',
+  ';': '⁏'
+  ,'?': '\u061f',  // Arabic question mark
 };
 
 // Special punctuation.
@@ -644,7 +645,7 @@ var adlam_latin_chars =
   "aa|bb|cc|dd|ee|ff|gg|hh|ii|jj|kk|ll|mm|nn|ññ|oo|pp|qq|rr|ss|tt|uu|vv|ww|xx|yy|zz|" +
     "ɓɓ|ɗɗ|ŋŋ|ƴƴ|" +
     "bh|dh|dj|dy|gn|mb|nd|ng|nj|nh|ny|sh|" +
-    "j|è|é|ê|ë|ï|î|Ô|ö|û|â|" +
+    "j|è|é|ê|ë|ï|î|Ô|ö|û|â|,|;" +
 //    "[\u000A\u0020]n[bdgj]|^n[bdgj]|[\u000A\u0020]mb|^mb" +  // To handle initial nb,nd,ng,nj with apostrophe
     "n\u0303|" + "[ydb]\u0309|" +
     "[bdgqy]h|g[bn]|kpa|ty|\u000a|" + ".";  // n[bdgjqy]
@@ -659,6 +660,12 @@ function replacePunctuation(match, textRun) {
       break;
     case '!':
       replacement = '𞥞 ';
+      break;
+    case ';':
+      replacement = '⁏';
+      break;
+    case ',':
+      replacement = '⹁';
       break;
     default:
     case '.':
