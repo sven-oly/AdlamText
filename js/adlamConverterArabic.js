@@ -69,7 +69,9 @@ var adlam_convert_unicode_map = {
   // Punctuation
   '\u0601': String.fromCodePoint(0x1e95e),  // Question mark
   '\u060c': '\u060c',
-  '\u060b': ';',
+  '\u060b': '⁏',
+  ',': '⹁',
+  ';': '⁏',
   
   // Other characters from books
   '\u00c0': '\u0027',  // Simple apostrophe
