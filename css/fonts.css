@@ -60,14 +60,22 @@
     }
 
     @font-face {
-      font-family:'Noto Sans Adlam';
+      font-family:'Noto Sans Adlam 2019';
+      src:url('/fonts/fonts2019/NotoSansAdlam-Regular.ttf');
+      font-weight:normal;
+      font-style:normal;
+    }
+
+    @font-face {
+    @font-face {
+      font-family:'Noto Sans Adlam 2017';
       src:url('/fonts/NotoSansAdlam-Regular.ttf');
       font-weight:normal;
       font-style:normal;
     }
 
     @font-face {
-      font-family:'extendedNoto Sans Adlam';
+      font-family:'extendedNoto Sans Adlam 2017';
       src:url('/fonts/extendedNotoSansAdlam-Regular.ttf');
       font-weight:normal;
       font-style:normal;

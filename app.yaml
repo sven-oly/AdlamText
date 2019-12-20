@@ -10,6 +10,9 @@ handlers:
 - url: /fonts
   static_dir: fonts
 
+- url: /DONT_UPLOAD
+  static_dir: DONT_UPLOAD
+  
 - url: /img
   static_dir: img
 

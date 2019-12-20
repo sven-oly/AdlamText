@@ -32,18 +32,34 @@ from google.appengine.api import users
 
 from google.appengine.ext.webapp import template
 
-fontList = ['Noto Sans Adlam',  'Adlam CWC', 'Aissata Unicode', 'Noto Sans Adlam Unjoined', 'Pulaar Unicode']
+fontList = ['Noto Sans Adlam 2019', 'Noto Sans Adlam 2017',  'Adlam CWC', 'Aissata Unicode', 'Noto Sans Adlam Unjoined', 'Pulaar Unicode']
 oldFontsList = ['Aissata Arabic', 'Fuuta Arabic', 'Pulaar Arabic']
 
 LanguageCode = 'adlam'
 
 unicode_font_list = [
-  { 'family': 'Noto Sans Adlam',
-    'longName': 'Noto Sans Adlam (joined)',
-    'source': '/fonts/NotoSansAdlam-Regular.ttf',
+  { 'family': 'Noto Sans Adlam 2019',
+    'longName': 'Noto Sans Adlam 2019 (joined)',
+    'source': '/fonts/fonts2019/NotoSansAdlam-Regular.ttf',
+  },
+  { 'family': 'Noto Sans Adlam 2019',
+    'longName': 'Noto Sans Adlam 2019 (unjoined)',
+    'source': '/fonts/fonts2019/NotoSansAdlamUnjoined-Regular.ttf',
   },
   { 'family': 'Noto Sans Adlam',
-    'longName': 'extended Noto Sans Adlam (includes ASCII, etc)',
+    'longName': 'Noto Sans Adlam Bold 2019 (joined)',
+    'source': '/fonts/fonts2019/NotoSansAdlam-Bold.ttf',
+  },
+  { 'family': 'Noto Sans Adlam',
+    'longName': 'Noto Sans Adlam Bold 2019 (unjoined)',
+    'source': '/fonts/fonts2019/NotoSansAdlamUnjoined-Bold.ttf',
+  },
+  { 'family': 'Noto Sans Adlam 2017',
+    'longName': 'Noto Sans Adlam 2017 (joined)',
+    'source': '/fonts/NotoSansAdlam-Regular.ttf',
+  },
+  { 'family': 'Noto Sans Adlam 2017 extended',
+    'longName': 'extended Noto Sans Adlam 2017 (includes ASCII, etc)',
     'source': '/fonts/extendedNotoSansAdlam-Regular.ttf',
   },
   { 'family': 'Aissata Unicode',
@@ -102,10 +118,17 @@ class adlamCharData():
     self.hextext = '%x' % v
     if sys.maxunicode <= 65535:
       # UTF-16: \uD83A\uDD1A
-      self.unicodeChar = unichr(0xd83a) + unichr(v - 0x1e900 + 0xDD00) + ' '
+      if self.charType == 'Mn':
+        # Punctuation
+        self.unicodeChar =  unichr(0x20) + unichr(0xa0) + unichr(v - 0x1e900 + 0xDD00) + ' '
+      else:
+        self.unicodeChar = unichr(0xd83a) + unichr(v - 0x1e900 + 0xDD00) + ' '
       self.otherCase = unichr(0xd83a) + unichr(v - 0x1e900 + 0xDD00 + caseOffset) + ' '
     else:
-      self.unicodeChar = unichr(v)
+      if self.charType == 'Mn':
+        self.unicodeChar =  unichr(0x20) + unichr(0xa0) + unichr(v)
+      else:
+        self.unicodeChar = unichr(v)
       self.otherCase = unichr(v + caseOffset)
 
     self.asciiCode = 0
@@ -265,6 +288,10 @@ class FontCompareHandler(webapp2.RequestHandler):
   def get(self):
 
     sortType = self.request.get('sort', 'interleave')
+    privateDir = self.request.get('privateDir', None)
+    privateFile = self.request.get('privateFile', None)
+    logging.info('Private dir and file = %s/%s' % (privateDir, privateFile))
+
     charData = []
     if sortType == 'interleave':
       adlamCodeList = adlam.adlamAlphaInterleave()
@@ -287,8 +314,14 @@ class FontCompareHandler(webapp2.RequestHandler):
         'unicode_fonts': unicode_font_list,
         'stdBase': '/img/StdFont_',
         'proposedBase': '/img/EbrimaFont_',
+        'privateDir': privateDir,
     }
-    path = os.path.join(os.path.dirname(__file__), 'fontCompare.html')
+    if privateDir and privateFile:
+      path = os.path.join(os.path.dirname(__file__), privateDir, privateFile)
+      path = os.path.join(os.path.dirname(__file__), privateFile)
+      logging.info('**** path = %s' % path)
+    else:
+      path = os.path.join(os.path.dirname(__file__), 'fontCompare.html')
     self.response.out.write(template.render(path, template_values))
 
 
