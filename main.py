@@ -104,7 +104,7 @@ links = [
      'text': 'Keyboard',
    },
   {
-    'target': '/words/',
+    'target': '/words/convert/',
      'text': 'Convert text'
   },
   {
