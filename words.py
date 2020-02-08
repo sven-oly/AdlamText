@@ -68,6 +68,17 @@ class WordConvert(webapp2.RequestHandler):
       'keylayouts': ['ful'],
       'editOrAdmin': user_info[4],
     }
+    template_values = {
+      'fontFamilies': main.fontList,
+      'keylayouts': ['ful'],
+      'links': main.links,
+      'oldFontFamilies': main.oldFontsList,
+      'user_nickname': user_info[1],
+      'user_logout': user_info[2],
+      'user_login_url': user_info[3],
+      'editOrAdmin': user_info[4],
+      'unicodeFonts': main.unicode_font_list,
+    }
     path = os.path.join(os.path.dirname(__file__), 'words.html')
     self.response.out.write(template.render(path, template_values))
 
@@ -959,7 +970,6 @@ app = webapp2.WSGIApplication([
     ('/words/convert/', WordConvert),
     ('/words/review/', WordReviewHandler),
     ('/words/getWords/', GetWordsHandler),
-    # ('/convertTest/', ConvertTestHandler),
     ('/words/getPhrases/', GetPhrases),
     ('/words/phraselist/', GetPhrases),
     ('/words/updateStatus/', UpdateStatus),

@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-<!-- saved from url=(0052)https://x20web.corp.google.com/~shuchen/vk/demo.html -->
 <html>
   <head>
-    <title>Adlam keyboard test</title>
+    <title>Adlam keyboard</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
@@ -26,13 +25,34 @@
       .t1 {font-family:Noto Sans Adlam, Arial;}
     </script>
 
+    <!-- UNICODEFONTS -->
+    <style>
+    {% for font in unicodeFonts %}
+    @font-face{
+      font-family:'{{font.family}}';
+      src:url('{{font.source}}');
+      font-weight:normal;
+      font-style:normal;
+      font-size: 32px;
+    }
+
+    .{{font.family}} {
+      font-family:{{font.family}};
+      font-size: 32px;
+    }
+    {% endfor %}
+  </style>
+
   <script src="/js/text_utils.js"></script>
+  <script src="/js/ui_utils.js"></script>
+
   <script>
     var diff_list = [];
 
     var controller, visible = true;
     function onPageLoaded() {
-      clearText();
+      clearText('t1');
+      clearText('codepoints');
       var input = document.getElementById('t1');
       controller = new i18n.input.keyboard.Keyboard();
       controller.loadLayout('ful');
@@ -52,51 +72,11 @@
       }
     }
 
-    function onLayoutSelected(selector) {
-    var layoutCode = selector.value;
-    controller.activateLayout(layoutCode);
-    document.getElementById('t1').focus();
-    var vkbox = document.getElementById('kbd');
-    }
-
     function toggle() {
       if (controller) {
         controller.setVisible(visible = !visible);
       }
     }
-
-    function clearText() {
-      var field = document.getElementById('t1');
-      field.value = "\u202e";
-      field = document.getElementById('codepoints');
-      field.value = '';
-      document.getElementById('t1').focus();
-    }
-
-    function showCodePoints(src_id, dest_id) {
-      var src_field = document.getElementById(src_id);
-      var start = src_field.selectionStart;
-      var finish = src_field.selectionEnd;
-      // obtain the selected text, if any
-      var sel = src_field.value.substring(start, finish);
-      var code_text;
-      if (sel) {
-        code_text = uplus(sel, "u+");
-      } else {
-        code_text = uplus(src_field.value, "");
-      }
-
-      var dest_field = document.getElementById(dest_id);
-      dest_field.value = code_text;
-      document.getElementById(src_id).focus();
-    }
-
-   function onFontSelected(selected, area) {
-     var output_text = document.getElementById(area);
-     var fontFam = selected.value;
-     output_text.style.fontFamily = fontFam;
-     setKeyCapsFont(fontFam);
-   }
 
    function setKeyCapsFont(newFontFamily) {
      var keycaps = document.getElementsByClassName("vk-cap");
@@ -104,7 +84,6 @@
        keycaps[i].style.fontFamily = newFontFamily;
      }
    }
-
   </script>
 
 <script>window["_GOOG_TRANS_EXT_VER"] = "1";</script>
@@ -121,15 +100,15 @@
     <option value="ful">Fulani Unicode</option>
     <option value="ff_adlam">New ff keyboard</option>
   </select>
-  <input type="button" value="Clear text" onclick="clearText()">
+  <input type="button" value="Clear text" onclick="clearText('t1');clearText('codepoints')">
     Select font: <select onchange="onFontSelected(this, 't1');" id="selectFont">
-      {% for font in fontFamilies %}
-      <option value="{{font}}">{{font}}</option>
+      {% for font in unicodeFonts %}
+      <option value="{{font.family}}">{{font.longName}}</option>
       {% endfor %}
     </select>
     <br />
 
-  <textarea id="t1" dir="rtl" class="aissataUnicode" style="width:600px;height:300px;" rows="10"></textarea>
+  <textarea id="t1" dir="rtl" class="NotoSansAdlam2019" style="width:600px;height:300px;" rows="10"></textarea>
   <br />
   <input type="button" value="Code points" onclick="showCodePoints('t1', 'codepoints');">
     </div>
@@ -146,32 +125,17 @@
     {% endif %}
     <h3>Useful links</h3>
       <ul>
+        {% for link in links %}
         <li>
-          <a href="/">Adlam main</a>
+          <a href="{{link.target}}">{{link.text}}</a>
         </li>
-        <li>
-          <a href="/words/convert/">Font conversion</a>
-        </li>
-        <li>
-          <a href="/words/phraselist/">Phrases database</a>
-        </li>
-        <li>
-          <a href="/words/review/">Phrase review</a>
-        </li>
+        {% endfor %}
+      </ul>
         {% if isAdmin %}
           <li>
             <a href="/words/addNewPhrase/">Add phrase</a>
           </li>
         {% endif %}
-      </ul>
-
-      <ul>
-        <li>
-          <a href="http://www.unicode.org/charts/PDF/U1E900.pdf">Adlam Unicode page</a>
-        </li>
-        <li>
-           <a href="http://www.unicode.org/L2/L2014/14219r-n4628-adlam.pdf">Adlam Unicode proposal</a>
-        </li>
       </ul>
     </div>
     

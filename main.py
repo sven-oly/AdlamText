@@ -32,44 +32,44 @@ from google.appengine.api import users
 
 from google.appengine.ext.webapp import template
 
-fontList = ['Noto Sans Adlam 2019', 'Noto Sans Adlam 2017',  'Adlam CWC', 'Aissata Unicode', 'Noto Sans Adlam Unjoined', 'Pulaar Unicode']
+fontList = ['Noto Sans Adlam 2019', 'Noto Sans Adlam 2019 Bold', 'Noto Sans Adlam 2017',  'Adlam CWC', 'Aissata Unicode', 'Noto Sans Adlam Unjoined', 'Pulaar Unicode']
 oldFontsList = ['Aissata Arabic', 'Fuuta Arabic', 'Pulaar Arabic']
 
 LanguageCode = 'adlam'
 
 unicode_font_list = [
-  { 'family': 'Noto Sans Adlam 2019',
+  { 'family': 'NotoSansAdlam2019',
     'longName': 'Noto Sans Adlam 2019 (joined)',
-    'source': '/fonts/fonts2019/NotoSansAdlam-Regular.ttf',
+    'source': '/fonts/new/NotoSansAdlamNew-Regular.ttf',
   },
-  { 'family': 'Noto Sans Adlam 2019',
+  { 'family': 'NotoSansAdlamBold2019UnJoined',
     'longName': 'Noto Sans Adlam 2019 (unjoined)',
-    'source': '/fonts/fonts2019/NotoSansAdlamUnjoined-Regular.ttf',
+    'source': '/fonts/new/NotoSansAdlamUnjoinedNew-Regular.ttf',
   },
-  { 'family': 'Noto Sans Adlam',
+  { 'family': 'NotoSansAdlam2019Bold',
     'longName': 'Noto Sans Adlam Bold 2019 (joined)',
-    'source': '/fonts/fonts2019/NotoSansAdlam-Bold.ttf',
+    'source': '/fonts/new/NotoSansAdlamNew-Bold.ttf',
   },
-  { 'family': 'Noto Sans Adlam',
-    'longName': 'Noto Sans Adlam Bold 2019 (unjoined)',
-    'source': '/fonts/fonts2019/NotoSansAdlamUnjoined-Bold.ttf',
+  { 'family': 'NotoSansAdlam2010UnjoinedBold',
+    'longName': 'Noto Sans Adlam 2019 (unjoined)',
+    'source': '/fonts/new/NotoSansAdlamUnjoinedNew-Bold.ttf',
   },
-  { 'family': 'Noto Sans Adlam 2017',
+  { 'family': 'NotoSansAdlam2017',
     'longName': 'Noto Sans Adlam 2017 (joined)',
     'source': '/fonts/NotoSansAdlam-Regular.ttf',
   },
-  { 'family': 'Noto Sans Adlam 2017 extended',
-    'longName': 'extended Noto Sans Adlam 2017 (includes ASCII, etc)',
-    'source': '/fonts/extendedNotoSansAdlam-Regular.ttf',
+  { 'family': 'NotoSansAdlam2017extended',
+    'longName': 'Noto Sans Adlam 2017 (unjoined)',
+    'source': '/fonts/NotoSansAdlamUnjoined-Regular.ttf',
   },
-  { 'family': 'Aissata Unicode',
-    'longName': 'Aissata Unicode',
-    'source': '/fonts/Fulfulde - Aissata.ttf'
-  },
-  {'family': 'Pulaar Unicode',
-   'longName': 'Pulaar Unicode',
-   'source': '/fonts/Fulfulde-PulaarUnicode.ttf'
-   }
+  # { 'family': 'AissataUnicode',
+  #   'longName': 'Aissata Unicode',
+  #   'source': '/fonts/Fulfulde - Aissata.ttf'
+  # },
+  # {'family': 'PulaarUnicode',
+  #  'longName': 'Pulaar Unicode',
+  #  'source': '/fonts/Fulfulde-PulaarUnicode.ttf'
+  #  }
 ]
 
 encoding_font_list = [
@@ -91,9 +91,39 @@ converters = [
   '/js/adlamConverterLatin.js',
 ]
 
-kb_list = []
+kb_list = [
+]
 
-links = []
+links = [
+  {
+    'target': '/',
+     'text': 'Main',
+  },
+  {
+    'target': '/keyboard/',
+     'text': 'Keyboard',
+   },
+  {
+    'target': '/words/',
+     'text': 'Convert text'
+  },
+  {
+    'target': 'http://www.unicode.org/charts/PDF/U1E900.pdf',
+    'text': 'Adlam Unicode'
+  },
+  {
+    'target': 'http://www.unicode.org/L2/L2014/14219r-n4628-adlam.pdf',
+    'text': 'Unicode Proposal'
+  },
+  {
+    'target': 'https://www.theatlantic.com/technology/archive/2016/11/the-alphabet-that-will-save-a-people-from-disappearing/506987/',
+    'text': 'Atlantic Adlam article'
+  },
+  {
+    'target': '/downloads/',
+    'text': 'Download Adlam Unicode fonts'
+  },
+]
 
 Language = "Fulfulde"
 # TODO: Fill this in with RTL
@@ -170,10 +200,12 @@ class MainHandler(webapp2.RequestHandler):
       template_values = {
         'fontFamilies': fontList,
         'adlamText': adlamText,
+        'links': links,
         'user_nickname': user_info[1],
         'user_logout': user_info[2],
         'user_login_url': user_info[3],
         'editOrAdmin': user_info[4],
+        'unicodeFonts': unicode_font_list,
       }
       path = os.path.join(os.path.dirname(__file__), 'index.html')
       self.response.out.write(template.render(path, template_values))
@@ -190,6 +222,8 @@ class KeyboardHandler(webapp2.RequestHandler):
         'user_logout': user_info[2],
         'user_login_url': user_info[3],
         'editOrAdmin': user_info[4],
+        'unicodeFonts': unicode_font_list,
+        'links': links,
       }
       path = os.path.join(os.path.dirname(__file__), 'keyboard.html')
       self.response.out.write(template.render(path, template_values))
@@ -199,9 +233,19 @@ class WordHandler(webapp2.RequestHandler):
     def get(self):
       user = users.get_current_user()
       user_info = getUserInfo(self.request.url)
-      template_values = {'fontFamilies': fontList,
-        'oldFontFamilies': oldFontsList,
+
+      template_values = {
+        'testTEMPLATE': '!!!test template!!!',
+        'fontFamilies': fontList,
+        'adlamText': adlamText,
         'keylayouts': ['ful'],
+        'links': links,
+        'oldFontFamilies': oldFontsList,
+        'user_nickname': user_info[1],
+        'user_logout': user_info[2],
+        'user_login_url': user_info[3],
+        'editOrAdmin': user_info[4],
+        'unicodeFonts': unicode_font_list,
       }
       path = os.path.join(os.path.dirname(__file__), 'words.html')
       self.response.out.write(template.render(path, template_values))
@@ -226,9 +270,10 @@ class ConvertTestHandler(webapp2.RequestHandler):
   def get(self):
     user = users.get_current_user()
     user_info = getUserInfo(self.request.url)
-    template_values = {'fontFamilies': fontList,
+    template_values = {'fontFamilies': unicode_font_list,
       'editOrAdmin': user_info[4],
       'oldFontFamilies': oldFontsList,
+      'unicodeFonts': unicode_font_list,
     }
     path = os.path.join(os.path.dirname(__file__), 'convertTest.html')
     self.response.out.write(template.render(path, template_values))
@@ -331,7 +376,6 @@ app = webapp2.WSGIApplication([
     ('/fontCompare/', FontCompareHandler),
     ('/downloads/', DownloadHandler),
     ('/encodingrules/', EncodingRules),
-    ('/words/', WordHandler),
     ('/convertTest/', ConvertTestHandler),
 
     ('/tryPDF/', tryPDFHandler),

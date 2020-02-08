@@ -10,9 +10,6 @@
 
   <link rel="stylesheet" type="text/css" href="/css/fonts.css">
     
-    <script type="text/javascript" src="/js/testjs.js">
-   </script>
-
 <style>
   textarea {
     width: 600px;
@@ -26,49 +23,27 @@
   }
   </style>
 
+    <style>
+    {% for font in unicodeFonts %}
+    @font-face{
+      font-family:'{{font.family}}';
+      src:url('{{font.source}}');
+      font-weight:normal;
+      font-style:normal;
+      font-size: 32px;
+    }
+
+    .{{font.family}} {
+      font-family:{{font.family}};
+      font-size: 32px;
+    }
+    {% endfor %}
+  </style>
+
+  <script src="/js/ui_utils.js"></script>
+
   <script>
    var diff_list = [];
-
-   function onFontSelected(selected, area) {
-     var output_text = document.getElementById(area);
-     var fontFam = selected.value;
-     output_text.style.fontFamily = fontFam;
-   }
-  
-  function clearText(region) {
-    var field = document.getElementById(region);
-    field.value = '';
-
-  }
-
-  function fillUpper(region) {
-    var field = document.getElementById(region);
-    var text = "\u202e";
-    for (var code = 0x1e900; code < 0x1e922; code ++) {
-      text += String.fromCodePoint(code) + " ";
-    }
-    field.value = text;
-  }
-
-  function fillLower(region) {
-    var field = document.getElementById(region);
-    var text = "\u202e";
-    for (var code = 0x1e922; code < 0x1e944; code ++) {
-      text += String.fromCodePoint(code) + " ";
-    }
-    field.value = text;
-  }  
-
-  function fillDigits(region) {
-    var field = document.getElementById(region);
-    var text = "";
-    for (var code = 0x1e950; code < 0x1e95a; code ++) {
-      text += String.fromCodePoint(code);
-    }
-    text += "   " + String.fromCodePoint(0x1e95e) + " ";
-    text += String.fromCodePoint(0x1e95f) + " ";
-    field.value = text;
-  }
 
   function init() {
     // Fill in if needed.
@@ -91,10 +66,10 @@
   <br />
   <input type="button" value="Clear text" onclick="clearText('admlanMain');">
     Select font: <select onchange="onFontSelected(this, 'admlanMain');" id="selectFont">
-      {% for font in fontFamilies %}
-      <option value="{{font}}">{{font}}</option>
+      {% for font in unicodeFonts %}
+      <option value="{{font.family}}">{{font.longName}}</option>
       {% endfor %}
-    </select>
+   </select>
    <input type="button" value="Caps" onclick="fillUpper('admlanMain');">
    <input type="button" value="Lower" onclick="fillLower('admlanMain');">
    <input type="button" value="Digits + Punctuation" onclick="fillDigits('admlanMain');">
@@ -112,34 +87,17 @@
     {% endif %}
     <h3>Useful links</h3>
       <ul>
+        {% for link in links %}
         <li>
-          <a href="/keyboard/">Adlam keyboard</a>
+          <a href="{{link.target}}">{{link.text}}</a>
         </li>
-        <li>
-          <a href="/words/convert/">Font conversion</a>
-        </li>
-        <li>
-          <a href="/encodingrules/">Encoding rules</a>
-        </li>
-        <li>
-          <a href="/words/phraselist/">Phrases database</a>
-        </li>
-        <li>
-          <a href="/words/review/">Phrase review</a>
-        </li>
+        {% endfor %}
         {% if isAdmin %}
           <li>
             <a href="/words/addNewPhrase/">Add phrase</a>
           </li>
         {% endif %}
-        <li>
-          <a href="/downloads/">Download Adlam Unicode fonts</a>
-        </li>
-        <li>
-          <a href="/downloads/">Resources</a>
-        </li>
-
-  <!--
+ <!--
         <li>
           <a href="/words/getPhrases/">View database</a>
                     <br />
@@ -154,17 +112,6 @@
       </ul>
       {% endif %}
 
-      <ul>
-        <li>
-          <a href="https://www.theatlantic.com/technology/archive/2016/11/the-alphabet-that-will-save-a-people-from-disappearing/506987/">Atlantic article on Adlam</a>
-        </li>
-        <li>
-          <a href="http://www.unicode.org/charts/PDF/U1E900.pdf">Adlam Unicode page</a>
-        </li>
-        <li>
-           <a href="http://www.unicode.org/L2/L2014/14219r-n4628-adlam.pdf">Adlam Unicode proposal</a>
-        </li>
-      </ul>
     </div>
   </div> <!-- container -->
   </body>

@@ -4,7 +4,6 @@
   <meta charset="utf-8"/>
 
   <title>Convert to Adlam Unicode</title>
-
   <link rel="stylesheet" href="/css/blueprint/screen.css" type="text/css" media="screen">
   <link rel="stylesheet" href="/css/blueprint/print.css" type="text/css" media="print">
   <!--[if lt IE 8]>
@@ -28,181 +27,43 @@
   }
   </style>
 
-  <script src="/js/text_utils.js"></script>
+
+    <!-- UNICODEFONTS -->
+    <style>
+    {% for font in unicodeFonts %}
+    @font-face{
+      font-family:'{{font.family}}';
+      src:url('{{font.source}}');
+      font-weight:normal;
+      font-style:normal;
+      font-size: 32px;
+    }
+
+    .{{font.family}} {
+      font-family:{{font.family}};
+      font-size: 32px;
+    }
+    {% endfor %}
+  </style>
+
   <script src="/js/adlam_utils.js"></script>
   <script src="/js/adlamConverterArabic.js"></script>
   <script src="/js/adlamConverterLatin.js"></script>
+
+  <script src="/js/convertCalls.js"></script>
+
+  <script src="/js/text_utils.js"></script>
+  <script src="/js/ui_utils.js"></script>
+
   <script src="/js/vk-debug.js"></script>
 
   <script>
   var diff_list = [];  // For uplus in text_utils.js
 
-  // When an area is changed, set the hex characters, too.
-  function updateHex(inArea, outArea) {
-    // Hex on the selected text, if any.
-    // obtain the object reference for the <textarea>
-    var txtarea = document.getElementById(inArea);
-    var start = txtarea.selectionStart;
-    var finish = txtarea.selectionEnd;
-    // obtain the selected text
-    var sel = txtarea.value.substring(start, finish);
-
-    var inText;
-    if (sel) {
-      inText = sel;
-    } else {
-      inText = txtarea.value;
-    }
-
-    var hex_output = document.getElementById(outArea);
-
-    var hexString = uplus(inText, "");
-    if (hex_output != null) {
-      hex_output.value = hexString;
-      hex_output.innerHTML = hexString;
-    }
-    if (sel) {
-      // Try to show the selection again.
-      txtarea.selectionStart = start;
-      txtarea.selectionEnd = finish;
-    }
-  }
-
-  function clearArea(outId, outArea) {
-    var inText = "";
-    var output_text = document.getElementById(outId);
-    output_text.innerHTML = inText;
-    output_text.value = inText;
-
-    var hex_output = document.getElementById(outArea);
-    if (hex_output) {
-      hex_output.innerHTML = "";
-      hex_output.value = "";
-        }
-  }
-
-  function onFontSelected(selected) {
-    var output_text = document.getElementById('Unicode_font_output_text');
-    var fontFam = selected.value;
-    output_text.style.fontFamily = fontFam;
-  }
-
-  function fillWithSampleAdlam(outArea, hexArea) {
-    var outObj = document.getElementById(outArea);
-
-    var text = "ڇبگبثتض ڇبگبثتض ڇبگبثتض ...Àتضك لع لنجسظڇبث لنجسظڇبث لنجسظڇبث ” ùبثب پضخثبث قبغبÃكëڄبث گبصلظ ض ”بثبث ”بقكëڄبث";
-    text += "” ù نخظغع ڇضكڇنغع، ڇضكڇنغع، ڇضكڇنغع، پبصبم ́ظصڇن قظكتبكڄن قظكتبكڄن قظكتبكڄن ”ب كíڄنك";
-    outObj.innerHTML = text;
-    outObj.value = text;
-
-    var hex_output = document.getElementById(hexArea);
-    if (hex_output) {
-      hex_output.innerHTML = "";
-      hex_output.value = "";
-    }
-  }
-
-  function fillWithLatin(outArea, hexArea) {
-    var outObj = document.getElementById(outArea);
-    var hex_output = document.getElementById(hexArea);
-    text = "ADLAM BSP BH ɓ REF IO DH ɗ\u000a" +
-          "YH ƴ WHK YUJ TH C H QH G HY T NQ\u000a" +
-          "dj dy j è é ê ë ï î ô ö û â\u000a" +
-          "DJ DY J È É Ê Ë Ï Î Ô Ö Û Â\u000a" +
-      "V GH GB Z KPA KPa Kpa SHA SHa Sha" +
-      "adlam bsp bh ɓ ref io dh ɗ\u000a" +
-      "yh ƴ whk yuj ty c h qh g hy t nq \u000a" +
-      "v gh gb z kpa sha \u00a0" +
-      "AA aa EE ee II ii OO oo UU uu \u000a" +
-      "Ñ ñ \u000a" +
-      ",./;\'[]\<>?:\{}|_+\u000a!";
-
-    outObj.innerHTML = text;
-    outObj.value = text;
-    if (hex_output) {
-      hex_output.innerHTML = "";
-      hex_output.value = "";
-    }
-  }
-  function onFontSelected(selected, area) {
-    var output_text = document.getElementById(area);
-    var fontFam = selected.value;
-    output_text.style.fontFamily = fontFam;
-  }
-
-  // Convert to Unicode
-  function convertArabicToUnicode(idIn, outId, hexId, lowerId,
-      sentenceCaseId) {
-    var inObj = document.getElementById(idIn);
-    var outObj = document.getElementById(outId);
-    var hexObj = document.getElementById(hexId);
-    var lowerObj = document.getElementById(lowerId);
-    var sentenceCaseObj = document.getElementById(sentenceCaseId);
-    var textOut = convertOtherToUnicode(inObj.value, lowerObj.checked,
-      sentenceCaseObj.checked);
-
-    outObj.innerHTML = outObj.value = textOut;
-  }
-
-  // Convert to Unicode
-  function convertLatinUnicode(idIn, outId, hexId, lowerId,
-    sentenceCaseId) {
-    var inObj = document.getElementById(idIn);
-    var outObj = document.getElementById(outId);
-    var hexObj = document.getElementById(hexId);
-    var lowerObj = document.getElementById(lowerId);
-    var sentenceCaseObj = document.getElementById(sentenceCaseId);
-    var textOut = convertLatinToUnicode(
-      inObj.value, lowerObj.checked, sentenceCaseObj.checked);
-    outObj.innerHTML = outObj.value = textOut;
-  }
-
-  function toggle(id, toggle) {
-    var obj = document.getElementById(id);
-    var checkBox = document.getElementById(toggle);
-    var showIt = checkBox.checked;
-    if (showIt) {
-      obj.style.display = 'block';
-      } else {
-      obj.style.display = 'none';
-      }
-    }
-
-  // stackoverflow.com/questions/717224/how-to-get-selected-text-in-textarea
-  function getSel(areaId, change) {
-    // obtain the object reference for the <textarea>
-    var txtarea = document.getElementById(areaId);
-    var start = txtarea.selectionStart;
-    var finish = txtarea.selectionEnd;
-    // obtain the selected text
-    var sel = txtarea.value.substring(start, finish);
-    // do something with the selected content
-
-    if (change == "lower") {
-      newText = lowercaseWord(sel);
-    } else
-    if (change == 'upper') {
-      newText = uppercaseWord(sel, true);
-    } else
-    if (change == 'capitalize') {
-      newText = uppercaseWord(sel, false);
-    }
-    if (sel != newText) {
-    // Replace
-      var newText = txtarea.value.substring(0, start) + newText +
-        txtarea.value.substring(finish);
-      // Replace!
-      txtarea.value = newText;
-    }
-  }
-
   function init() {
     // Fill in if needed.
     updateHex('old_font_input_text', 'old_hex');
     updateHex('Unicode_font_output_text', 'new_hex');
-
-      onFontSelected(document.getElementById('selectUnicodeFont'), 'Unicode_font_output_text');
-      onFontSelected(document.getElementById('selectArabicFont'), 'old_font_input_text');
   }
 
     var controller, visible = true;
@@ -219,28 +80,12 @@
       var selector = document.getElementById('selectKeyboard');
       onLayoutSelected(selector, windowId);
       var selector = document.getElementById('selectUnicodeFont');
-      onFontSelected(selector, 'Unicode_font_output_text');
-    }
-
-    function onLayoutSelected(selector, windowId) {
-    var layoutCode = selector.value;
-    controller.activateLayout(layoutCode);
-    document.getElementById(windowId).focus();
-    var vkbox = document.getElementById('kbd');
     }
 
     function toggleKB() {
       if (controller) {
         controller.setVisible(visible = !visible);
       }
-    }
-
-    function clearText(areaId) {
-      var field = document.getElementById(areaId);
-      field.value = "\u202e";
-      // field = document.getElementById('codepoints');
-      //if fieldfield.value = '';
-      document.getElementById(areaId).focus();
     }
 
   </script>
@@ -250,7 +95,8 @@
   <div class="container">
     <div class="span-1">
     </div>
-    <div class="span-20">
+      {{testTEMPLATE}}
+    <div class="span-16">
 
        <div id="arab_adlam_area">
     <h3>Converting Arabic and Latin encodings to Adlam Unicode</h3>
@@ -262,7 +108,7 @@
     <br />
 
     <input type="button" value="Clear"
-           onclick="clearArea('old_font_input_text', 'old_hex');">
+           onclick="clearText('old_font_input_text'; clearText('old_hex');">
 
     <input type="button" value="Sample text"
            onclick="fillWithSampleAdlam('old_font_input_text', 'old_hex')">
@@ -316,28 +162,21 @@
     </div>
        <div id="unicode_area">
     <h3>Unicode Adlam</h3>
-    <textarea class="NotoSansAdlam" id="Unicode_font_output_text" dir="rtl"
+    <textarea class="NotoSansAdlam2019" id="Unicode_font_output_text" dir="rtl"
      onchange="updateHex('Unicode_font_output_text', 'new_hex');"
               cols="50" rows="3" style="font-size: 28px;resize: vertical;"></textarea>
     <br />
     <input type="button" value="Clear"
-           onclick="clearArea('Unicode_font_output_text', 'new_hex');">
+           onclick="clearText('Unicode_font_output_text');clearText('new_hex');">
 
-    Select font: <select onchange="onFontSelected(this, 'Unicode_font_output_text');"
-       id="selectUnicodeFont">
-
-      <option value="Noto Sans Adlam">Noto Sans Adlam</option>
-
-      <option value="Adlam CWC">Adlam CWC</option>
-
-      <option value="Aissata Unicode">Aissata Unicode</option>
-
-      <option value="Noto Sans Adlam Unjoined">Noto Sans Adlam Unjoined</option>
-
-      <!-- <option value="Pulaar Unicode">Pulaar Unicode</option> -->
-
+    Select font: <select onchange="onFontSelected(this, 'Unicode_font_output_text');" id="selectFont">
+     Unicode FONTS: {{unicodeFonts}}
+           {% for font in unicodeFonts %}
+      <option value="{{font.family}}">{{font.longName}}</option>
+      {% endfor %}
     </select>
-      <input type="button" value="Uppercase"
+
+       <input type="button" value="Uppercase"
            onclick="getSel('Unicode_font_output_text', 'upper');">
       <input type="button" value="Capitalize"
            onclick="getSel('Unicode_font_output_text', 'capitalize');">
@@ -349,7 +188,7 @@
     <div id="UnicodeAdlamTools" style="display:none;">
       <input type="button" value="Show hex values"
            onclick="updateHex('Unicode_font_output_text', 'new_hex');">
-    Select keyboard: <select onchange="onLayoutSelected(this, 'Unicode_font_output_txext');"
+    Select keyboard: <select onchange="onLayoutSelected(this, 'Unicode_font_output_text');"
        id="selectKeyboard">
 
       <option value="ful">ful</option>
@@ -369,50 +208,21 @@
    </div>
 
   </div>
-  <div class="span-2 last">
+  <div class="span-4 last">
     <h3>Useful links</h3>
       <ul>
+ {% for link in links %}
         <li>
-          <a href="/">Adlam main</a>
-       </li>        <li>
-          <a href="/keyboard/">Adlam keyboard</a>
+          <a href="{{link.target}}">{{link.text}}</a>
         </li>
+        {% endfor %}
+      </ul>
 
-       <li>
-           <a href="/words/convert/">Font conversion</a>
-        </li>
-        <li>
-          <a href="/words/phraselist/">Phrases database</a>
-        </li>
-        <li>
-          <a href="/words/review/">Phrase review</a>
-          </li>
-        {% if isAdmin %}
-          <li>
-            <a href="/words/addNewPhrase/">Add phrase</a>
-          </li>
-        {% endif %}
-      </ul>
-      {% if isAdmin %}
-      <ul>
-        <li><a href='/db/manage/'>Manage data</a></li>
-      </ul>
-      {% endif %}
-      <ul>
-        <li>
-           <a href="http://www.unicode.org/L2/L2014/14219r-n4628-adlam.pdf">Adlam Unicode proposal</a>
-        </li>
-        <li>
-          <a href="http://www.unicode.org/charts/PDF/U1E900.pdf">Adlam Unicode page</a>
-        </li>
-        <li>
-           <a href="http://windenjangen.org/yahoo_site_admin/assets/docs/TABALDE_2.18914205.pdf">Sample Arabic encoded text</a>
-        </li>
-      </ul>
      {% if isAdmin %}
         <hr>
         <h4>Admin Functions</h4>
         <ul>
+        <li><a href='/db/manage/'>Manage data</a></li>
           <li><a href="/db/manageDB/">Manage Databases</a></li>
           <li><a href="/users/">Manage users</a></li>
           <!-- <li><a href="/db/resetDbEntries/">Reset Database Entries</a> -->
