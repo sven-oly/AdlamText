@@ -14,14 +14,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+import base
+
 from userDB import getUserInfo
 
 import json
 import logging
 import os
+import sys
 import urllib
 import webapp2
-import sys
 
 import adlam
 import convert
@@ -38,6 +40,14 @@ oldFontsList = ['Aissata Arabic', 'Fuuta Arabic', 'Pulaar Arabic']
 LanguageCode = 'adlam'
 
 unicode_font_list = [
+  {'family': 'NotoSansAdlamApril',
+   'longName': 'Noto Sans Adlam April (joined)',
+   'source': '/fonts/April2020/NotoSansAdlamNew-Regular.ttf',
+   },
+  {'family': 'NotoSansAdlamBoldApril',
+   'longName': 'Noto Sans Adlam April (joined)',
+   'source': '/fonts/April2020/NotoSansAdlamNew-Bold.ttf',
+   },
   { 'family': 'NotoSansAdlam2019',
     'longName': 'Noto Sans Adlam 2019 (joined)',
     'source': '/fonts/new/NotoSansAdlamNew-Regular.ttf',
@@ -92,20 +102,33 @@ converters = [
 ]
 
 kb_list = [
+  {'shortName': 'ff_adlam',
+   'longName': 'Fulfulde Adlam'
+  },
 ]
 
 links = [
   {
     'target': '/',
-     'text': 'Main',
+    'text': 'Main',
+    'ref': '/',
+    'linkText': 'Main',
   },
   {
     'target': '/keyboard/',
-     'text': 'Keyboard',
-   },
+    'text': 'Keyboard',
+    'ref': '/keyboard/',
+    'linkText': 'Keyboard',
+  },
   {
     'target': '/words/convert/',
      'text': 'Convert text'
+  },
+  {
+    'ref': '/dictionaryN/',
+    'linkText': 'Dictionary builder',
+    'target': '/dictionaryN/',
+    'text': 'Dictionary builder'
   },
   {
     'target': 'http://www.unicode.org/charts/PDF/U1E900.pdf',
@@ -130,6 +153,62 @@ Language = "Fulfulde"
 Language_native = ''
 
 Script = "Adlam"
+
+class langInfo():
+  def __init__(self):
+    self.LanguageCode = 'ff'
+    self.Language = 'Fulfulde'
+    self.Language_native = u'Pular'
+    self.lang_list = ['ff']
+
+    if sys.maxunicode >= 0x10000:
+      self.diacritic_list = [unichr(x) for x in range(0x11100, 0x11103)]
+      self.diacritic_list.extend([unichr(x) for x in range(0x11127, 0x11133)])
+      self.diacritic_list.extend([unichr(x) for x in range(0x11134, 0x11135)])
+      self.diacritic_list.extend([unichr(x) for x in range(0x11145, 0x11147)])
+      self.base_consonant = unichr(0x1110e)
+    else:
+      self.diacritic_list = [unichr(0xd804) + unichr(0xdd00 + x) for x in range(0x00, 0x04)]
+      self.diacritic_list.extend(unichr(0xd804) + unichr(0xdd00 + x) for x in range(0x27, 0x33))
+      self.diacritic_list.extend(unichr(0xd804) + unichr(0xdd00 + x) for x in range(0x34, 0x35))
+      self.diacritic_list.extend(unichr(0xd804) + unichr(0xdd00 + x) for x in range(0x45, 0x47))
+      self.base_consonant = u'\ud804\udd0e'
+
+    self.encoding_font_list = encoding_font_list
+
+    self.kb_list = kb_list
+    self.links = links
+
+    self.text_file_list = []
+    self.unicode_font_list = unicode_font_list
+
+    # For dictionary
+    self.dictionaryLang1 = "English"
+    self.dictionaryLang2 = self.Language
+    self.kb1 = 'en'
+    self.kb2 = self.kb_list[0]['shortName']
+
+    # For a multilingual dictionary builder
+    # self.dictionaryLinks = {
+    #   {'linkText': 'How to use this in Chakma',
+    #    'ref': 'https://www.youtube.com/watch?v=olOq1R5IUhA&feature=youtu.be',
+    #    },
+    # }
+
+    self.dictionaryNData = [
+      {'langName': self.Language, 'kbShortName': 'ful', 'kbLongName': 'Fulfulde',
+       'direction': 'rtl',
+       'font': { 'family': 'NotoSansAdlam',
+         'longName': 'Noto Sans Adlam',
+         'source': '/fonts/April2020/NotoSansAdlamNew-Regular.ttf'},
+      },
+      {'langName': 'English', 'kbShortName': 'en', 'kbLongName': 'English',
+       'font': {'family': 'Latin',
+                'longName': 'Noto Sans',
+                'source': '/fonts/NotoSans-Regular.ttf'
+                },
+       },
+    ]
 
 class adlamCharData():
   def __init__(self, v):
@@ -369,6 +448,7 @@ class FontCompareHandler(webapp2.RequestHandler):
       path = os.path.join(os.path.dirname(__file__), 'fontCompare.html')
     self.response.out.write(template.render(path, template_values))
 
+langInstance = langInfo()
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler),
@@ -377,7 +457,12 @@ app = webapp2.WSGIApplication([
     ('/downloads/', DownloadHandler),
     ('/encodingrules/', EncodingRules),
     ('/convertTest/', ConvertTestHandler),
+    ('/dictionaryN/', base.DictionaryN),
 
-    ('/tryPDF/', tryPDFHandler),
+  ('/tryPDF/', tryPDFHandler),
 
-], debug=True)
+  ],
+  debug=True,
+  config={'langInfo': langInstance}
+)
+
