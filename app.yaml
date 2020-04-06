@@ -18,7 +18,10 @@ handlers:
 
 - url: /css
   static_dir: css
-  
+
+- url: /help
+  static_dir: help
+
 - url: /js
   static_dir: js
 

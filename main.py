@@ -197,13 +197,15 @@ class langInfo():
 
     self.dictionaryNData = [
       {'langName': self.Language, 'kbShortName': 'ful', 'kbLongName': 'Fulfulde',
+       'languageCode': 'ff',
        'direction': 'rtl',
        'font': { 'family': 'NotoSansAdlam',
          'longName': 'Noto Sans Adlam',
          'source': '/fonts/April2020/NotoSansAdlamNew-Regular.ttf'},
       },
       {'langName': 'English', 'kbShortName': 'en', 'kbLongName': 'English',
-       'font': {'family': 'Latin',
+       'languageCode': 'en',
+       'font': {'family': 'NotoSansLatin',
                 'longName': 'Noto Sans',
                 'source': '/fonts/NotoSans-Regular.ttf'
                 },
