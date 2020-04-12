@@ -19,6 +19,23 @@
   <link rel="stylesheet" type="text/css" href="/css/fonts.css">
   <link rel="stylesheet" type="text/css" href="/css/keyboard.css">
 
+  <!-- UNICODEFONTS -->
+  <style>
+    {% for font in unicodeFonts %}
+    @font-face{
+      font-family:'{{font.family}}';
+      src:url('{{font.source}}');
+      font-weight:normal;
+      font-style:normal;
+      font-size: 32px;
+    }
+
+    .{{font.family}} {
+      font-family:{{font.family}};
+      font-size: 32px;
+    }
+    {% endfor %}
+  </style>
   <style>
   /* Textarea characteristics */
   textarea {
@@ -382,11 +399,11 @@
       Adlam text.
       Select font: <select onchange="onFontSelected(this);" id="selectFont">
         {% for font in fontFamilies %}
-        <option value="{{font}}">{{font}}</option>
+        <option value="{{font.family}}">{{font.longName}}</option>
         {% endfor %}
       </select>
       <input type="button" value="Toggle keyboard" onclick="toggleDisplayState('kbd');"/>      <br />
-	  <textarea id="UnicodeText" class="NotoSansAdlam" dir="rtl"
+	  <textarea id="UnicodeText" class="{{unicodeFonts.0.family}}" dir="rtl"
                 onfocus="onKeyboardFocus('UnicodeText');">{{utext}}</textarea>
       <br />
       Adlam definition:<br />

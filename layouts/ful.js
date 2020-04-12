@@ -49,7 +49,7 @@ var FUL_UNICODE_LAYOUT = {
 	'{{\uD83A\udd02}}{{:}}{{"}}' +
       '{{\uD83A\udd0D}}{{\uD83A\udd0E}}{{\uD83A\udd15}}{{\uD83A\udd07}}' +
 	'{{\uD83A\udd04}}{{\uD83A\udd10}}{{\uD83A\udd03}}{{<}}' +
-	'{{>}}{{\u061f}}'
+	'{{>}}{{?}}'
     },
    'c': {  // alt-control
       '': '{{\uD83A\uDD5E}}1234567890^{{}}' +

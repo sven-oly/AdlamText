@@ -280,7 +280,7 @@ class WordReviewHandler(webapp2.RequestHandler):
         'comment': comment,
         'status': status,
         'result': result,
-        'fontFamilies': main.fontList,
+        'fontFamilies': main.unicode_font_list,
         'user_nickname': user_info[1],
         'user_logout': user_info[2],
         'user_login_url': user_info[3],

@@ -16,15 +16,6 @@
     <link rel="stylesheet" type="text/css" href="/css/keyboard.css">
     <link rel="stylesheet" type="text/css" href="/css/fonts.css">
 
-    <script type="text/css">
-      .vk-box {font-family:'NotoSansAdlam2019'};
-
-      .vk-button {font-family:"NotoSansAdlam2019", Adlam, Arial;}
-      .input {font-size:18px;}
-      .textarea {font-size:16px; font-family:"Courier New";}
-      .t1 {font-family:Noto Sans Adlam, Arial;}
-    </script>
-
     <!-- UNICODEFONTS -->
     <style>
     {% for font in unicodeFonts %}
@@ -43,6 +34,14 @@
     {% endfor %}
   </style>
 
+  <script type="text/css">
+      .vk-box {font-family:'NotoSansAdlamApril'};
+
+      .vk-button {font-family:"NotoSansAdlamApril", Adlam, Arial;}
+      .input {font-size:18px;}
+      .textarea {font-size:16px; font-family:"Courier New";}
+      .t1 {font-family:Noto Sans Adlam, Arial;}
+    </script>
     <script type="text/css">
       .vk-box {font-family:'NotoSansAdlam2019'};
 
@@ -117,7 +116,7 @@
     </select>
     <br />
 
-  <textarea id="t1" dir="rtl" class="NotoSansAdlam2019" style="width:600px;height:300px;" rows="10"></textarea>
+  <textarea id="t1" dir="rtl" class="{{unicodeFonts.0.family}}" style="width:600px;height:300px;" rows="10"></textarea>
   <br />
   <input type="button" value="Code points" onclick="showCodePoints('t1', 'codepoints');">
     </div>

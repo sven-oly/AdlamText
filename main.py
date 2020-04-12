@@ -41,11 +41,11 @@ LanguageCode = 'adlam'
 
 unicode_font_list = [
   {'family': 'NotoSansAdlamApril',
-   'longName': 'Noto Sans Adlam April (joined)',
+   'longName': 'Noto Sans Adlam 2020 (joined)',
    'source': '/fonts/April2020/NotoSansAdlamNew-Regular.ttf',
    },
   {'family': 'NotoSansAdlamBoldApril',
-   'longName': 'Noto Sans Adlam April (joined)',
+   'longName': 'Noto Sans Adlam 2020 bold (joined)',
    'source': '/fonts/April2020/NotoSansAdlamNew-Bold.ttf',
    },
   { 'family': 'NotoSansAdlam2019',
@@ -277,7 +277,7 @@ ranges.extend(range(0x1e950, 0x1e95a))
 ranges.extend(range(0x1e95e, 0x1e960))
 
 class MainHandler(webapp2.RequestHandler):
-    def get(self):
+    def get(self, match=None):
       user_info = getUserInfo(self.request.url)
       user = users.get_current_user()
 
@@ -304,7 +304,7 @@ class MainHandler(webapp2.RequestHandler):
 
 
 class KeyboardHandler(webapp2.RequestHandler):
-    def get(self):
+    def get(self, match=None):
       user = users.get_current_user()
       user_info = getUserInfo(self.request.url)
 
@@ -322,7 +322,7 @@ class KeyboardHandler(webapp2.RequestHandler):
 
 # Show data from word list converted for human verification
 class WordHandler(webapp2.RequestHandler):
-    def get(self):
+    def get(self, match=None):
       user = users.get_current_user()
       user_info = getUserInfo(self.request.url)
 
@@ -343,7 +343,7 @@ class WordHandler(webapp2.RequestHandler):
       self.response.out.write(template.render(path, template_values))
 
 class Download(webapp2.RequestHandler):
-    def get(self):
+    def get(self, match=None):
         infile = self.request.get("infile", "")
         outfile = self.request.get("outfile", "")
         template_values = {
@@ -358,8 +358,7 @@ class Download(webapp2.RequestHandler):
 
 # Run tests to verify converted data
 class ConvertTestHandler(webapp2.RequestHandler):
-
-  def get(self):
+  def get(self, match=None):
     user = users.get_current_user()
     user_info = getUserInfo(self.request.url)
     template_values = {'fontFamilies': unicode_font_list,
@@ -373,7 +372,7 @@ class ConvertTestHandler(webapp2.RequestHandler):
 
 # Show data from word list converted for human verification
 class DownloadHandler(webapp2.RequestHandler):
-    def get(self):
+    def get(self, match=None):
       template_values = {
           'language': Language,
           'language_native': Language_native,
@@ -385,7 +384,7 @@ class DownloadHandler(webapp2.RequestHandler):
 
 # Test creating PDF file
 class tryPDFHandler(webapp2.RequestHandler):
-  def get(self):
+  def get(self, match=None):
     user = users.get_current_user()
     user_info = getUserInfo(self.request.url)
 
@@ -407,7 +406,7 @@ class tryPDFHandler(webapp2.RequestHandler):
     self.response.out.write(pdfResult)
 
 class EncodingRules(webapp2.RequestHandler):
-  def get(self):
+  def get(self, match=None):
 
     template_values = {
         'converterJS': '/js/' + LanguageCode + 'Converter.js',
@@ -422,7 +421,7 @@ class EncodingRules(webapp2.RequestHandler):
     self.response.out.write(template.render(path, template_values))
 
 class FontCompareHandler(webapp2.RequestHandler):
-  def get(self):
+  def get(self, match=None):
 
     sortType = self.request.get('sort', 'interleave')
     privateDir = self.request.get('privateDir', None)
