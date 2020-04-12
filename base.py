@@ -217,7 +217,7 @@ class ConvertUIHandler(webapp2.RequestHandler):
         'unicodeChars': unicodeChars,
         'combiningChars': unicodeCombiningChars,
     }
-    path = os.path.join(os.path.dirname(__file__), 'translit_general.html')
+    path = os.path.join(os.path.dirname(__file__), 'translit_geeral.html')
     self.response.out.write(template.render(path, template_values))
 
 # Create a string with combinations of the combining characters,
@@ -306,10 +306,10 @@ class DictionaryInput(webapp2.RequestHandler):
 
       template_values = {
         'lang': langInfo.Language,
-        'lang1': langInfo.dictionaryLang1,
-        'lang2': langInfo.dictionaryLang2,
-        'kb1': langInfo.kb1,
-        'kb2': langInfo.kb2,
+        #'lang1': langInfo.dictionaryLang1,
+        #'lang2': langInfo.dictionaryLang2,
+        #'kb1': langInfo.kb1,
+        #'kb2': langInfo.kb2,
         'unicodeFontList': langInfo.unicode_font_list,
 
         'links': langInfo.links,
@@ -331,13 +331,7 @@ class DictionaryN(webapp2.RequestHandler):
 
     template_values = {
       'dictionaryNData': langInfo.dictionaryNData,
-
-      'lang1': langInfo.dictionaryLang1,
-      'lang2': langInfo.dictionaryLang2,
-      'kb1': langInfo.kb1,
-      'kb2': langInfo.kb2,
       'unicodeFontList': langInfo.unicode_font_list,
-
       'links': langInfo.links,
     }
     path = os.path.join(os.path.dirname(__file__), 'dictionaryN.html')

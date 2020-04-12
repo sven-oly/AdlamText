@@ -122,8 +122,10 @@ links = [
   },
   {
     'target': '/words/convert/',
-     'text': 'Convert text'
-  },
+    'text': 'Convert text',
+    'ref': '/words/convert/',
+    'linkText': 'Convert text',
+},
   {
     'ref': '/dictionaryN/',
     'linkText': 'Dictionary builder',
@@ -132,19 +134,27 @@ links = [
   },
   {
     'target': 'http://www.unicode.org/charts/PDF/U1E900.pdf',
-    'text': 'Adlam Unicode'
-  },
+    'text': 'Adlam Unicode',
+    'ref': 'http://www.unicode.org/charts/PDF/U1E900.pdf',
+    'linkText': 'Adlam Unicode'
+},
   {
     'target': 'http://www.unicode.org/L2/L2014/14219r-n4628-adlam.pdf',
-    'text': 'Unicode Proposal'
-  },
+    'text': 'Unicode Proposal',
+    'ref': 'http://www.unicode.org/L2/L2014/14219r-n4628-adlam.pdf',
+    'linkText': 'Unicode Proposal'
+},
   {
     'target': 'https://www.theatlantic.com/technology/archive/2016/11/the-alphabet-that-will-save-a-people-from-disappearing/506987/',
-    'text': 'Atlantic Adlam article'
-  },
+    'text': 'Atlantic Adlam article',
+    'ref': 'https://www.theatlantic.com/technology/archive/2016/11/the-alphabet-that-will-save-a-people-from-disappearing/506987/',
+    'linkText': 'Atlantic Adlam article'
+},
   {
     'target': '/downloads/',
-    'text': 'Download Adlam Unicode fonts'
+    'text': 'Download Adlam Unicode fonts',
+    'ref': '/downloads/',
+    'linkText': 'Download Adlam Unicode fonts'
   },
 ]
 
@@ -209,6 +219,7 @@ class langInfo():
                 'longName': 'Noto Sans',
                 'source': '/fonts/NotoSans-Regular.ttf'
                 },
+       'helptext': 'Instructions'
        },
     ]
 
