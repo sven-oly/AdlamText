@@ -69,6 +69,8 @@ class languageTemplate():
 
     self.text_file_list = [
     ]
+    logging.info('INITIALIZING FILE RESOURCES: %s' % self.text_file_list)
+
 
     self.baseHexUTF16 = u''
 

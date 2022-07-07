@@ -48,6 +48,11 @@ unicode_font_list = [
    'longName': 'Noto Sans Adlam 2020 bold (joined)',
    'source': '/fonts/April2020/NotoSansAdlamNew-Bold.ttf',
    },
+  {
+    'family': 'MSAdlamDisplay',
+    'longName': 'MS Adlam Display',
+    'source': '/fonts/Fulfulde/ADLaMDisplay-Regular.ttf',
+  },
   { 'family': 'NotoSansAdlam2019',
     'longName': 'Noto Sans Adlam 2019 (joined)',
     'source': '/fonts/new/NotoSansAdlamNew-Regular.ttf',
@@ -172,17 +177,11 @@ class langInfo():
     self.lang_list = ['ff']
 
     if sys.maxunicode >= 0x10000:
-      self.diacritic_list = [unichr(x) for x in range(0x11100, 0x11103)]
-      self.diacritic_list.extend([unichr(x) for x in range(0x11127, 0x11133)])
-      self.diacritic_list.extend([unichr(x) for x in range(0x11134, 0x11135)])
-      self.diacritic_list.extend([unichr(x) for x in range(0x11145, 0x11147)])
-      self.base_consonant = unichr(0x1110e)
+      self.diacritic_list = [unichr(x) for x in range(0x1E944, 0x1E94B)]
+      self.base_consonant = unichr(0x1e900)
     else:
-      self.diacritic_list = [unichr(0xd804) + unichr(0xdd00 + x) for x in range(0x00, 0x04)]
-      self.diacritic_list.extend(unichr(0xd804) + unichr(0xdd00 + x) for x in range(0x27, 0x33))
-      self.diacritic_list.extend(unichr(0xd804) + unichr(0xdd00 + x) for x in range(0x34, 0x35))
-      self.diacritic_list.extend(unichr(0xd804) + unichr(0xdd00 + x) for x in range(0x45, 0x47))
-      self.base_consonant = u'\ud804\udd0e'
+      self.diacritic_list = [unichr(0xd83a) + unichr(0xdd00 + x) for x in range(0x44, 0x4b)]
+      self.base_consonant = u'\ud83a\udd0e'
 
     self.encoding_font_list = encoding_font_list
 
@@ -218,6 +217,15 @@ class langInfo():
        'font': {'family': 'NotoSansLatin',
                 'longName': 'Noto Sans',
                 'source': '/fonts/NotoSans-Regular.ttf'
+                },
+       'helptext': 'Instructions'
+       },
+      {'langName': 'Arabic', 'kbShortName': 'ar', 'kbLongName': 'Arabic',
+       'languageCode': 'ar',
+       'direction': 'rtl',
+       'font': {'family': 'NotoSansArabic',
+                'longName': 'Noto Sans Arabic UI',
+                'source': '/fonts/NotoSansArabicUI-Regular.ttf'
                 },
        'helptext': 'Instructions'
        },

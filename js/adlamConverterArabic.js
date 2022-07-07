@@ -93,6 +93,9 @@ var adlam_convert_unicode_map = {
   '\ufefe': String.fromCodePoint(0x01E944),
   // Special for return adding RTL marker
   '\u000a' : '\u000a\u202e',
+
+  '\u2126': String.fromCodePoint(0x01E90B),
+  '\uFEFE': String.fromCodePoint(0x01E944),
   };
 
 function convertOtherToUnicode(textIn, toLower, sentenceCaseFlag) {
