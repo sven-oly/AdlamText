@@ -1,0 +1,15 @@
+/* Unicode fonts */
+    @font-face{
+      font-family:'Adlam';
+      src:url('/fonts/AdlamCWC.ttf');
+      font-weight:normal;
+      font-style:normal;
+    }
+    
+.vk-box, .vk-btn, .vk-btn-n, .vk-cap, .vk-cap-i, .vk-t, .vk-t-btn {
+  display: inline-block;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  font-family: 'Adlam', arial,sans-serif;
+}
