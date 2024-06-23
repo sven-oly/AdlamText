@@ -1,0 +1,30 @@
+<html>
+  <head>
+    <title>Upload sound file for {{language}}</title>
+  </head>
+  
+  <body>
+  <h2>Upload sound file to {{language}} database.</h2>
+  <p>Phrase index: {{phraseObj.index}}</p>
+  <p>DB = {{phraseObj.dbName}}</p>
+  <p>{{language}} phrase = {{phraseObj.phraseUnicode}}</p>
+  <p>English = {{phraseObj.englishPhrase}}</p>
+  <p>Male sound = {{phraseObj.soundMaleLink}}</p>
+  <p>Female sound = {{phraseObj.soundFemaleLink}}</p>
+
+   <form action="/sound/uploadSoundForPhrase/" method="POST" enctype="multipart/form-data">
+      <input type="radio" name="whichVoice" value="maleSoundSelected" checked> Male voice
+      <input type="radio" name="whichVoice" value="femaleSoundSelected">  Female voice
+
+       <br /> <br />
+       Upload sound file:
+        <input type="file" name="file"> <br>
+
+        <input type="hidden" name="phraseKey" value="{{phraseKey}}">
+
+        <input type="submit" name="submit" value="Submit">
+    </form>
+  <hr>
+
+  </body>
+</html>

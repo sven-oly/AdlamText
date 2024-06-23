@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+
+  <title>{{language}} Phrase Database</title>
+
+  <link rel="stylesheet" href="/css/blueprint/screen.css" type="text/css" media="screen">
+  <link rel="stylesheet" href="/css/blueprint/print.css" type="text/css" media="print"> 
+  <!--[if lt IE 8]>
+    <link rel="stylesheet" href="/css/blueprint/ie.css" type="text/css" media="screen, projection">
+  <![endif]-->
+
+  <link rel="stylesheet" type="text/css" href="/css/fonts.css">
+
+  <link rel="stylesheet" href="/css/modal.css" type="text/css" media="screen">
+
+
+  <script src="/js/utils.js"></script>
+
+  <script src="/js/modal.js"></script>
+
+  <style>
+  td {
+    border-top: 1px solid #000;
+  }
+  </style>
+  <script type="text/javascript" >
+
+  function getDatabases() {
+    var chk_array =  document.getElementsByName("databases");
+    var dbList = [];
+    for (var i = 0; i < chk_array.length; i++) {
+      if (chk_array[i].checked) {
+        dbList.push(chk_array[i].value);
+      }
+    }
+    return dbList;
+  }
+
+  // Which radio button option is checked?
+  function getStatusRadioButton(statusSetter) {
+        var statusButtons = document.getElementsByName(statusSetter);
+    for (var i = 0; i < statusButtons.length; i++) {
+      if (statusButtons[i].checked) {
+        return statusButtons[i].value;
+      }
+    }
+    return "";
+  }
+
+  // Code to request CSV downloads of data given the filters.
+  function downloadCSV(delimiter) {
+    var databases = getDatabases();
+    var filterStatus = getStatusRadioButton("filterStatus");
+    var sortCriteria = getStatusRadioButton("sortCriteria");
+    var filetype = "csv";
+    if (delimiter == "tab") {
+      filetype = "tsv";
+    }
+    var outputFile = window.prompt("File name for downloaded CSV","database." + filetype);
+    if (outputFile == null) {
+      return;
+    }
+    var target = "/words/downloadCSV/?filterStatus=" + filterStatus +
+      "&delimiter=" + delimiter +
+      "&sortCriteria=" + sortCriteria +
+      "&outfileName=" + outputFile;
+    for (var i = 0; i < databases.length; i++) {
+      target = target + "&databases=" + databases[i];
+    }
+
+    window.location.replace(target);
+  }
+
+  function init() {
+    // Set up defaults.
+  }
+
+  </script>
+  </head>
+
+  <body onload="init();">
+
+  <div class="container">
+    <h2>{{language}} data from database</h2>
+    <div class="span-6 default">
+    {{entries|length}} entries returned 
+    {% if filter %}
+    <br />
+    Status = "{{filter}}"
+    {% endif %}
+    </div>
+
+    <div class="span-14 default ">
+    <form action="/words/phraselist/" id="set_status">
+
+      <input type="radio" name="filterStatus" value="" checked> All phrases
+      <input type="radio" name="filterStatus" value="Unknown"> Unknown 
+      <input type="radio" name="filterStatus" value="Verified"> Verified
+      <br />
+      <input type="radio" name="filterStatus" value="Incorrect"> Incorrect
+      <input type="radio" name="filterStatus" value="Font"> Font
+      <input type="radio" name="filterStatus" value="Other"> Other
+      <br />
+      Databases:
+        {% for db in dbNameListChecked %}
+          <input type="checkbox" name="databases" value="{{db.dbName}}"
+          {% if db.checked %}
+           checked
+          {% endif %}
+          />{{db.dbName}}
+        {% endfor %}
+        <input type="checkbox" name="databases" value="*All*"
+          {% if selectAllDB %}
+           checked
+          {% endif %}
+          >All
+        <br />
+       Sort by:
+       <input type="radio" name="sortCriteria" value="index">index
+       <input type="radio" name="sortCriteria" value="alpha" checked>alpha
+       <input type="submit" value="Select">
+        <br />
+   </form>
+           
+    </div>
+    <div class="span-4 last">
+  
+    {% if user_nickname %}
+      <h4>Welcome {{user_nickname}}</h4>
+      {% if user_logout %}
+        <a href={{user_logout}}>Logout</a>
+      {% endif %}
+    {% else %}
+      {% if user_login_url %}
+        <a href={{user_login_url}}>Log in</a>
+      {% endif %}
+    {% endif %}
+    </div>
+  </div> <!-- container -->
+  <div class="container">
+    
+    <div class="span-20 last">
+    <form action="/words/phraselist/" id="downloadDSV">
+      <input type="button" value="Download CSV" onclick="downloadCSV('comma');">
+      <input type="button" value="Download TSV" onclick="downloadCSV('tab');">
+    </form>
+
+    <table id="dbTable">
+      <br />
+
+      
+      <tr class="default">
+        <th>Index</th>
+        <th>Entry</th>
+        <th>Status</th>
+        <th>Voice</th>
+        <th>DB</th>
+	  </tr>
+      {% for entry in entries %}
+      <tr class="default">
+        <td valign="top"><a href="/words/review/?index={{entry.index}}&dbName={{entry.dbName}}" target=_blank>{{entry.index}}</a></td>
+
+        <td valign="top">
+          <span class="NotoSansAdlam size18">{{entry.phraseUnicode}}</span>
+         {% if entry.definitionUnicode %}<br />def: <span>{{entry.definitionUnicode}}</span>{% endif %}
+         {% if entry.phraseArabic %}<br />
+          <span class="aissataArabic size18">{{entry.phraseArabic}}</span>{% endif %}
+          {% if entry.englishPhrase %}<br />{{entry.englishPhrase}}{% endif %}
+         {% if entry.frenchPhrase %}<br /><div>{{entry.frenchPhrase}}</div>{% endif %}
+         {% if entry.comment %}<br />{{entry.comment}}{% endif %}
+        </td>
+        <td valign="top">{{entry.status}}</td>
+        <td>{%if entry.soundMaleLink or entry.soundFemaleLink%}
+          <button onclick="openSoundModal('{{entry.soundMaleLink}}', '{{entry.soundFemaleLink}}', {{entry.index}}, '{{entry.phraseUnicode}}');">Play</button>
+          {% endif %}
+          {%if entry.soundMaleLink%}M{%endif%}
+          {% if entry.soundFemaleLink%}F{%endif%}</td>
+         <td valign="top">{{entry.dbName}}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    </div>
+
+  </div>  <!-- of container -->
+
+  <!-- The Modal for displaying sound controls -->
+  <div id="soundModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="closeModal">&times;</span>
+    <h3 id="phrase">Play sound files</h3>
+    <p  class="modalFixedWidth">Index = <span id="modalIndex"></span>
+      Phrase: <span id="modalUnicode" class="NotoSansAdlam size18"></span>
+    </p>
+    <div id="male_audio">
+      <span class="modalFixedWidth">M: </span>
+      <audio id="male_sound" controls>
+        <source src="" type="audio/wav">
+          Your browser does not support the audio element.
+      </audio>
+    </div>
+
+    <div id="female_audio">
+      <span class="modalFixedWidth">F: </span>
+      <audio id="female_sound" controls>
+        <source src="" type="audio/wav">
+          Your browser does not support the audio element.
+      </audio>
+    </div>
+  </div>
+
+  </div>
+
+</body>
+</html>

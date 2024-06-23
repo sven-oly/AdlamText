@@ -1,6 +1,9 @@
-runtime: python27
-api_version: 1
-threadsafe: yes
+runtime: python312
+
+instance_class: F2
+
+resources:
+  memory_gb: 2
 
 handlers:
 - url: /favicon\.ico
@@ -10,9 +13,6 @@ handlers:
 - url: /fonts
   static_dir: fonts
 
-- url: /DONT_UPLOAD
-  static_dir: DONT_UPLOAD
-  
 - url: /img
   static_dir: img
 
@@ -28,26 +28,3 @@ handlers:
 - url: /layouts
   static_dir: layouts
 
-- url: /words/.*
-  script: words.app
-
-- url: /db/.*
-  script: database.app
-
-- url: /sound/.*
-  script: sounds.app
-
-- url: /games/.*
-  script: games.app
-
-- url: .*
-  script: main.app
-
-libraries:
-- name: webapp2
-  version: "2.5.2"
-- name: django
-  version: latest
-
-includes:
-- config/

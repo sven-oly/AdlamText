@@ -19,9 +19,9 @@ import logging
 import os
 import sys
 import urllib
-import webapp2
+# !! import webapp2
 
-from google.appengine.ext.webapp import template
+# from google.appengine.ext.webapp import template
 
 # A base class for handling the general things needed in a language.
 class languageTemplate():

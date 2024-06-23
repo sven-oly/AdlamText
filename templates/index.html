@@ -1,0 +1,111 @@
+<html>
+  <head>
+    <title>Adlam script test</title>
+
+  <link rel="stylesheet" href="/static/css/blueprint/screen.css" type="text/css" media="screen">
+  <link rel="stylesheet" href="/static/css/blueprint/print.css" type="text/css" media="print"> 
+  <!--[if lt IE 8]>
+    <link rel="stylesheet" href="/static/css/blueprint/ie.css" type="text/css" media="screen, projection">
+  <![endif]-->
+
+  <link rel="stylesheet" type="text/css" href="/static/css/fonts.css">
+    
+<style>
+  textarea {
+    width: 600px;
+        height: 240px;
+        border: 3px solid #cccccc;
+        padding: 5px;
+        font-size: 24px;
+        }
+  {
+    font-family: "Courier New";
+  }
+  </style>
+
+    <style>
+    {% for font in unicodeFonts %}
+    @font-face{
+      font-family:'{{font.family}}';
+      src:url('/static{{font.source}}');
+      font-weight:normal;
+      font-style:normal;
+      font-size: 32px;
+    }
+
+    .{{font.family}} {
+      font-family:{{font.family}};
+      font-size: 32px;
+    }
+    {% endfor %}
+  </style>
+
+  <script src="/static/js/ui_utils.js"></script>
+
+  <script>
+   var diff_list = [];
+
+  function init() {
+    // Fill in if needed.
+    var selector = document.getElementById('selectFont');
+    onFontSelected(selector, 'admlanMain');
+  }
+
+  </script>
+  </head>
+
+  <body onload="init()">
+  <div class="container">
+    <div class="span-1">  
+    </div>
+  <div class="span-16">
+
+   <div id="arab_adlam_area">
+  <h2>Adlam script testing</h2>
+  <textarea id="admlanMain" class="aissataUnicode" rows="6" cols="16" dir="rtl">{{adlamText}}</textarea>
+  <br />
+  <input type="button" value="Clear text" onclick="clearText('admlanMain');">
+    Select font: <select onchange="onFontSelected(this, 'admlanMain');" id="selectFont">
+      {% for font in unicodeFonts %}
+      <option value="{{font.family}}">{{font.longName}}</option>
+      {% endfor %}
+   </select>
+   <input type="button" value="Caps" onclick="fillUpper('admlanMain');">
+   <input type="button" value="Lower" onclick="fillLower('admlanMain');">
+   <input type="button" value="Digits + Punctuation" onclick="fillDigits('admlanMain');">
+   
+   </div>
+  </div>
+  <div class="span-4 last">
+
+    <h3>Useful links</h3>
+      <ul>
+        {% for link in links %}
+        <li>
+          <a href="{{link.target}}">{{link.text}}</a>
+        </li>
+        {% endfor %}
+        {% if isAdmin %}
+          <li>
+            <a href="/words/addNewPhrase/">Add phrase</a>
+          </li>
+        {% endif %}
+ <!--
+        <li>
+          <a href="/words/getPhrases/">View database</a>
+                    <br />
+          <br />
+-->
+        </li>
+      </ul>
+
+      {% if isAdmin %}
+      <ul>
+        <li><a href='/db/manage/'>Manage data</a></li>
+      </ul>
+      {% endif %}
+
+    </div>
+  </div> <!-- container -->
+  </body>
+</html>

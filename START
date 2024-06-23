@@ -1,0 +1,6 @@
+export PROJECT_ID=adlamtesting
+export QUEUE_ID=adlamtesting
+gcloud config set project $PROJECT_ID
+export LOCATION_ID=us-central1
+
+python3 main.py runserver
